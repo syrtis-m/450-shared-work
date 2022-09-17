@@ -23,7 +23,9 @@ public class CharMovement : MonoBehaviour
     {
         _charControl = new CharControl();
 
-        _charControl.Main.MousePos.performed += OnMousePos;
+        _charControl.Main.MousePos.performed += OnMousePos; 
+        //add a call to OnMousePos to Main.MousePos.performed
+        //this makes it so OnMousePos is called every time _charControl.Main.MousePos.performed is called
     }
 
     private void OnMousePos(InputAction.CallbackContext context)
