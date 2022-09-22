@@ -13,7 +13,7 @@ public class CharMovement : MonoBehaviour
 
     private Vector2 _MousePos;
 
-    public Camera _camera;
+    public Camera camera;
     
     public Tilemap groundTilemap;
     
@@ -53,7 +53,7 @@ public class CharMovement : MonoBehaviour
 
     private void Move()
     {
-        var worldPos = _camera.ScreenToWorldPoint((Vector3)_MousePos);
+        var worldPos = camera.ScreenToWorldPoint((Vector3)_MousePos);
         var gridPos = groundTilemap.WorldToCell(worldPos); //grid position of the target cell
         var worldPos2 = groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
         //converting to cell and back again autocenters the target position.
