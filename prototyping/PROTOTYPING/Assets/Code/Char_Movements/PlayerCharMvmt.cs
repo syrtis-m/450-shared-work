@@ -10,8 +10,7 @@ public class PlayerCharMvmt : MonoBehaviour
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
     public Camera camera;
-    public GameObject otherPlayer; //used for switching who's active
-
+    public Mind mind; //used for managing n characters in a scene
     
     //internal use
     private Vector2 _mousePos;
@@ -42,10 +41,10 @@ public class PlayerCharMvmt : MonoBehaviour
 
     private void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
-     //switchs between players
-        Debug.Log("a");
+
         GetComponent<PlayerCharMvmt>().enabled = true;
-        otherPlayer.GetComponent<PlayerCharMvmt>().enabled = false;
+        mind.ChangePlayer(this.gameObject);
+
     }
 
 
@@ -62,7 +61,6 @@ public class PlayerCharMvmt : MonoBehaviour
     private void Click() //"teleport to destination" movement
     {
         
-        Debug.Log("b");
         var worldPos = camera.ScreenToWorldPoint((Vector3)_mousePos);
         var gridPos = groundTilemap.WorldToCell(worldPos); //grid position of the target cell
         var worldPos2 = groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
