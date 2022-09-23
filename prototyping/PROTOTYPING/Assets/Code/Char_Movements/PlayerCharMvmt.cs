@@ -82,48 +82,7 @@ public class PlayerCharMvmt : MonoBehaviour
         }
     }
     
-    //this func is called on every click
-    /*private void Click() //follow path movement
-    {
-        if (/*character selected#1#)
-        {
-            if (/*second click on cell#1#)
-            {
-                //move along path.
-                //maybe store the path as a linkedlist of cell coordinates, then iterate over it to move
-            }
-            
-            if (/*first click on cell#1#)
-            {
-                if (/*if cell is in range of selected character && CanMove is true#1#)
-                {
-                    //teleport character
-                    //show attack options
-                }
-                else
-                {
-                    //deselect character
-                }
-                //teleport them there
-                //store selected cell coordinates
-            }
-        }
-        else
-        {
-            if (/*click on character#1#)
-            {
-                //store "clicked character TRUE"
-                //select character mode
-            }
-            else
-            {
-                //deselect currently selected character
-            }
-        }
-        throw new NotImplementedException();
-    }
-    */
-    
+   
 
     //detects if you can move to a selected tile.
     private bool CanMove(Vector3Int gridPos, Vector2 worldPos)
