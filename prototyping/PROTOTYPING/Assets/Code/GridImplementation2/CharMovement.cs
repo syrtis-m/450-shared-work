@@ -18,10 +18,12 @@ public class CharMovement : MonoBehaviour
     public Tilemap groundTilemap;
     
     public Tilemap collisionTilemap;
+    
 
     private void Awake()
     {
         _charControl = new CharControl();
+        _charControl.Disable();
 
         _charControl.Main.MousePos.performed += OnMousePos; 
         //add a call to OnMousePos to Main.MousePos.performed
@@ -34,9 +36,9 @@ public class CharMovement : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        _charControl.Enable();
-    }
+     {
+         _charControl.Enable();
+     }
 
     private void OnDisable()
     {
