@@ -13,15 +13,17 @@ public class CharMovement : MonoBehaviour
 
     private Vector2 _MousePos;
 
-    public Camera _camera;
+    public Camera camera;
     
     public Tilemap groundTilemap;
     
     public Tilemap collisionTilemap;
+    
 
     private void Awake()
     {
         _charControl = new CharControl();
+        _charControl.Disable();
 
         _charControl.Main.MousePos.performed += OnMousePos; 
         //add a call to OnMousePos to Main.MousePos.performed
@@ -34,9 +36,9 @@ public class CharMovement : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        _charControl.Enable();
-    }
+     {
+         _charControl.Enable();
+     }
 
     private void OnDisable()
     {
@@ -53,7 +55,7 @@ public class CharMovement : MonoBehaviour
 
     private void Move()
     {
-        var worldPos = _camera.ScreenToWorldPoint((Vector3)_MousePos);
+        var worldPos = camera.ScreenToWorldPoint((Vector3)_MousePos);
         var gridPos = groundTilemap.WorldToCell(worldPos); //grid position of the target cell
         var worldPos2 = groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
         //converting to cell and back again autocenters the target position.
