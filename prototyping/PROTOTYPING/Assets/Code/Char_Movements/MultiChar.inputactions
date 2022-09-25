@@ -1,0 +1,54 @@
+{
+    "name": "MultiChar",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "6dd4cf08-bd82-4ae6-a931-5a6bd202f8fd",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "de6cf264-517f-445a-af59-d57fa23dd931",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MousePos",
+                    "type": "Value",
+                    "id": "bab8c8f2-6f1a-42b6-8e1b-81bdbc05030b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "138495c9-c1d9-483d-b6c2-5f53c58fc370",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac7b5fb2-b654-468b-a328-e43ed18a3683",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
