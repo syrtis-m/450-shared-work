@@ -2005,6 +2005,7 @@ GameObject:
   - component: {fileID: 2050307875}
   - component: {fileID: 2050307874}
   - component: {fileID: 2050307873}
+  - component: {fileID: 2050307876}
   m_Layer: 0
   m_Name: Character 1
   m_TagString: Untagged
@@ -2019,7 +2020,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050307872}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dc75685b07871b4581c2439013473f7, type: 3}
   m_Name: 
@@ -2094,3 +2095,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2050307876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050307872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386e1b5e8a0456b4da08059c5175eed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 1988293480}
+  groundTilemap: {fileID: 1668378677}
+  collisionTilemap: {fileID: 1264925427}

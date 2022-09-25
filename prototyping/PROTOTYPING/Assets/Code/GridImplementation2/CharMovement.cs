@@ -60,11 +60,11 @@ public class CharMovement : MonoBehaviour
 
         var deltaPos = worldPos2 - transform.position;
         
-        Debug.Log("___________________________________________");
-        Debug.Log( groundTilemap.WorldToCell(transform.position));
-        Debug.Log(gridPos);
-        Debug.Log(worldPos2);
-        Debug.Log(deltaPos);
+        //Debug.Log("___________________________________________");
+        //Debug.Log( groundTilemap.WorldToCell(transform.position));
+        //Debug.Log(gridPos);
+        //Debug.Log(worldPos2);
+        //Debug.Log(deltaPos);
         
         if (CanMove(gridPos))
         {
