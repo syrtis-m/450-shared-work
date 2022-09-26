@@ -44,3 +44,6 @@ TagManager:
   - name: Collision
     uniqueID: 3033748107
     locked: 0
+  - name: Characters
+    uniqueID: 1374636803
+    locked: 0
