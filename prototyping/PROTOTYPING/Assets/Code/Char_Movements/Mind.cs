@@ -8,7 +8,6 @@ public class Mind : MonoBehaviour
 
     public GameObject current;
     
-    // Start is called before the first frame update
     void Start()
     {
         current = characters[0];
