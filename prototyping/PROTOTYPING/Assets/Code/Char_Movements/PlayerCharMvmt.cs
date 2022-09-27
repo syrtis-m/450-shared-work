@@ -6,11 +6,12 @@ using UnityEngine.Tilemaps;
 
 public class PlayerCharMvmt : MonoBehaviour
 {
-    //config
+    //outlets
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
     public Camera camera;
     public Mind mind; //used for managing n characters in a scene
+    public int movementRange; //how many tiles the player can traverse in one turn
     
     //internal use
     private Vector2 _mousePos;
@@ -65,47 +66,22 @@ public class PlayerCharMvmt : MonoBehaviour
         var gridPos = groundTilemap.WorldToCell(worldPos); //grid position of the target cell
         var worldPos2 = groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
         //converting to cell and back again autocenters the target position.
+        Debug.Log("worldPos: " + worldPos + " gridPos: " + gridPos + " worldPos2: " + worldPos2);
 
         var deltaPos = worldPos2 - transform.position;
         
-        // Debug.Log("___________________________________________");
-        // Debug.Log( groundTilemap.WorldToCell(transform.position));
-        // Debug.Log(transform.position);
-        // Debug.Log(gridPos);
-        // Debug.Log(worldPos2);
-        // Debug.Log(deltaPos);
         
-        if (CanMove(gridPos, worldPos2))
+        if (PathFinding.CanMove(gridPos,groundTilemap,collisionTilemap))
         {
-            transform.position += deltaPos;
-            //currently just adding the world vector to the position vector. need to 
+            int dist = PathFinding.FindPathDist(groundTilemap, collisionTilemap, worldPos, transform.position);
+
+            if (dist <= movementRange)
+            {
+                transform.position += deltaPos;
+            }
+            
+            
         }
     }
     
-   
-
-    //detects if you can move to a selected tile.
-    private bool CanMove(Vector3Int gridPos, Vector2 worldPos)
-    {
-        if (!groundTilemap.HasTile(gridPos))
-        {
-            return false;
-        }
-
-        if (collisionTilemap.HasTile(gridPos))
-        {
-            return false;
-        }
-
-        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos);//checking for a gameobject with physics at that point
-        
-        //if a collider at the destination exists, don't go there
-        if (colliderAtDest)
-        {
-            return false;
-            //NOTE - THIS MEANS ALL AI/PLAYER CHARACTERS MUST HAVE A COLLIDER.
-        }
-        
-        return true;
-    }
 }
