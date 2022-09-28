@@ -16,7 +16,7 @@ public class GridItem {
         this.d = d; //distance
     }
 }
-public class PathFinding : MonoBehaviour
+public class PathFinding
 {//PathFinding class has methods that are useful for, well, pathfinding.
     /*Everything that's commented out is done bc PathFinding code should be called from other scripts
     //private CharControl _charControl;
@@ -56,21 +56,31 @@ public class PathFinding : MonoBehaviour
     {
         _charControl.Main.Click.performed += ctx => FindPath();
     }*/
+
+    private Tilemap _groundTilemap;
+    private Tilemap _collisionTilemap;
     
-    public static bool CanMove(Vector3Int gridPos, Tilemap groundTilemap, Tilemap collisionTilemap)
+    public PathFinding(Tilemap ground, Tilemap collision)
+    {
+        _groundTilemap = ground;
+        _collisionTilemap = collision;
+    }
+
+
+    public bool CanMove(Vector3Int gridPos)
     {//detects if you can move to a selected tile.
 
-        if (!groundTilemap.HasTile(gridPos))
+        if (!_groundTilemap.HasTile(gridPos))
         {
             return false;
         }
 
-        if (collisionTilemap.HasTile(gridPos))
+        if (_collisionTilemap.HasTile(gridPos))
         {
             return false;
         }
         
-        var cellpos = groundTilemap.CellToWorld(gridPos);
+        var cellpos = _groundTilemap.CellToWorld(gridPos);
         Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f,0.5f));
         //checking for a gameobject with physics at that point
         //adjust cellpos slightly to test at the center of the cell, not an edge
@@ -85,14 +95,14 @@ public class PathFinding : MonoBehaviour
         return true;
     }
 
-    public static bool[,] FindTraversable(Tilemap groundTilemap, Tilemap collisionTilemap)
+    public bool[,] FindTraversable()
     {//generate a boolean array of what tiles are traversable
-        bool[,] travelledPath = new Boolean[groundTilemap.size.x, groundTilemap.size.y]; //https://forum.unity.com/threads/getting-and-storing-tilemap-positions-into-a-2d-array.628732/
-        for (int x = groundTilemap.origin.x, i = 0; i < (groundTilemap.size.x); x++, i++)
+        bool[,] travelledPath = new Boolean[_groundTilemap.size.x, _groundTilemap.size.y]; //https://forum.unity.com/threads/getting-and-storing-tilemap-positions-into-a-2d-array.628732/
+        for (int x = _groundTilemap.origin.x, i = 0; i < (_groundTilemap.size.x); x++, i++)
         {
-            for (int y = groundTilemap.origin.y, j = 0; j < (groundTilemap.size.y); y++, j++)
+            for (int y = _groundTilemap.origin.y, j = 0; j < (_groundTilemap.size.y); y++, j++)
             {
-                if (CanMove(new Vector3Int(x,y,0), groundTilemap, collisionTilemap))
+                if (CanMove(new Vector3Int(x,y,0)))
                 {
                     travelledPath[i, j] = true;
                 }
@@ -108,16 +118,16 @@ public class PathFinding : MonoBehaviour
     }
     
     //minimal modifications, doesn't work anymore.
-    public static int FindPathDist(Tilemap groundTilemap, Tilemap collisionTilemap, Vector2 worldPos, Vector3 origin)
+    public int FindPathDist(Vector2 worldPos, Vector3 origin)
     {
-        bool[,] travelledPath = FindTraversable(groundTilemap, collisionTilemap);
+        bool[,] travelledPath = FindTraversable();
         //I split FindTraversable out so we can call it in other variants of algs 
         
         //these adjust for different sizes of groundtilemap
-        int gridXoffset = groundTilemap.cellBounds.max.x;
-        int gridYoffset = groundTilemap.cellBounds.max.y;
+        int gridXoffset = _groundTilemap.cellBounds.max.x;
+        int gridYoffset = _groundTilemap.cellBounds.max.y;
 
-        var gridPos = groundTilemap.WorldToCell(worldPos);
+        var gridPos = _groundTilemap.WorldToCell(worldPos);
 
         int targetX = gridPos.x + gridXoffset;
         int targetY = gridPos.y + gridYoffset;
@@ -139,7 +149,7 @@ public class PathFinding : MonoBehaviour
                 //Debug.Log(g.d);
                 return g.d;
             }
-            if (g.x < (groundTilemap.size.x - 1))
+            if (g.x < (_groundTilemap.size.x - 1))
             {
                 if (travelledPath[g.x + 1, g.y])
                 {
@@ -155,7 +165,7 @@ public class PathFinding : MonoBehaviour
                     travelledPath[g.x - 1, g.y] = false;
                 }
             }
-            if (g.y < (groundTilemap.size.y - 1))
+            if (g.y < (_groundTilemap.size.y - 1))
             {
                 if (travelledPath[g.x, g.y + 1])
                 {
