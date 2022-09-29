@@ -483,8 +483,8 @@ MonoBehaviour:
   m_RefResolutionY: 160
   m_UpscaleRT: 1
   m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
+  m_CropFrameX: 1
+  m_CropFrameY: 1
   m_StretchFill: 0
 --- !u!1 &962617954
 GameObject:
@@ -2200,10 +2200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e81ed3a24f097d44b9cf34749b7eb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 962617954}
-  - {fileID: 177713326}
-  - {fileID: 50717048}
+  playerCharacters: []
   current: {fileID: 0}
 --- !u!4 &1314107955
 Transform:

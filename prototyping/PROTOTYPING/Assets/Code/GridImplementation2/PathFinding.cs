@@ -17,48 +17,10 @@ public class GridItem {
     }
 }
 public class PathFinding
-{//PathFinding class has methods that are useful for, well, pathfinding.
-    /*Everything that's commented out is done bc PathFinding code should be called from other scripts
-    //private CharControl _charControl;
-
-    //private Vector2 _MousePos;
-
-    //public Camera _camera;
-
-    //public Tilemap groundTilemap;
-
-    public Tilemap collisionTilemap;
-    
-    private void Awake()
-    {
-        _charControl = new CharControl();
-
-        _charControl.Main.MousePos.performed += OnMousePos;
-        //add a call to OnMousePos to Main.MousePos.performed
-        //this makes it so OnMousePos is called every time _charControl.Main.MousePos.performed is called
-    }
-
-    private void OnMousePos(InputAction.CallbackContext context)
-    {
-        _MousePos = context.ReadValue<Vector2>();
-    }
-
-    private void OnEnable()
-    {
-        _charControl.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _charControl.Disable();
-    }
-    private void Start()
-    {
-        _charControl.Main.Click.performed += ctx => FindPath();
-    }*/
-
-    private Tilemap _groundTilemap;
-    private Tilemap _collisionTilemap;
+{//PathFinding class for when you need to do pathfinding. each character & AI instaniates a copy
+   
+    private readonly Tilemap _groundTilemap;
+    private readonly Tilemap _collisionTilemap;
     
     public PathFinding(Tilemap ground, Tilemap collision)
     {
@@ -117,9 +79,8 @@ public class PathFinding
         return travelledPath;
     }
     
-    //minimal modifications, doesn't work anymore.
     public int FindPathDist(Vector2 worldPos, Vector3 origin)
-    {
+    {//find a path to a certain cell.
         bool[,] travelledPath = FindTraversable();
         //I split FindTraversable out so we can call it in other variants of algs 
         

@@ -5,17 +5,21 @@ using UnityEngine.Tilemaps;
 public class PlayerCharMvmt : MonoBehaviour
 {
     //outlets
-    public Tilemap groundTilemap;
-    public Tilemap collisionTilemap;
+    
     public Camera camera;
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
+
    
     //internal use
-    private Vector2 _mousePos;
-    private MultiChar _multiChar;
-    private PathFinding _pathFinding; //a pathfinding class
-    
+    private Vector2 _mousePos; //mouse position
+    private MultiChar _multiChar; //inputaction class
+    private PathFinding _pathFinding; //PathFinding.cs
+    private Tilemap _groundTilemap; //set by mind.start()
+    private Tilemap _collisionTilemap; //set by mind.start()
+    private int _actionCounter;
+
+
     //set up the input action receiving info
     private void Awake()
     {
@@ -38,16 +42,33 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         _multiChar.Disable();
     }
+    
+    public void setTilemaps(Tilemap ground, Tilemap collision)
+    {
+        _groundTilemap = ground;
+        _collisionTilemap = collision;
+    }
+
+    public void setActionCounter(int actionsPerChar)
+    {
+        _actionCounter = actionsPerChar;
+    }
+
+    public int getActionCounter()
+    {
+        return _actionCounter;
+    }
 
     private void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
 
         GetComponent<PlayerCharMvmt>().enabled = true;
         mind.ChangePlayer(this.gameObject);
-        _pathFinding = new PathFinding(groundTilemap, collisionTilemap);
+        //TODO apply an animation to show the character is active
+        //TODO scan the grid and draw all move-able cells.
     }
 
-
+    
     // Start is called before the first frame update
     
     void Start()
@@ -55,6 +76,7 @@ public class PlayerCharMvmt : MonoBehaviour
         //this is the function that takes the click and does something with it
         _multiChar.Main.Select.performed += ctx => Click();
         GetComponent<PlayerCharMvmt>().enabled = false;
+        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap);
     }
     
 
@@ -62,8 +84,8 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         
         var worldPos = camera.ScreenToWorldPoint((Vector3)_mousePos);
-        var gridPos = groundTilemap.WorldToCell(worldPos); //grid position of the target cell
-        var worldPos2 = groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
+        var gridPos = _groundTilemap.WorldToCell(worldPos); //grid position of the target cell
+        var worldPos2 = _groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
         //converting to cell and back again autocenters the target position.
         //Debug.Log("worldPos: " + worldPos + " gridPos: " + gridPos + " worldPos2: " + worldPos2);
 
@@ -72,15 +94,37 @@ public class PlayerCharMvmt : MonoBehaviour
         
         if (_pathFinding.CanMove(gridPos))
         {
-            int dist = _pathFinding.FindPathDist(worldPos, transform.position);
+            var dist = _pathFinding.FindPathDist(worldPos, transform.position);
 
             if (dist <= movementRange)
             {
                 transform.position += deltaPos;
+                //actionCounter--; //decrement action counter TODO implement
+                
+            }
+            else
+            {
+                //deselect character
             }
             
             
         }
+        /*
+        else if (AI at that point)
+        {
+            //attack
+        }
+        else
+        {
+            //deselect character
+        }*/
+        
+        mind.IsPlayerTurnOver();
+    }
+
+    private void Attack()
+    {
+        //todo implement
     }
     
 }
