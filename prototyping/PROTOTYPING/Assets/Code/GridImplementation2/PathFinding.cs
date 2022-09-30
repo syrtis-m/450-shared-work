@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 
 
 public class GridItem {
@@ -16,62 +18,37 @@ public class GridItem {
         this.d = d; //distance
     }
 }
-public class PathFinding : MonoBehaviour
-{//PathFinding class has methods that are useful for, well, pathfinding.
-    /*Everything that's commented out is done bc PathFinding code should be called from other scripts
-    //private CharControl _charControl;
-
-    //private Vector2 _MousePos;
-
-    //public Camera _camera;
-
-    //public Tilemap groundTilemap;
-
-    public Tilemap collisionTilemap;
+public class PathFinding
+{//PathFinding class for when you need to do pathfinding. each character & AI instaniates a copy
+   
+    private readonly Tilemap _groundTilemap;
+    private readonly Tilemap _collisionTilemap;
+    private readonly GameObject _movementTile;
+  
     
-    private void Awake()
+    public PathFinding(Tilemap ground, Tilemap collision, GameObject movementTile)
     {
-        _charControl = new CharControl();
-
-        _charControl.Main.MousePos.performed += OnMousePos;
-        //add a call to OnMousePos to Main.MousePos.performed
-        //this makes it so OnMousePos is called every time _charControl.Main.MousePos.performed is called
+        _groundTilemap = ground;
+        _collisionTilemap = collision;
+        _movementTile = movementTile;
     }
 
-    private void OnMousePos(InputAction.CallbackContext context)
-    {
-        _MousePos = context.ReadValue<Vector2>();
-    }
 
-    private void OnEnable()
-    {
-        _charControl.Enable();
-    }
+    public bool CanMove(Vector3Int cellPos)
+    {//detects if you can move to a selected tile. takes a cell position (use .WorldToCell to get)
 
-    private void OnDisable()
-    {
-        _charControl.Disable();
-    }
-    private void Start()
-    {
-        _charControl.Main.Click.performed += ctx => FindPath();
-    }*/
-    
-    public static bool CanMove(Vector3Int gridPos, Tilemap groundTilemap, Tilemap collisionTilemap)
-    {//detects if you can move to a selected tile.
-
-        if (!groundTilemap.HasTile(gridPos))
+        if (!_groundTilemap.HasTile(cellPos))
         {
             return false;
         }
 
-        if (collisionTilemap.HasTile(gridPos))
+        if (_collisionTilemap.HasTile(cellPos))
         {
             return false;
         }
         
-        var cellpos = groundTilemap.CellToWorld(gridPos);
-        Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f,0.5f));
+        var worldPos = _groundTilemap.CellToWorld(cellPos);
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos + new Vector3(0.5f,0.5f));
         //checking for a gameobject with physics at that point
         //adjust cellpos slightly to test at the center of the cell, not an edge
         
@@ -85,14 +62,14 @@ public class PathFinding : MonoBehaviour
         return true;
     }
 
-    public static bool[,] FindTraversable(Tilemap groundTilemap, Tilemap collisionTilemap)
+    public bool[,] FindTraversable()
     {//generate a boolean array of what tiles are traversable
-        bool[,] travelledPath = new Boolean[groundTilemap.size.x, groundTilemap.size.y]; //https://forum.unity.com/threads/getting-and-storing-tilemap-positions-into-a-2d-array.628732/
-        for (int x = groundTilemap.origin.x, i = 0; i < (groundTilemap.size.x); x++, i++)
+        bool[,] travelledPath = new Boolean[_groundTilemap.size.x, _groundTilemap.size.y]; //https://forum.unity.com/threads/getting-and-storing-tilemap-positions-into-a-2d-array.628732/
+        for (int x = _groundTilemap.origin.x, i = 0; i < (_groundTilemap.size.x); x++, i++)
         {
-            for (int y = groundTilemap.origin.y, j = 0; j < (groundTilemap.size.y); y++, j++)
+            for (int y = _groundTilemap.origin.y, j = 0; j < (_groundTilemap.size.y); y++, j++)
             {
-                if (CanMove(new Vector3Int(x,y,0), groundTilemap, collisionTilemap))
+                if (CanMove(new Vector3Int(x,y,0)))
                 {
                     travelledPath[i, j] = true;
                 }
@@ -106,24 +83,86 @@ public class PathFinding : MonoBehaviour
 
         return travelledPath;
     }
+
+    //todo fix bug where coordinates are getting screwed up. tiles being drawn in the wrong place
+    //todo fix bug where currently too few tiles are getting created
     
-    //minimal modifications, doesn't work anymore.
-    public static int FindPathDist(Tilemap groundTilemap, Tilemap collisionTilemap, Vector2 worldPos, Vector3 origin)
+    public void drawTiles (Vector2 worldPos, int range)
     {
-        bool[,] travelledPath = FindTraversable(groundTilemap, collisionTilemap);
+        Mind.destroyHighlightTiles();
+        //create a tilePrefab at each xy coordinate of every griditem in targets
+        var cellOrigin = _groundTilemap.WorldToCell(worldPos);
+        var grid = scanGrid(cellOrigin, range);
+        
+        for (int i = 0; i < grid.Count; i++)
+        {
+            var worldLoc = grid.Dequeue();
+            Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
+            //Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
+            
+        }
+    }
+
+    
+    private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
+    {//scans the grid to see where you can move to
+        var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
+        Debug.Log($"world_origin: {world_origin}");
+        
+        var grid = new Queue<Vector3>();
+        
+        var minx = world_origin.x - range;
+        var maxx = world_origin.x + range;
+        var miny = world_origin.y - range;
+        var maxy = world_origin.y + range;
+        //Debug.Log($"minx: {minx}, maxx: {maxx},  miny: {miny}, maxy: {maxy}");
+
+
+        for (float i = minx; i <= maxx; i++)
+        {
+            for (float j = miny; j <= maxy; j++)
+            {
+                var target_cell = _groundTilemap.WorldToCell(new Vector3(i, j, 0));
+                //Debug.Log($"target_cell: {target_cell.x}, {target_cell.y}, {target_cell.z}");
+                if (CanMove(target_cell))
+                {
+                    var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
+                    
+                    var dist = FindPathDist(target_world, world_origin);
+                    Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+                    if ((dist <= range) && (dist != -1))
+                    {
+                        var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
+                        //grid.Enqueue(target_world);
+                    }
+
+                    
+                }
+            }
+        }
+
+        return grid;
+    }
+
+    
+    public int FindPathDist(Vector2 targetPos_world, Vector3 origin_world)
+    {//find a path to a certain cell.
+        //both worldPos and origin need to be in the world context, not cell context
+        
+        bool[,] travelledPath = FindTraversable();
         //I split FindTraversable out so we can call it in other variants of algs 
         
         //these adjust for different sizes of groundtilemap
-        int gridXoffset = groundTilemap.cellBounds.max.x;
-        int gridYoffset = groundTilemap.cellBounds.max.y;
+        int gridXoffset = _groundTilemap.cellBounds.max.x;
+        int gridYoffset = _groundTilemap.cellBounds.max.y;
 
-        var gridPos = groundTilemap.WorldToCell(worldPos);
+        var gridPos = _groundTilemap.WorldToCell(targetPos_world);
 
         int targetX = gridPos.x + gridXoffset;
         int targetY = gridPos.y + gridYoffset;
         
-        int startX = ((int)Math.Floor(origin.x)) + gridXoffset;
-        int startY = ((int)Math.Floor(origin.y)) + gridYoffset;
+        int startX = ((int)Math.Floor(origin_world.x)) + gridXoffset;
+        int startY = ((int)Math.Floor(origin_world.y)) + gridYoffset;
         
         //Debug.Log("start: " + startX + ", "+startY+" target: "+targetX+", "+targetY);
         GridItem start = new GridItem(startX, startY, 0); //https://www.geeksforgeeks.org/shortest-distance-two-cells-matrix-grid/
@@ -139,7 +178,7 @@ public class PathFinding : MonoBehaviour
                 //Debug.Log(g.d);
                 return g.d;
             }
-            if (g.x < (groundTilemap.size.x - 1))
+            if (g.x < (_groundTilemap.size.x - 1))
             {
                 if (travelledPath[g.x + 1, g.y])
                 {
@@ -155,7 +194,7 @@ public class PathFinding : MonoBehaviour
                     travelledPath[g.x - 1, g.y] = false;
                 }
             }
-            if (g.y < (groundTilemap.size.y - 1))
+            if (g.y < (_groundTilemap.size.y - 1))
             {
                 if (travelledPath[g.x, g.y + 1])
                 {
@@ -173,5 +212,5 @@ public class PathFinding : MonoBehaviour
             }
         }
         return -1;
-    }
+    }//we know this function works.
 }
