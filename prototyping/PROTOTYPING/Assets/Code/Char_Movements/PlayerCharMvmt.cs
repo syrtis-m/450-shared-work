@@ -23,7 +23,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
     private GameObject _movementTile;//todo change back to private
-    private Color currentColor;
+    private Color currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
     private int numberOfMovements;
 
     //set up the input action receiving info
@@ -134,22 +134,19 @@ public class PlayerCharMvmt : MonoBehaviour
             else
             {
                 //deselect character
-                numberOfMovements = numberOfMovements + 1;
+                //numberOfMovements = numberOfMovements + 1;
                 character = GetComponent<SpriteRenderer>();
                 character.color = currentColor;
             }
         }
-        var cellpos = groundTilemap.CellToWorld(gridPos);
+        var cellpos = _groundTilemap.CellToWorld(gridPos);
         Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f, 0.5f));
         if (colliderAtDest)
         {
             character = GetComponent<SpriteRenderer>();
             character.color = currentColor;
         }
-        if (numberOfMovements > 0)
-        {
-            GetComponent<PlayerCharMvmt>().enabled = false;
-        }
+        
         /*
         else if (AI at that point)
         {
