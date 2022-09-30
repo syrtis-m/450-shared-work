@@ -99,7 +99,9 @@ public class PlayerCharMvmt : MonoBehaviour
                 character.color = currentColor;
             }
         }
-        else
+        var cellpos = groundTilemap.CellToWorld(gridPos);
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f, 0.5f));
+        if (colliderAtDest)
         {
             character = GetComponent<SpriteRenderer>();
             character.color = currentColor;
