@@ -12,10 +12,13 @@ public class PlayerCharMvmt : MonoBehaviour
     public Camera camera;
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
+    public SpriteRenderer character;
     
     //internal use
     private Vector2 _mousePos;
     private MultiChar _multiChar;
+    private int numberOfMovements;
+    private Color currentColor;
     
     //set up the input action receiving info
     private void Awake()
@@ -45,7 +48,17 @@ public class PlayerCharMvmt : MonoBehaviour
 
         GetComponent<PlayerCharMvmt>().enabled = true;
         mind.ChangePlayer(this.gameObject);
-
+        numberOfMovements = 0;
+        if (GetComponent<PlayerCharMvmt>().enabled)
+        {
+            character = GetComponent<SpriteRenderer>();
+            character.color = Color.yellow;
+        }
+        else
+        {
+            character = GetComponent<SpriteRenderer>();
+            character.color = currentColor;
+        }
     }
 
 
@@ -55,7 +68,10 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         //this is the function that takes the click and does something with it
         _multiChar.Main.Select.performed += ctx => Click();
-        GetComponent<PlayerCharMvmt>().enabled = false; 
+        GetComponent<PlayerCharMvmt>().enabled = false;
+        numberOfMovements = 0;
+        character = GetComponent<SpriteRenderer>();
+        currentColor = character.color;
     }
     
 
@@ -78,9 +94,19 @@ public class PlayerCharMvmt : MonoBehaviour
             if (dist <= movementRange)
             {
                 transform.position += deltaPos;
+                numberOfMovements = numberOfMovements + 1;
+                character = GetComponent<SpriteRenderer>();
+                character.color = currentColor;
             }
-            
-            
+        }
+        else
+        {
+            character = GetComponent<SpriteRenderer>();
+            character.color = currentColor;
+        }
+        if (numberOfMovements > 0)
+        {
+            GetComponent<PlayerCharMvmt>().enabled = false;
         }
     }
     

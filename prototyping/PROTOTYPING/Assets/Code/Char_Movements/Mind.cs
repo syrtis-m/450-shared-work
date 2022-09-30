@@ -15,7 +15,14 @@ public class Mind : MonoBehaviour
 
     public void ChangePlayer(GameObject newCharacter)
     {
-        current.GetComponent<PlayerCharMvmt>().enabled = false;
-        current = newCharacter;
+        if (newCharacter.Equals(current) == false)
+        {
+            current.GetComponent<PlayerCharMvmt>().enabled = false;
+            current = newCharacter;
+        }
+        else
+        {
+            current.GetComponent<PlayerCharMvmt>().enabled = false;
+        }
     }
 }
