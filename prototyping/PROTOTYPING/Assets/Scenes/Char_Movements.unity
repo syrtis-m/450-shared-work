@@ -182,7 +182,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 2
-
   character: {fileID: 0}
 --- !u!212 &50717051
 SpriteRenderer:
@@ -283,10 +282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
-
-  movementRange: 5
+  movementRange: 4
   character: {fileID: 0}
-
 --- !u!212 &177713329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -518,7 +515,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 5
-
   character: {fileID: 0}
 --- !u!212 &962617956
 SpriteRenderer:
@@ -2204,7 +2200,8 @@ MonoBehaviour:
   - {fileID: 962617954}
   - {fileID: 177713326}
   - {fileID: 50717048}
-  aiCharacters: []
+  aiCharacters:
+  - {fileID: 1867294467}
   camera: {fileID: 416626965}
   movementTilePrefab: {fileID: 1309669841030172720, guid: eda4f73c12a74f849abb080437b4f154, type: 3}
 --- !u!4 &1314107955
