@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -6,18 +8,19 @@ public class PlayerCharMvmt : MonoBehaviour
 {
     //outlets
     
-    public Camera camera;
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
 
    
     //internal use
+    private Camera _camera;
     private Vector2 _mousePos; //mouse position
     private MultiChar _multiChar; //inputaction class
     private PathFinding _pathFinding; //PathFinding.cs
     private Tilemap _groundTilemap; //set by mind.start()
     private Tilemap _collisionTilemap; //set by mind.start()
-    private int _actionCounter;
+    private Mind.characterStatus _status;
+    private GameObject _movementTile;//todo change back to private
 
 
     //set up the input action receiving info
@@ -32,7 +35,6 @@ public class PlayerCharMvmt : MonoBehaviour
         _mousePos = context.ReadValue<Vector2>();
     }
 
-  
     private void OnEnable()
     {
         _multiChar.Enable();
@@ -49,23 +51,42 @@ public class PlayerCharMvmt : MonoBehaviour
         _collisionTilemap = collision;
     }
 
-    public void setActionCounter(int actionsPerChar)
+    public void resetStatus()
     {
-        _actionCounter = actionsPerChar;
+        _status = Mind.characterStatus.TURN_STARTED;
     }
 
-    public int getActionCounter()
+    public Mind.characterStatus getActionStatus()
     {
-        return _actionCounter;
+        return _status;
     }
 
-    private void OnMouseDown()
+    public void setCamera(Camera camera)
+    {
+        _camera = camera;
+    }
+
+    public void setTilePrefab(GameObject movementTile)
+    {
+        _movementTile = movementTile;
+    }
+
+    public void destroyTiles()
+    {
+        _pathFinding.destroyTiles();
+    }
+    
+
+    void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
 
         GetComponent<PlayerCharMvmt>().enabled = true;
         mind.ChangePlayer(this.gameObject);
+        Debug.Log("origin: " + transform.position);
+        //_pathFinding.drawTiles(transform.position, movementRange); //draw tiles
         //TODO apply an animation to show the character is active
         //TODO scan the grid and draw all move-able cells.
+        
     }
 
     
@@ -76,14 +97,14 @@ public class PlayerCharMvmt : MonoBehaviour
         //this is the function that takes the click and does something with it
         _multiChar.Main.Select.performed += ctx => Click();
         GetComponent<PlayerCharMvmt>().enabled = false;
-        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap);
+        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
     }
     
 
     private void Click() //"teleport to destination" movement
     {
         
-        var worldPos = camera.ScreenToWorldPoint((Vector3)_mousePos);
+        var worldPos = _camera.ScreenToWorldPoint((Vector3)_mousePos);
         var gridPos = _groundTilemap.WorldToCell(worldPos); //grid position of the target cell
         var worldPos2 = _groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
         //converting to cell and back again autocenters the target position.
@@ -91,7 +112,8 @@ public class PlayerCharMvmt : MonoBehaviour
 
         var deltaPos = worldPos2 - transform.position;
         
-        
+        _pathFinding.destroyTiles(); //destroy tiles after moving
+
         if (_pathFinding.CanMove(gridPos))
         {
             var dist = _pathFinding.FindPathDist(worldPos, transform.position);
@@ -99,7 +121,6 @@ public class PlayerCharMvmt : MonoBehaviour
             if (dist <= movementRange)
             {
                 transform.position += deltaPos;
-                //actionCounter--; //decrement action counter TODO implement
                 
             }
             else
@@ -121,10 +142,7 @@ public class PlayerCharMvmt : MonoBehaviour
         
         mind.IsPlayerTurnOver();
     }
-
-    private void Attack()
-    {
-        //todo implement
-    }
+    
+    
     
 }

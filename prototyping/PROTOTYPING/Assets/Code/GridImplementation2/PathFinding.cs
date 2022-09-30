@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 
 
 public class GridItem {
@@ -21,29 +23,33 @@ public class PathFinding
    
     private readonly Tilemap _groundTilemap;
     private readonly Tilemap _collisionTilemap;
+    private readonly GameObject _movementTile;
+    private Queue<GameObject> _tiles;
     
-    public PathFinding(Tilemap ground, Tilemap collision)
+    
+    public PathFinding(Tilemap ground, Tilemap collision, GameObject movementTile)
     {
         _groundTilemap = ground;
         _collisionTilemap = collision;
+        _movementTile = movementTile;
     }
 
 
-    public bool CanMove(Vector3Int gridPos)
-    {//detects if you can move to a selected tile.
+    public bool CanMove(Vector3Int cellPos)
+    {//detects if you can move to a selected tile. takes a cell position (use .WorldToCell to get)
 
-        if (!_groundTilemap.HasTile(gridPos))
+        if (!_groundTilemap.HasTile(cellPos))
         {
             return false;
         }
 
-        if (_collisionTilemap.HasTile(gridPos))
+        if (_collisionTilemap.HasTile(cellPos))
         {
             return false;
         }
         
-        var cellpos = _groundTilemap.CellToWorld(gridPos);
-        Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f,0.5f));
+        var worldPos = _groundTilemap.CellToWorld(cellPos);
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos + new Vector3(0.5f,0.5f));
         //checking for a gameobject with physics at that point
         //adjust cellpos slightly to test at the center of the cell, not an edge
         
@@ -78,9 +84,108 @@ public class PathFinding
 
         return travelledPath;
     }
+
+    //todo fix bug where coordinates are getting screwed up. tiles being drawn in the wrong place
+    //todo fix bug where currently too few tiles are getting created
     
-    public int FindPathDist(Vector2 worldPos, Vector3 origin)
+    public void drawTiles (Vector2 worldPos, int range)
+    {
+        destroyTiles();
+        //create a tilePrefab at each xy coordinate of every griditem in targets
+        var cellOrigin = _groundTilemap.WorldToCell(worldPos);
+        var grid = scanGrid(cellOrigin, range);
+        
+        Queue<GameObject> objects = new Queue<GameObject>();
+
+        for (int i = 0; i < grid.Count; i++)
+        {
+            var worldLoc = grid.Dequeue();
+            Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
+            //var obj = Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
+            
+            
+            //objects.Enqueue(obj);//add the tile to the queue
+        }
+        
+        
+        _tiles = objects;
+    }
+
+    public void destroyTiles()
+    {//call this to remove tiles from the board
+        if (_tiles != null)
+        {
+            for (int i = 0; i < _tiles.Count; i++)
+            {
+                var obj = _tiles.Dequeue(); 
+                Object.Destroy(obj);
+            }
+        }
+        
+    }
+
+    private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
+    {
+        var grid = new Queue<Vector3>();
+        var minx = cell_origin.x - range;
+        var maxx = cell_origin.x + range;
+        var miny = cell_origin.y - range;
+        var maxy = cell_origin.y + range;
+        Debug.Log($"minx: {minx}, maxx: {maxx},  miny: {miny}, maxy: {maxy}");
+        
+        var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
+
+        
+        for (int i = minx; i < maxx; i++)
+        {
+            for (int j = miny; j < maxy; j++)
+            {
+                var target_cell = new Vector3Int(i, j);
+                if (CanMove(target_cell)) //DOES CANMOVE TAKE CELL COORDS
+                {
+                    var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
+                    var dist = FindPathDist(target_world,world_origin);
+                    
+                    if (dist <= range)
+                    {
+                        var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
+                        grid.Enqueue(target_world);
+                    }
+
+                    
+                }
+            }
+        }
+
+        return grid;
+    }
+
+    private Queue<Vector3> scanGrid2(Vector3 worldPos, int range)
+    {//create a queue of all tiles you could move to in range
+        //create an queue of all GridItems within a certain range
+        var grid = new Queue<Vector3>();
+        for (float i = (worldPos.x - range); i < (worldPos.x + range); i+=1f)
+        {
+            for (float j = (worldPos.y - range); j < (worldPos.y + range); j+=1f)
+            {
+                var loc = new Vector2(i, j);
+
+                if (FindPathDist(loc, worldPos) <= range)
+                {
+                    //add location
+                    grid.Enqueue(loc);
+                }
+            }
+        }
+        //todo consider rewriting distance locating if complexity is bad
+
+        return grid;
+    }
+    
+    public int FindPathDist(Vector2 targetPos_world, Vector3 origin_world)
     {//find a path to a certain cell.
+        //both worldPos and origin need to be in the world context, not cell context
+        
         bool[,] travelledPath = FindTraversable();
         //I split FindTraversable out so we can call it in other variants of algs 
         
@@ -88,13 +193,13 @@ public class PathFinding
         int gridXoffset = _groundTilemap.cellBounds.max.x;
         int gridYoffset = _groundTilemap.cellBounds.max.y;
 
-        var gridPos = _groundTilemap.WorldToCell(worldPos);
+        var gridPos = _groundTilemap.WorldToCell(targetPos_world);
 
         int targetX = gridPos.x + gridXoffset;
         int targetY = gridPos.y + gridYoffset;
         
-        int startX = ((int)Math.Floor(origin.x)) + gridXoffset;
-        int startY = ((int)Math.Floor(origin.y)) + gridYoffset;
+        int startX = ((int)Math.Floor(origin_world.x)) + gridXoffset;
+        int startY = ((int)Math.Floor(origin_world.y)) + gridYoffset;
         
         //Debug.Log("start: " + startX + ", "+startY+" target: "+targetX+", "+targetY);
         GridItem start = new GridItem(startX, startY, 0); //https://www.geeksforgeeks.org/shortest-distance-two-cells-matrix-grid/
@@ -144,5 +249,5 @@ public class PathFinding
             }
         }
         return -1;
-    }
+    }//we know this function works.
 }
