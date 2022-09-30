@@ -24,8 +24,7 @@ public class PathFinding
     private readonly Tilemap _groundTilemap;
     private readonly Tilemap _collisionTilemap;
     private readonly GameObject _movementTile;
-    private Queue<GameObject> _tiles;
-    
+  
     
     public PathFinding(Tilemap ground, Tilemap collision, GameObject movementTile)
     {
@@ -95,48 +94,46 @@ public class PathFinding
         var cellOrigin = _groundTilemap.WorldToCell(worldPos);
         var grid = scanGrid(cellOrigin, range);
         
-        Queue<GameObject> objects = new Queue<GameObject>();
-
         for (int i = 0; i < grid.Count; i++)
         {
             var worldLoc = grid.Dequeue();
             Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
-            //var obj = Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
+            //Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
             
-            
-            //objects.Enqueue(obj);//add the tile to the queue
         }
-        
-        
-        _tiles = objects;
     }
 
+    
     private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
-    {
-        var grid = new Queue<Vector3>();
-        var minx = cell_origin.x - range;
-        var maxx = cell_origin.x + range;
-        var miny = cell_origin.y - range;
-        var maxy = cell_origin.y + range;
-        Debug.Log($"minx: {minx}, maxx: {maxx},  miny: {miny}, maxy: {maxy}");
-        
+    {//scans the grid to see where you can move to
         var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
-
+        Debug.Log($"world_origin: {world_origin}");
         
-        for (int i = minx; i < maxx; i++)
+        var grid = new Queue<Vector3>();
+        
+        var minx = world_origin.x - range;
+        var maxx = world_origin.x + range;
+        var miny = world_origin.y - range;
+        var maxy = world_origin.y + range;
+        //Debug.Log($"minx: {minx}, maxx: {maxx},  miny: {miny}, maxy: {maxy}");
+
+
+        for (float i = minx; i <= maxx; i++)
         {
-            for (int j = miny; j < maxy; j++)
+            for (float j = miny; j <= maxy; j++)
             {
-                var target_cell = new Vector3Int(i, j);
-                if (CanMove(target_cell)) //DOES CANMOVE TAKE CELL COORDS
+                var target_cell = _groundTilemap.WorldToCell(new Vector3(i, j, 0));
+                //Debug.Log($"target_cell: {target_cell.x}, {target_cell.y}, {target_cell.z}");
+                if (CanMove(target_cell))
                 {
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
-                    var dist = FindPathDist(target_world,world_origin);
                     
-                    if (dist <= range)
+                    var dist = FindPathDist(target_world, world_origin);
+                    Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+                    if ((dist <= range) && (dist != -1))
                     {
                         var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
-                        grid.Enqueue(target_world);
+                        //grid.Enqueue(target_world);
                     }
 
                     
@@ -147,27 +144,6 @@ public class PathFinding
         return grid;
     }
 
-    private Queue<Vector3> scanGrid2(Vector3 worldPos, int range)
-    {//create a queue of all tiles you could move to in range
-        //create an queue of all GridItems within a certain range
-        var grid = new Queue<Vector3>();
-        for (float i = (worldPos.x - range); i < (worldPos.x + range); i+=1f)
-        {
-            for (float j = (worldPos.y - range); j < (worldPos.y + range); j+=1f)
-            {
-                var loc = new Vector2(i, j);
-
-                if (FindPathDist(loc, worldPos) <= range)
-                {
-                    //add location
-                    grid.Enqueue(loc);
-                }
-            }
-        }
-        //todo consider rewriting distance locating if complexity is bad
-
-        return grid;
-    }
     
     public int FindPathDist(Vector2 targetPos_world, Vector3 origin_world)
     {//find a path to a certain cell.

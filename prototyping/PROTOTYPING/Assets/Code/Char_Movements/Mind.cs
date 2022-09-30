@@ -77,15 +77,13 @@ public class Mind : MonoBehaviour
             _currentPlayer.GetComponent<PlayerCharMvmt>().enabled = false;
             _currentPlayer = newCharacter;
         }
-        else
-        {
-            _currentPlayer.GetComponent<PlayerCharMvmt>().enabled = false;
-        }
+
     }
 
     public static void destroyHighlightTiles()
     {//destroys all highlight tiles
         var highlightTiles = GameObject.FindGameObjectsWithTag ("highlight");
+        //this works because the prefab tile has the tag highlight.
         for (int i = 0; i < highlightTiles.Length; i++)
         {
             Destroy(highlightTiles[i]);
