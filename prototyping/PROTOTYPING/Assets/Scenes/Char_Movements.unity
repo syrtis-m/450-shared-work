@@ -184,6 +184,8 @@ MonoBehaviour:
   collisionTilemap: {fileID: 1016359885}
   camera: {fileID: 416626965}
   mind: {fileID: 1314107954}
+  movementRange: 5
+  character: {fileID: 0}
 --- !u!212 &50717051
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -286,6 +288,8 @@ MonoBehaviour:
   collisionTilemap: {fileID: 1016359885}
   camera: {fileID: 416626965}
   mind: {fileID: 1314107954}
+  movementRange: 5
+  character: {fileID: 0}
 --- !u!212 &177713329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -519,6 +523,8 @@ MonoBehaviour:
   collisionTilemap: {fileID: 1016359885}
   camera: {fileID: 416626965}
   mind: {fileID: 1314107954}
+  movementRange: 5
+  character: {fileID: 0}
 --- !u!212 &962617956
 SpriteRenderer:
   m_ObjectHideFlags: 0
