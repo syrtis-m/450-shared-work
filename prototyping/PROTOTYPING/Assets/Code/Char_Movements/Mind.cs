@@ -67,6 +67,7 @@ public class Mind : MonoBehaviour
     
     public void ChangePlayer(GameObject newCharacter)
     {
+
         if (_battleStatus == BattleStatus.AI_TURN)
         {
             return;
@@ -139,6 +140,7 @@ public class Mind : MonoBehaviour
             character.GetComponent<AICharacter>().resetStatus();
         }
         //end turn.
+
     }
 
     public void EndAITurn()

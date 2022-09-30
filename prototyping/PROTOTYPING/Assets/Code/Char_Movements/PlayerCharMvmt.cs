@@ -10,6 +10,8 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
+    public SpriteRenderer character;
+
 
    
     //internal use
@@ -21,7 +23,8 @@ public class PlayerCharMvmt : MonoBehaviour
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
     private GameObject _movementTile;//todo change back to private
-
+    private Color currentColor;
+    private int numberOfMovements;
 
     //set up the input action receiving info
     private void Awake()
@@ -78,6 +81,19 @@ public class PlayerCharMvmt : MonoBehaviour
         mind.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
         _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
+
+        
+        if (GetComponent<PlayerCharMvmt>().enabled)
+        {
+            character = GetComponent<SpriteRenderer>();
+            character.color = Color.yellow;
+        }
+        else
+        {
+            character = GetComponent<SpriteRenderer>();
+            character.color = currentColor;
+        }
+
     }
 
     
@@ -89,6 +105,9 @@ public class PlayerCharMvmt : MonoBehaviour
         _multiChar.Main.Select.performed += ctx => Click();
         enabled = false;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
+        character = GetComponent<SpriteRenderer>();
+        currentColor = character.color;
+
     }
     
 
@@ -115,9 +134,21 @@ public class PlayerCharMvmt : MonoBehaviour
             else
             {
                 //deselect character
+                numberOfMovements = numberOfMovements + 1;
+                character = GetComponent<SpriteRenderer>();
+                character.color = currentColor;
             }
-            
-            
+        }
+        var cellpos = groundTilemap.CellToWorld(gridPos);
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f, 0.5f));
+        if (colliderAtDest)
+        {
+            character = GetComponent<SpriteRenderer>();
+            character.color = currentColor;
+        }
+        if (numberOfMovements > 0)
+        {
+            GetComponent<PlayerCharMvmt>().enabled = false;
         }
         /*
         else if (AI at that point)
