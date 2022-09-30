@@ -70,23 +70,14 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         _movementTile = movementTile;
     }
-
-    public void destroyTiles()
-    {
-        _pathFinding.destroyTiles();
-    }
     
-
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
 
         GetComponent<PlayerCharMvmt>().enabled = true;
         mind.ChangePlayer(this.gameObject);
-        Debug.Log("origin: " + transform.position);
-        //_pathFinding.drawTiles(transform.position, movementRange); //draw tiles
-        //TODO apply an animation to show the character is active
-        //TODO scan the grid and draw all move-able cells.
-        
+        //Debug.Log("origin: " + transform.position);
+        _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
     }
 
     
@@ -96,7 +87,7 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         //this is the function that takes the click and does something with it
         _multiChar.Main.Select.performed += ctx => Click();
-        GetComponent<PlayerCharMvmt>().enabled = false;
+        enabled = false;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
     }
     
@@ -112,8 +103,6 @@ public class PlayerCharMvmt : MonoBehaviour
 
         var deltaPos = worldPos2 - transform.position;
         
-        _pathFinding.destroyTiles(); //destroy tiles after moving
-
         if (_pathFinding.CanMove(gridPos))
         {
             var dist = _pathFinding.FindPathDist(worldPos, transform.position);
@@ -121,7 +110,7 @@ public class PlayerCharMvmt : MonoBehaviour
             if (dist <= movementRange)
             {
                 transform.position += deltaPos;
-                
+                Mind.destroyHighlightTiles();//clears the highlight tiles on movement
             }
             else
             {

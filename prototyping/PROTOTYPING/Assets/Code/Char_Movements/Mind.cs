@@ -83,6 +83,15 @@ public class Mind : MonoBehaviour
         }
     }
 
+    public static void destroyHighlightTiles()
+    {//destroys all highlight tiles
+        var highlightTiles = GameObject.FindGameObjectsWithTag ("highlight");
+        for (int i = 0; i < highlightTiles.Length; i++)
+        {
+            Destroy(highlightTiles[i]);
+        }
+    }
+
     public void IsPlayerTurnOver()
     {
         foreach (var character in playerCharacters)

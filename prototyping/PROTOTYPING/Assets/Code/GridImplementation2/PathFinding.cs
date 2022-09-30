@@ -90,7 +90,7 @@ public class PathFinding
     
     public void drawTiles (Vector2 worldPos, int range)
     {
-        destroyTiles();
+        Mind.destroyHighlightTiles();
         //create a tilePrefab at each xy coordinate of every griditem in targets
         var cellOrigin = _groundTilemap.WorldToCell(worldPos);
         var grid = scanGrid(cellOrigin, range);
@@ -109,19 +109,6 @@ public class PathFinding
         
         
         _tiles = objects;
-    }
-
-    public void destroyTiles()
-    {//call this to remove tiles from the board
-        if (_tiles != null)
-        {
-            for (int i = 0; i < _tiles.Count; i++)
-            {
-                var obj = _tiles.Dequeue(); 
-                Object.Destroy(obj);
-            }
-        }
-        
     }
 
     private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
