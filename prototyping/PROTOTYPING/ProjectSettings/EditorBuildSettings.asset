@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Char_Movements.unity
     guid: d0b1421ceba341d4187c1f098b7bc266
+  - enabled: 1
+    path: Assets/Scenes/MAIN.unity
+    guid: 2a736cc530d744d4fbd55938cf678605
   m_configObjects: {}
