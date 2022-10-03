@@ -158,12 +158,6 @@ public class PlayerCharMvmt : MonoBehaviour
             _character.color = _currentColor;
         }
         
-        //TODO remove once attacks are added -- currently only in here so that turns will end
-        if (_status == Mind.characterStatus.MOVED)
-        {
-            _status = Mind.characterStatus.DONE;
-        }
-        
         mind.IsPlayerTurnOver(); //this should be the very last thing in Click()
     }
     
