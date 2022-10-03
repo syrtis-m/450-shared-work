@@ -104,19 +104,6 @@ public class Mind : MonoBehaviour
         BeginAITurn();
     }
     
-    public void EndPlayerTurn()
-    {
-        //TODO implement
-        _battleStatus = BattleStatus.AI_TURN;
-        //disable all characters
-        foreach (var character in playerCharacters)
-        {
-            character.GetComponent<PlayerCharMvmt>().enabled = false;
-            
-        }
-        
-    }
-
     public void BeginPlayerTurn()
     {
         //show animation showing it's a player turn
@@ -129,6 +116,20 @@ public class Mind : MonoBehaviour
         }
         
     }
+    
+    public void EndPlayerTurn()
+    {
+        //TODO implement
+        _battleStatus = BattleStatus.AI_TURN;
+        //disable all characters
+        foreach (var character in playerCharacters)
+        {
+            character.GetComponent<PlayerCharMvmt>().enabled = false;
+            
+        }
+        
+    }
+    
 
     public void BeginAITurn()
     {//todo Implement

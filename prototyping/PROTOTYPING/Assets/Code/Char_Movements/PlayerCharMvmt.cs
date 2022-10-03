@@ -10,7 +10,7 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
-    public SpriteRenderer character;
+    
 
 
    
@@ -23,14 +23,17 @@ public class PlayerCharMvmt : MonoBehaviour
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
     private GameObject _movementTile;//todo change back to private
-    private Color currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
+    private SpriteRenderer _character; //this is the spriterenderer that handles color
+    private Color _currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
     private int numberOfMovements;
 
     //set up the input action receiving info
     private void Awake()
     {
+        _character = GetComponent<SpriteRenderer>();
         _multiChar = new MultiChar();
         _multiChar.Main.MousePos.performed += OnMousePos;
+        
     }
 
     private void OnMousePos(InputAction.CallbackContext context)
@@ -85,13 +88,13 @@ public class PlayerCharMvmt : MonoBehaviour
         
         if (GetComponent<PlayerCharMvmt>().enabled)
         {
-            character = GetComponent<SpriteRenderer>();
-            character.color = Color.yellow;
+            
+            _character.color = Color.yellow;
         }
         else
         {
-            character = GetComponent<SpriteRenderer>();
-            character.color = currentColor;
+            
+            _character.color = _currentColor;
         }
 
     }
@@ -105,8 +108,7 @@ public class PlayerCharMvmt : MonoBehaviour
         _multiChar.Main.Select.performed += ctx => Click();
         enabled = false;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
-        character = GetComponent<SpriteRenderer>();
-        currentColor = character.color;
+        _currentColor = _character.color;
 
     }
     
@@ -130,34 +132,33 @@ public class PlayerCharMvmt : MonoBehaviour
             {
                 transform.position += deltaPos;
                 Mind.destroyHighlightTiles();//clears the highlight tiles on movement
+                _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
+                
+                _character.color = _currentColor; //deactivate color after movement
             }
             else
             {
                 //deselect character
-                //numberOfMovements = numberOfMovements + 1;
-                character = GetComponent<SpriteRenderer>();
-                character.color = currentColor;
+                _character.color = _currentColor;
             }
         }
-        var cellpos = _groundTilemap.CellToWorld(gridPos);
-        Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f, 0.5f));
-        if (colliderAtDest)
-        {
-            character = GetComponent<SpriteRenderer>();
-            character.color = currentColor;
-        }
-        
         /*
         else if (AI at that point)
         {
             //attack
-        }
+        }*/
         else
         {
             //deselect character
-        }*/
+        }
         
-        mind.IsPlayerTurnOver();
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos2);
+        if (colliderAtDest)
+        {
+            _character.color = _currentColor;
+        }
+        
+        mind.IsPlayerTurnOver(); //this should be the very last thing in Click()
     }
     
     
