@@ -99,7 +99,15 @@ public class PlayerCharMvmt : MonoBehaviour
 
     }
 
-    
+    private void Update()
+    {
+        if (_status == Mind.characterStatus.DONE)
+        {
+            enabled = false;
+        }
+    }
+
+
     // Start is called before the first frame update
     
     void Start()
@@ -133,7 +141,7 @@ public class PlayerCharMvmt : MonoBehaviour
                 transform.position += deltaPos;
                 Mind.destroyHighlightTiles();//clears the highlight tiles on movement
                 _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
-                
+                enabled = false;
                 _character.color = _currentColor; //deactivate color after movement
             }
             else
@@ -157,8 +165,20 @@ public class PlayerCharMvmt : MonoBehaviour
         {
             _character.color = _currentColor;
         }
+
+        if (_status == Mind.characterStatus.MOVED)
+        {//TODO remove once we have attacks implemented
+            _status = Mind.characterStatus.DONE;//temp update because attacks aren't in yet.
+        }
         
         mind.IsPlayerTurnOver(); //this should be the very last thing in Click()
+    }
+    
+    public void Die()
+    {//TODO test
+        //this func should be called when the character dies
+        mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        Destroy(gameObject);
     }
     
     

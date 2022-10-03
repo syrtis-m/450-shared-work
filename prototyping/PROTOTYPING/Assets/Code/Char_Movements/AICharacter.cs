@@ -49,10 +49,18 @@ public class AICharacter : MonoBehaviour
     }
     
     
-    public void startTurn()
+    public void Turn()
     {//this is the turn for an AI character
         //scan board
         //identify nearest (dist) character
-        //move towards nearest character
+        //move towards nearest character or attack character
+        //set _status
+    }
+
+    public void Die()
+    {//TODO test
+        //this func should be called when the character dies
+        mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        Destroy(gameObject);
     }
 }

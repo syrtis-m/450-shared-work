@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class Mind : MonoBehaviour
 {
@@ -12,16 +13,14 @@ public class Mind : MonoBehaviour
     
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
-    public GameObject[] playerCharacters;
-    public GameObject[] aiCharacters;
+    public List<GameObject> playerCharacters;
+    public List<GameObject> aiCharacters;//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
     
     private GameObject _currentPlayer;
 
     private BattleStatus _battleStatus;
-    private int _aliveAICharacters;
-    private int _alivePlayerCharacters;
 
     private enum BattleStatus
     {//use this to track turns in mind.cs
@@ -35,7 +34,7 @@ public class Mind : MonoBehaviour
         MOVED,
         ATTACKED,
         DONE,
-    }
+    }//when a character dies, they should be deleted from the scene. no longer in a character array
 
     private void Awake()
     {//set up the mind & characters managed by it
@@ -45,8 +44,6 @@ public class Mind : MonoBehaviour
             character.GetComponent<PlayerCharMvmt>().setCamera(camera);
             character.GetComponent<PlayerCharMvmt>().setTilePrefab(movementTilePrefab);
             
-            _alivePlayerCharacters += 1;
-            
         }
 
         foreach (var character in aiCharacters)
@@ -54,7 +51,7 @@ public class Mind : MonoBehaviour
             character.GetComponent<AICharacter>().setTilemaps(groundTilemap, collisionTilemap);
             character.GetComponent<AICharacter>().setCamera(camera);
             character.GetComponent<AICharacter>().setTilePrefab(movementTilePrefab);
-            _aliveAICharacters += 1;
+
         }
     }
     
@@ -101,11 +98,12 @@ public class Mind : MonoBehaviour
             }
         }
         EndPlayerTurn();
-        BeginAITurn();
+        //BeginAITurn();
     }
     
     public void BeginPlayerTurn()
     {
+        Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         _battleStatus = BattleStatus.PLAYER_TURN;
         _currentPlayer = playerCharacters[0];
@@ -114,25 +112,35 @@ public class Mind : MonoBehaviour
             character.GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
             //roll the dice of each character & store that in that chartacter's movement var
         }
-        
     }
     
+    //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
-        //TODO implement
-        _battleStatus = BattleStatus.AI_TURN;
+        //TODO show art saying "AI TURN BEGIN"
+        Debug.Log("EndPlayerTurn()");
         //disable all characters
         foreach (var character in playerCharacters)
         {
             character.GetComponent<PlayerCharMvmt>().enabled = false;
             
         }
+
+        if (playerCharacters.Count > 0)
+        {
+            AITurn();
+        }
+        else
+        {
+            EndGame();
+        }
         
     }
     
 
-    public void BeginAITurn()
-    {//todo Implement
+    public void AITurn()
+    {
+        Debug.Log("AITurn()");
         //do a animation showing its an AI turn
         _battleStatus = BattleStatus.AI_TURN;
         //go through order of characters.
@@ -140,16 +148,49 @@ public class Mind : MonoBehaviour
         {
             character.GetComponent<AICharacter>().resetStatus();
         }
-        //end turn.
+        //randomize list of AI characters
+        //iterate through list of AI characters
+        
+        foreach (var character in aiCharacters)
+        {
+            character.GetComponent<AICharacter>().Turn();
+        }
 
-    }
-
-    public void EndAITurn()
-    {//todo implement
+        if (aiCharacters.Count > 0)
+        {
+            BeginPlayerTurn();
+        }
+        else
+        {
+            EndGame();
+        }
         
         
-        BeginPlayerTurn();
     }
+
+    private void EndGame()
+    {
+        Debug.Log("EndGame()");
+        //give a graphic showing the game is over
+        //do a reset button
+        throw new NotImplementedException();
+    }
+
+
+    //IDK if we need this
+    /*public bool IsAITurnOver()
+    {
+        foreach (var character in aiCharacters)
+        {
+            if (character.GetComponent<AICharacter>().getActionStatus()!= characterStatus.DONE)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }*/
+
     
     
 }
