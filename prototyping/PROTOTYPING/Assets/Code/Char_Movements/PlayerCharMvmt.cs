@@ -10,8 +10,6 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
-    
-
 
    
     //internal use
@@ -80,6 +78,11 @@ public class PlayerCharMvmt : MonoBehaviour
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
 
+        if (_status == Mind.characterStatus.DONE)
+        {
+            return;
+        }
+        
         GetComponent<PlayerCharMvmt>().enabled = true;
         mind.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
@@ -100,7 +103,7 @@ public class PlayerCharMvmt : MonoBehaviour
     }
 
     private void Update()
-    {
+    {//this just makes sure player is disabled once it's done. _status is reset in mind.BeginPlayerTurn()
         if (_status == Mind.characterStatus.DONE)
         {
             enabled = false;
@@ -123,6 +126,7 @@ public class PlayerCharMvmt : MonoBehaviour
 
     private void Click() //"teleport to destination" movement
     {
+        
         
         var worldPos = _camera.ScreenToWorldPoint((Vector3)_mousePos);
         var gridPos = _groundTilemap.WorldToCell(worldPos); //grid position of the target cell
@@ -173,11 +177,18 @@ public class PlayerCharMvmt : MonoBehaviour
         
         mind.IsPlayerTurnOver(); //this should be the very last thing in Click()
     }
+
+    public void Attack()
+    {
+        //todo implement this
+    }
     
     public void Die()
-    {//TODO test
+    {//TODO fix this so it works.
+        //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
         //this func should be called when the character dies
         mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        mind.currentPlayer = mind.playerCharacters[0];
         Destroy(gameObject);
     }
     

@@ -18,7 +18,7 @@ public class Mind : MonoBehaviour
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
     
-    private GameObject _currentPlayer;
+    public GameObject currentPlayer;
 
     private BattleStatus _battleStatus;
 
@@ -54,14 +54,18 @@ public class Mind : MonoBehaviour
 
         }
     }
+
     
+
     void Start()
     {
-        _currentPlayer = playerCharacters[0];
+        currentPlayer = playerCharacters[0];
         _battleStatus = BattleStatus.PLAYER_TURN;
         BeginPlayerTurn();
     }
-    
+
+
+
     public void ChangePlayer(GameObject newCharacter)
     {
 
@@ -70,10 +74,10 @@ public class Mind : MonoBehaviour
             return;
         }
         
-        if (newCharacter.Equals(_currentPlayer) == false)
+        if (newCharacter.Equals(currentPlayer) == false)
         {
-            _currentPlayer.GetComponent<PlayerCharMvmt>().enabled = false;
-            _currentPlayer = newCharacter;
+            currentPlayer.GetComponent<PlayerCharMvmt>().enabled = false;
+            currentPlayer = newCharacter;
         }
 
     }
@@ -106,7 +110,7 @@ public class Mind : MonoBehaviour
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         _battleStatus = BattleStatus.PLAYER_TURN;
-        _currentPlayer = playerCharacters[0];
+        currentPlayer = playerCharacters[0];
         foreach (var character in playerCharacters)
         {
             character.GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status

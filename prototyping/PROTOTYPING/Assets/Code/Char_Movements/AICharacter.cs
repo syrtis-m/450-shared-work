@@ -50,17 +50,27 @@ public class AICharacter : MonoBehaviour
     
     
     public void Turn()
-    {//this is the turn for an AI character
+    {
+        //todo implement this
+        //this is the turn for an AI character
         //scan board
         //identify nearest (dist) character
         //move towards nearest character or attack character
-        //set _status
+        //set _status to DONE
+    }
+    
+    public void Attack()
+    {
+        //todo implement this
     }
 
     public void Die()
-    {//TODO test
+    {
+        //TODO test
+        //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
         //this func should be called when the character dies
         mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        mind.currentPlayer = mind.playerCharacters[0];
         Destroy(gameObject);
     }
 }
