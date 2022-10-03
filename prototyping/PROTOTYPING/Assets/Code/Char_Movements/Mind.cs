@@ -17,6 +17,8 @@ public class Mind : MonoBehaviour
     public List<GameObject> aiCharacters;//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
+    public GameObject enemy_turn_start;
+    public GameObject player_turn_start;
     
     public GameObject currentPlayer;
 
@@ -107,6 +109,7 @@ public class Mind : MonoBehaviour
     
     public void BeginPlayerTurn()
     {
+        StartCoroutine(player_turn_splash());
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         _battleStatus = BattleStatus.PLAYER_TURN;
@@ -144,6 +147,8 @@ public class Mind : MonoBehaviour
 
     public void AITurn()
     {
+        StartCoroutine(enemy_turn_splash());
+        
         Debug.Log("AITurn()");
         //do a animation showing its an AI turn
         _battleStatus = BattleStatus.AI_TURN;
@@ -194,6 +199,31 @@ public class Mind : MonoBehaviour
 
         return true;
     }*/
+
+    
+    IEnumerator player_turn_splash()
+    {
+        //create prefab
+        
+        var obj = Instantiate(player_turn_start);
+            
+        yield return new WaitForSeconds(3f);
+        
+        Destroy(obj);
+
+        //kill prefab
+    }
+    
+    
+//IMPORTANT: it doesn't seem to show enemy splash - this is just because it shows enemy and player splash at the same time.
+    IEnumerator enemy_turn_splash()
+    {
+        var obj = Instantiate(enemy_turn_start);
+            
+        yield return new WaitForSeconds(3f);
+        
+        Destroy(obj);
+    }
 
     
     
