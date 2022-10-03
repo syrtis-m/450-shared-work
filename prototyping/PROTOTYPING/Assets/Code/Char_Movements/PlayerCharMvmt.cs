@@ -10,8 +10,6 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
-    public SpriteRenderer character;
-
 
    
     //internal use
@@ -23,14 +21,17 @@ public class PlayerCharMvmt : MonoBehaviour
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
     private GameObject _movementTile;//todo change back to private
-    private Color currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
+    private SpriteRenderer _character; //this is the spriterenderer that handles color
+    private Color _currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
     private int numberOfMovements;
 
     //set up the input action receiving info
     private void Awake()
     {
+        _character = GetComponent<SpriteRenderer>();
         _multiChar = new MultiChar();
         _multiChar.Main.MousePos.performed += OnMousePos;
+        
     }
 
     private void OnMousePos(InputAction.CallbackContext context)
@@ -77,6 +78,11 @@ public class PlayerCharMvmt : MonoBehaviour
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
 
+        if (_status == Mind.characterStatus.DONE)
+        {
+            return;
+        }
+        
         GetComponent<PlayerCharMvmt>().enabled = true;
         mind.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
@@ -85,18 +91,26 @@ public class PlayerCharMvmt : MonoBehaviour
         
         if (GetComponent<PlayerCharMvmt>().enabled)
         {
-            character = GetComponent<SpriteRenderer>();
-            character.color = Color.yellow;
+            
+            _character.color = Color.yellow;
         }
         else
         {
-            character = GetComponent<SpriteRenderer>();
-            character.color = currentColor;
+            
+            _character.color = _currentColor;
         }
 
     }
 
-    
+    private void Update()
+    {//this just makes sure player is disabled once it's done. _status is reset in mind.BeginPlayerTurn()
+        if (_status == Mind.characterStatus.DONE)
+        {
+            enabled = false;
+        }
+    }
+
+
     // Start is called before the first frame update
     
     void Start()
@@ -105,14 +119,14 @@ public class PlayerCharMvmt : MonoBehaviour
         _multiChar.Main.Select.performed += ctx => Click();
         enabled = false;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
-        character = GetComponent<SpriteRenderer>();
-        currentColor = character.color;
+        _currentColor = _character.color;
 
     }
     
 
     private void Click() //"teleport to destination" movement
     {
+        
         
         var worldPos = _camera.ScreenToWorldPoint((Vector3)_mousePos);
         var gridPos = _groundTilemap.WorldToCell(worldPos); //grid position of the target cell
@@ -130,34 +144,52 @@ public class PlayerCharMvmt : MonoBehaviour
             {
                 transform.position += deltaPos;
                 Mind.destroyHighlightTiles();//clears the highlight tiles on movement
+                _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
+                enabled = false;
+                _character.color = _currentColor; //deactivate color after movement
             }
             else
             {
                 //deselect character
-                //numberOfMovements = numberOfMovements + 1;
-                character = GetComponent<SpriteRenderer>();
-                character.color = currentColor;
+                _character.color = _currentColor;
             }
         }
-        var cellpos = _groundTilemap.CellToWorld(gridPos);
-        Collider2D colliderAtDest = Physics2D.OverlapPoint(cellpos + new Vector3(0.5f, 0.5f));
-        if (colliderAtDest)
-        {
-            character = GetComponent<SpriteRenderer>();
-            character.color = currentColor;
-        }
-        
         /*
         else if (AI at that point)
         {
             //attack
-        }
+        }*/
         else
         {
             //deselect character
-        }*/
+        }
         
-        mind.IsPlayerTurnOver();
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos2);
+        if (colliderAtDest)
+        {
+            _character.color = _currentColor;
+        }
+
+        if (_status == Mind.characterStatus.MOVED)
+        {//TODO remove once we have attacks implemented
+            _status = Mind.characterStatus.DONE;//temp update because attacks aren't in yet.
+        }
+        
+        mind.IsPlayerTurnOver(); //this should be the very last thing in Click()
+    }
+
+    public void Attack()
+    {
+        //todo implement this
+    }
+    
+    public void Die()
+    {//TODO fix this so it works.
+        //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
+        //this func should be called when the character dies
+        mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        mind.currentPlayer = mind.playerCharacters[0];
+        Destroy(gameObject);
     }
     
     

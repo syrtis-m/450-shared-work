@@ -97,7 +97,7 @@ public class PathFinding
         for (int i = 0; i < grid.Count; i++)
         {
             var worldLoc = grid.Dequeue();
-            Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
+            //Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
             //Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
             
         }
@@ -107,7 +107,7 @@ public class PathFinding
     private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
     {//scans the grid to see where you can move to
         var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
-        Debug.Log($"world_origin: {world_origin}");
+        //Debug.Log($"world_origin: {world_origin}");
         
         var grid = new Queue<Vector3>();
         
@@ -129,7 +129,7 @@ public class PathFinding
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
                     
                     var dist = FindPathDist(target_world, world_origin);
-                    Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+                    //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
                     if ((dist <= range) && (dist != -1))
                     {
                         var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
