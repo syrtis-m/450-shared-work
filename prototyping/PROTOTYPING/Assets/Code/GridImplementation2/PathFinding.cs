@@ -152,10 +152,12 @@ public class PathFinding
         bool[,] travelledPath = FindTraversable();
         //I split FindTraversable out so we can call it in other variants of algs 
         
+        //need to adjust for if 
+        
         //these adjust for different sizes of groundtilemap
         int gridXoffset = _groundTilemap.cellBounds.max.x;
         int gridYoffset = _groundTilemap.cellBounds.max.y;
-
+        
         var gridPos = _groundTilemap.WorldToCell(targetPos_world);
 
         int targetX = gridPos.x + gridXoffset;

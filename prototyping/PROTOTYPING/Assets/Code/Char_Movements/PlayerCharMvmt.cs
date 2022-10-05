@@ -20,7 +20,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private Tilemap _groundTilemap; //set by mind.start()
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
-    private GameObject _movementTile;//todo change back to private
+    private GameObject _movementTile;
     private SpriteRenderer _character; //this is the spriterenderer that handles color
     private Color _currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
     private int numberOfMovements;
