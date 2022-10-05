@@ -55,8 +55,12 @@ public class PathFinding
         //if a collider at the destination exists, don't go there
         if (colliderAtDest)
         {
-            return false;
-            //NOTE - THIS MEANS ALL AI/PLAYER CHARACTERS MUST HAVE A COLLIDER.
+            if (colliderAtDest.gameObject.GetComponent<AICharacter>())
+            {
+                return true;
+            }
+            return false; 
+            //This is changed so that the distance between a player and an enemy can be calculated
         }
         
         return true;

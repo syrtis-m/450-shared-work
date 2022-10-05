@@ -155,14 +155,21 @@ public class Mind : MonoBehaviour
         //go through order of characters.
         foreach (var character in aiCharacters)
         {
-            character.GetComponent<AICharacter>().resetStatus();
+            if (character!=null)
+            {
+                character.GetComponent<AICharacter>().resetStatus();
+            }
+            
         }
         //randomize list of AI characters
         //iterate through list of AI characters
         
         foreach (var character in aiCharacters)
         {
-            character.GetComponent<AICharacter>().Turn();
+            if (character!=null)
+            {
+                character.GetComponent<AICharacter>().Turn();
+            }
         }
 
         if (aiCharacters.Count > 0)

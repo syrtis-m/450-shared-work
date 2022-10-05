@@ -10,8 +10,8 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
+    public int attackRange;
 
-   
     //internal use
     private Camera _camera;
     private Vector2 _mousePos; //mouse position
@@ -131,45 +131,64 @@ public class PlayerCharMvmt : MonoBehaviour
         var worldPos = _camera.ScreenToWorldPoint((Vector3)_mousePos);
         var gridPos = _groundTilemap.WorldToCell(worldPos); //grid position of the target cell
         var worldPos2 = _groundTilemap.CellToWorld(gridPos) + new Vector3(0.5f, 0.5f, 0);
+        var currentPosition = transform.position;
         //converting to cell and back again autocenters the target position.
         //Debug.Log("worldPos: " + worldPos + " gridPos: " + gridPos + " worldPos2: " + worldPos2);
 
         var deltaPos = worldPos2 - transform.position;
-        
-        if (_pathFinding.CanMove(gridPos))
+        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos2);
+        if (!colliderAtDest)
         {
-            var dist = _pathFinding.FindPathDist(worldPos, transform.position);
+            if (_pathFinding.CanMove(gridPos))
+            {
+                var dist = _pathFinding.FindPathDist(worldPos, transform.position);
 
-            if (dist <= movementRange)
-            {
-                transform.position += deltaPos;
-                Mind.destroyHighlightTiles();//clears the highlight tiles on movement
-                _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
-                enabled = false;
-                _character.color = _currentColor; //deactivate color after movement
-            }
-            else
-            {
-                //deselect character
-                _character.color = _currentColor;
+                if (dist <= movementRange)
+                {
+                    transform.position += deltaPos;
+                    Mind.destroyHighlightTiles();//clears the highlight tiles on movement
+                    _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
+                    enabled = false;
+                    _character.color = _currentColor; //deactivate color after movement
+                }
+                else
+                {
+                    //deselect character
+                    _character.color = _currentColor;
+                    Mind.destroyHighlightTiles();
+                }
             }
         }
+        
+        if (colliderAtDest)
+        {
+            _character = GetComponent<SpriteRenderer>();
+            _character.color = _currentColor;
+            Mind.destroyHighlightTiles();
+
+            if (colliderAtDest.gameObject.GetComponent<AICharacter>())
+            {
+
+                var enemyDistance = _pathFinding.FindPathDist(worldPos, currentPosition);
+                Debug.Log(enemyDistance);
+                if (enemyDistance <= attackRange)
+                {
+                    Destroy(colliderAtDest.gameObject);
+                }
+            }
+        }
+        
         /*
         else if (AI at that point)
         {
             //attack
-        }*/
+        }
         else
         {
             //deselect character
         }
+        */
         
-        Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos2);
-        if (colliderAtDest)
-        {
-            _character.color = _currentColor;
-        }
-
         if (_status == Mind.characterStatus.MOVED)
         {//TODO remove once we have attacks implemented
             _status = Mind.characterStatus.DONE;//temp update because attacks aren't in yet.
