@@ -21,6 +21,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
     private GameObject _movementTile;
+    private GameObject _attackTile;
     private SpriteRenderer _character; //this is the spriterenderer that handles color
     private Color _currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
     private int numberOfMovements;
@@ -74,7 +75,12 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         _movementTile = movementTile;
     }
-    
+
+    public void setAttackTilePrefab(GameObject attackTile)
+    {
+        _attackTile = attackTile;
+    }
+
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
 
@@ -87,6 +93,7 @@ public class PlayerCharMvmt : MonoBehaviour
         mind.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
         _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
+        _pathFinding.drawAttackTiles(transform.position, attackRange);
 
         
         if (GetComponent<PlayerCharMvmt>().enabled)
@@ -118,7 +125,7 @@ public class PlayerCharMvmt : MonoBehaviour
         //this is the function that takes the click and does something with it
         _multiChar.Main.Select.performed += ctx => Click();
         enabled = false;
-        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
+        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
         _currentColor = _character.color;
 
     }

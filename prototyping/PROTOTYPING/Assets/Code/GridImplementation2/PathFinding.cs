@@ -24,13 +24,15 @@ public class PathFinding
     private readonly Tilemap _groundTilemap;
     private readonly Tilemap _collisionTilemap;
     private readonly GameObject _movementTile;
-  
-    
-    public PathFinding(Tilemap ground, Tilemap collision, GameObject movementTile)
+    private readonly GameObject _attackTile;
+
+
+    public PathFinding(Tilemap ground, Tilemap collision, GameObject movementTile, GameObject attackTile)
     {
         _groundTilemap = ground;
         _collisionTilemap = collision;
         _movementTile = movementTile;
+        _attackTile = attackTile;
     }
 
 
@@ -91,12 +93,12 @@ public class PathFinding
     //todo fix bug where coordinates are getting screwed up. tiles being drawn in the wrong place
     //todo fix bug where currently too few tiles are getting created
     
-    public void drawTiles (Vector2 worldPos, int range)
+    public void drawTiles (Vector2 worldPos, int movementRange)
     {
         Mind.destroyHighlightTiles();
         //create a tilePrefab at each xy coordinate of every griditem in targets
         var cellOrigin = _groundTilemap.WorldToCell(worldPos);
-        var grid = scanGrid(cellOrigin, range);
+        var grid = scanGrid(cellOrigin, movementRange);
         
         for (int i = 0; i < grid.Count; i++)
         {
@@ -104,6 +106,17 @@ public class PathFinding
             //Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
             //Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
             
+        }
+    }
+
+    public void drawAttackTiles (Vector2 worldPos, int attackRange)
+    {
+        var cellOrigin = _groundTilemap.WorldToCell(worldPos);
+        var grid = scanAttackGrid(cellOrigin, attackRange);
+
+        for (int i = 0; i < grid.Count; i++)
+        {
+            var worldLoc = grid.Dequeue();
         }
     }
 
@@ -148,7 +161,47 @@ public class PathFinding
         return grid;
     }
 
-    
+    private Queue<Vector3> scanAttackGrid(Vector3Int cell_origin, int range)
+    {//scans the grid to see where you can move to
+        var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
+                                                                                                  //Debug.Log($"world_origin: {world_origin}");
+
+        var grid = new Queue<Vector3>();
+
+        var minx = world_origin.x - range;
+        var maxx = world_origin.x + range;
+        var miny = world_origin.y - range;
+        var maxy = world_origin.y + range;
+        //Debug.Log($"minx: {minx}, maxx: {maxx},  miny: {miny}, maxy: {maxy}");
+
+
+        for (float i = minx; i <= maxx; i++)
+        {
+            for (float j = miny; j <= maxy; j++)
+            {
+                var target_cell = _groundTilemap.WorldToCell(new Vector3(i, j, 0));
+                //Debug.Log($"target_cell: {target_cell.x}, {target_cell.y}, {target_cell.z}");
+                if (CanMove(target_cell))
+                {
+                    var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f, 0.5f, 0);
+
+                    var dist = FindPathDist(target_world, world_origin);
+                    //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+                    if ((dist <= range) && (dist != -1))
+                    {
+                        var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);
+                        //grid.Enqueue(target_world);
+                    }
+
+
+                }
+            }
+        }
+
+        return grid;
+    }
+
+
     public int FindPathDist(Vector2 targetPos_world, Vector3 origin_world)
     {//find a path to a certain cell.
         //both worldPos and origin need to be in the world context, not cell context

@@ -14,13 +14,15 @@ public class AICharacter : MonoBehaviour
     private Tilemap _collisionTilemap; //set by mind.start()
     private Mind.characterStatus _status;
     private GameObject _movementTile;
+    private GameObject _attackTile;
+
 
 
     public void setTilemaps(Tilemap ground, Tilemap collision)
     {//config tilemapsand pathfinding objects
         _groundTilemap = ground;
         _collisionTilemap = collision;
-        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile);
+        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
     }
 
     private void Start()
@@ -47,8 +49,12 @@ public class AICharacter : MonoBehaviour
     {
         _movementTile = movementTile;
     }
-    
-    
+
+    public void setAttackTilePrefab(GameObject attackTile)
+    {
+        _attackTile = attackTile;
+    }
+
     public void Turn()
     {
         //todo implement this

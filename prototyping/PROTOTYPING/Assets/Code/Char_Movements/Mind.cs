@@ -17,6 +17,7 @@ public class Mind : MonoBehaviour
     public List<GameObject> aiCharacters;//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
+    public GameObject attackTilePrefab;
     public GameObject enemy_turn_start;
     public GameObject player_turn_start;
     
@@ -45,7 +46,7 @@ public class Mind : MonoBehaviour
             character.GetComponent<PlayerCharMvmt>().setTilemaps(groundTilemap, collisionTilemap);
             character.GetComponent<PlayerCharMvmt>().setCamera(camera);
             character.GetComponent<PlayerCharMvmt>().setTilePrefab(movementTilePrefab);
-            
+            character.GetComponent<PlayerCharMvmt>().setAttackTilePrefab(attackTilePrefab);
         }
 
         foreach (var character in aiCharacters)
@@ -53,7 +54,7 @@ public class Mind : MonoBehaviour
             character.GetComponent<AICharacter>().setTilemaps(groundTilemap, collisionTilemap);
             character.GetComponent<AICharacter>().setCamera(camera);
             character.GetComponent<AICharacter>().setTilePrefab(movementTilePrefab);
-
+            character.GetComponent<AICharacter>().setAttackTilePrefab(attackTilePrefab);
         }
     }
 
