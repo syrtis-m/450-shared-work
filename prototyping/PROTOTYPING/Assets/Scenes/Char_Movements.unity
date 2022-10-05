@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 3
-  attackRange: 0
+  attackRange: 1
 --- !u!212 &50717051
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 3
-  attackRange: 0
+  attackRange: 1
 --- !u!212 &177713329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 5
-  attackRange: 0
+  attackRange: 2
 --- !u!212 &962617956
 SpriteRenderer:
   m_ObjectHideFlags: 0
