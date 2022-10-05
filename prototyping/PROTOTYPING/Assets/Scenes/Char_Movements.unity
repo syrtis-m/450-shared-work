@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 3
+  attackRange: 1
 --- !u!212 &50717051
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -406,6 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 3
+  attackRange: 1
 --- !u!212 &177713329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -637,6 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mind: {fileID: 1314107954}
   movementRange: 5
+  attackRange: 2
 --- !u!212 &962617956
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2326,6 +2329,8 @@ MonoBehaviour:
   - {fileID: 2015929506}
   camera: {fileID: 416626965}
   movementTilePrefab: {fileID: 1309669841030172720, guid: eda4f73c12a74f849abb080437b4f154, type: 3}
+  enemy_turn_start: {fileID: 0}
+  player_turn_start: {fileID: 0}
   currentPlayer: {fileID: 0}
 --- !u!4 &1314107955
 Transform:
