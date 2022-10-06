@@ -2329,8 +2329,9 @@ MonoBehaviour:
   - {fileID: 2015929506}
   camera: {fileID: 416626965}
   movementTilePrefab: {fileID: 1309669841030172720, guid: eda4f73c12a74f849abb080437b4f154, type: 3}
-  enemy_turn_start: {fileID: 0}
-  player_turn_start: {fileID: 0}
+  attackTilePrefab: {fileID: 8331918794481543261, guid: 2477cd9fd3113654abe1c5627629e28a, type: 3}
+  enemy_turn_start: {fileID: 7428871389547194048, guid: 2970fff81b684dd45861ffecda296ca1, type: 3}
+  player_turn_start: {fileID: 4710234737883419848, guid: 6b3d39364a74e384f87b1fbfbc724f96, type: 3}
   currentPlayer: {fileID: 0}
 --- !u!4 &1314107955
 Transform:

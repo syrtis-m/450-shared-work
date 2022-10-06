@@ -228,7 +228,7 @@ public class Mind : MonoBehaviour
         
         var obj = Instantiate(player_turn_start);
             
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
         
         Destroy(obj);
 
