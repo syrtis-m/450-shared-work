@@ -61,6 +61,11 @@ public class PlayerCharMvmt : MonoBehaviour
         _status = Mind.characterStatus.TURN_STARTED;
     }
 
+    public void setStatusDone()
+    {
+        _status = Mind.characterStatus.DONE;
+    }
+
     public Mind.characterStatus getActionStatus()
     {
         return _status;

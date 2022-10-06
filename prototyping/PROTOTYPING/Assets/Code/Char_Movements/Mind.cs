@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -26,9 +27,9 @@ public class Mind : MonoBehaviour
     
     public GameObject currentPlayer;
 
-    private BattleStatus _battleStatus;
+    public BattleStatus battleStatus;
 
-    private enum BattleStatus
+    public enum BattleStatus
     {//use this to track turns in mind.cs
         PLAYER_TURN,
         AI_TURN,
@@ -66,7 +67,7 @@ public class Mind : MonoBehaviour
     void Start()
     {
         currentPlayer = playerCharacters[0];
-        _battleStatus = BattleStatus.PLAYER_TURN;
+        battleStatus = BattleStatus.PLAYER_TURN;
         BeginPlayerTurn();
     }
 
@@ -75,7 +76,7 @@ public class Mind : MonoBehaviour
     public void ChangePlayer(GameObject newCharacter)
     {
 
-        if (_battleStatus == BattleStatus.AI_TURN)
+        if (battleStatus == BattleStatus.AI_TURN)
         {
             return;
         }
@@ -116,7 +117,6 @@ public class Mind : MonoBehaviour
         StartCoroutine(player_turn_splash());
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
-        _battleStatus = BattleStatus.PLAYER_TURN;
         currentPlayer = playerCharacters[0];
         for (int i = 0; i < 3; i++) 
         {
@@ -138,12 +138,14 @@ public class Mind : MonoBehaviour
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
-        //TODO show art saying "AI TURN BEGIN"
+        battleStatus = BattleStatus.AI_TURN;
+        destroyHighlightTiles();
         Debug.Log("EndPlayerTurn()");
         //disable all characters
         foreach (var character in playerCharacters)
         {
             character.GetComponent<PlayerCharMvmt>().enabled = false;
+            character.GetComponent<PlayerCharMvmt>().setStatusDone(); //ensures they're all set to done if called from something else
             
         }
 
@@ -165,7 +167,7 @@ public class Mind : MonoBehaviour
         
         Debug.Log("AITurn()");
         //do a animation showing its an AI turn
-        _battleStatus = BattleStatus.AI_TURN;
+        
         //go through order of characters.
         foreach (var character in aiCharacters)
         {
@@ -224,15 +226,12 @@ public class Mind : MonoBehaviour
     
     IEnumerator player_turn_splash()
     {
-        //create prefab
-        
         var obj = Instantiate(player_turn_start);
             
         yield return new WaitForSeconds(10f);
-        
-        Destroy(obj);
 
-        //kill prefab
+        battleStatus = BattleStatus.PLAYER_TURN;
+        Destroy(obj);
     }
     
     
