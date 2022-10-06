@@ -384,10 +384,10 @@ GameObject:
   m_Component:
   - component: {fileID: 116379930}
   - component: {fileID: 116379933}
-  - component: {fileID: 116379932}
   - component: {fileID: 116379931}
+  - component: {fileID: 116379934}
   m_Layer: 5
-  m_Name: RedDice1
+  m_Name: RedDice3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,18 +434,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 2.2}
   m_EdgeRadius: 0
---- !u!114 &116379932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116379929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 361434c543a22db4fbe0c21871f531df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &116379933
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -498,6 +486,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &116379934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116379929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29470157c7ae046ea959fd3f34cc9abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &177713326
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,10 +635,10 @@ GameObject:
   m_Component:
   - component: {fileID: 255942754}
   - component: {fileID: 255942757}
-  - component: {fileID: 255942756}
   - component: {fileID: 255942755}
+  - component: {fileID: 255942758}
   m_Layer: 5
-  m_Name: RedDice1
+  m_Name: RedDice2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -685,18 +685,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 2.2}
   m_EdgeRadius: 0
---- !u!114 &255942756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255942753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 361434c543a22db4fbe0c21871f531df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &255942757
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -749,6 +737,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &255942758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255942753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29470157c7ae046ea959fd3f34cc9abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &286630677
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,8 +1036,8 @@ GameObject:
   m_Component:
   - component: {fileID: 600540950}
   - component: {fileID: 600540949}
-  - component: {fileID: 600540951}
   - component: {fileID: 600540952}
+  - component: {fileID: 600540953}
   m_Layer: 5
   m_Name: BlueDice1
   m_TagString: Untagged
@@ -1112,18 +1112,6 @@ Transform:
   m_Father: {fileID: 286630679}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &600540951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 600540948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0362f796d0a0dd4781950451b8e3c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &600540952
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1150,6 +1138,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 2.2}
   m_EdgeRadius: 0
+--- !u!114 &600540953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600540948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5d2a50e0eab4607a8b6f712419fcfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &962617954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,8 +1287,8 @@ GameObject:
   m_Component:
   - component: {fileID: 988140905}
   - component: {fileID: 988140904}
-  - component: {fileID: 988140906}
   - component: {fileID: 988140907}
+  - component: {fileID: 988140908}
   m_Layer: 5
   m_Name: RedDice1
   m_TagString: Untagged
@@ -1363,18 +1363,6 @@ Transform:
   m_Father: {fileID: 286630679}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &988140906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 988140903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 361434c543a22db4fbe0c21871f531df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &988140907
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1401,6 +1389,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 2.2}
   m_EdgeRadius: 0
+--- !u!114 &988140908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988140903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29470157c7ae046ea959fd3f34cc9abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1016359882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2988,6 +2988,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundTilemap: {fileID: 1298649067}
   collisionTilemap: {fileID: 1016359885}
+  movementDice:
+  - {fileID: 600540948}
+  - {fileID: 2011041673}
+  - {fileID: 1485697814}
+  attackDice:
+  - {fileID: 988140903}
+  - {fileID: 255942753}
+  - {fileID: 116379929}
   playerCharacters:
   - {fileID: 962617954}
   - {fileID: 177713326}
@@ -3026,10 +3034,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1485697815}
   - component: {fileID: 1485697818}
-  - component: {fileID: 1485697817}
   - component: {fileID: 1485697816}
+  - component: {fileID: 1485697819}
   m_Layer: 5
-  m_Name: BlueDice1
+  m_Name: BlueDice3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3076,18 +3084,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 2.2}
   m_EdgeRadius: 0
---- !u!114 &1485697817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485697814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0362f796d0a0dd4781950451b8e3c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &1485697818
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3140,6 +3136,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1485697819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485697814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5d2a50e0eab4607a8b6f712419fcfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1867294467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3276,10 +3284,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2011041674}
   - component: {fileID: 2011041677}
-  - component: {fileID: 2011041676}
   - component: {fileID: 2011041675}
+  - component: {fileID: 2011041678}
   m_Layer: 5
-  m_Name: BlueDice1
+  m_Name: BlueDice2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3326,18 +3334,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 2.2}
   m_EdgeRadius: 0
---- !u!114 &2011041676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2011041673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0362f796d0a0dd4781950451b8e3c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &2011041677
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3390,6 +3386,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2011041678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011041673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5d2a50e0eab4607a8b6f712419fcfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2015929506
 GameObject:
   m_ObjectHideFlags: 0

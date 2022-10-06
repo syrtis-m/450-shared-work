@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,6 +14,8 @@ public class Mind : MonoBehaviour
     
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
+    public List<GameObject> movementDice;
+    public List<GameObject> attackDice;
     public List<GameObject> playerCharacters;
     public List<GameObject> aiCharacters;//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
@@ -108,20 +111,30 @@ public class Mind : MonoBehaviour
         //BeginAITurn();
     }
     
-    public void BeginPlayerTurn()
+    public async void BeginPlayerTurn()
     {
         StartCoroutine(player_turn_splash());
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         _battleStatus = BattleStatus.PLAYER_TURN;
         currentPlayer = playerCharacters[0];
-        foreach (var character in playerCharacters)
+        for (int i = 0; i < 3; i++) 
         {
-            character.GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
+            playerCharacters[i].GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
             //roll the dice of each character & store that in that chartacter's movement var
+            Task<int> rollMovementDice = movementDice[i].GetComponent<MovementDice>().RollDice();
+            Task<int> rollAttackDice = attackDice[i].GetComponent<AttackDice>().RollDice();
+            int movementRoll = await rollMovementDice;
+            int attackRoll = await rollAttackDice;
+            playerCharacters[i].GetComponent<PlayerCharMvmt>().movementRange = movementRoll;
+            playerCharacters[i].GetComponent<PlayerCharMvmt>().attackRange = attackRoll;
         }
     }
+
     
+
+
+
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
