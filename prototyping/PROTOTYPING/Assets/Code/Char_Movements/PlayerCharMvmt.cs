@@ -173,7 +173,7 @@ public class PlayerCharMvmt : MonoBehaviour
         }
         
         if (colliderAtDest)
-        {
+        {//RUDIMENTARY CHARACTER ATTACKS
             _character = GetComponent<SpriteRenderer>();
             _character.color = _currentColor;
             Mind.destroyHighlightTiles();
@@ -186,6 +186,7 @@ public class PlayerCharMvmt : MonoBehaviour
                 if (enemyDistance <= attackRange)
                 {
                     Destroy(colliderAtDest.gameObject);
+                    _status = Mind.characterStatus.ATTACKED;
                 }
             }
         }
@@ -201,8 +202,9 @@ public class PlayerCharMvmt : MonoBehaviour
         }
         */
         
-        if (_status == Mind.characterStatus.MOVED)
+        if ((_status == Mind.characterStatus.MOVED) || (_status == Mind.characterStatus.ATTACKED))
         {//TODO remove once we have attacks implemented
+            _character.color = Color.grey;
             _status = Mind.characterStatus.DONE;//temp update because attacks aren't in yet.
         }
         
@@ -222,7 +224,10 @@ public class PlayerCharMvmt : MonoBehaviour
         mind.currentPlayer = mind.playerCharacters[0];
         Destroy(gameObject);
     }
-    
-    
-    
+
+
+    public void resetColor()
+    {
+        _character.color = _currentColor;
+    }
 }

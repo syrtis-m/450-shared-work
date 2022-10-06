@@ -76,6 +76,7 @@ public class AICharacter : MonoBehaviour
         //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
         //this func should be called when the character dies
         mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        
         mind.currentPlayer = mind.playerCharacters[0];
         Destroy(gameObject);
     }

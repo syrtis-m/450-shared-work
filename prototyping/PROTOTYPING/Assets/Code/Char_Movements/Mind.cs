@@ -43,6 +43,8 @@ public class Mind : MonoBehaviour
         DONE,
     }//when a character dies, they should be deleted from the scene. no longer in a character array
 
+    public static event Action GameOver; //this is our game over system using the unity event system https://youtu.be/ZfRbuOCAeE8
+
     private void Awake()
     {//set up the mind & characters managed by it
         foreach (var character in playerCharacters)
@@ -62,16 +64,12 @@ public class Mind : MonoBehaviour
         }
     }
 
-    
-
     void Start()
     {
         currentPlayer = playerCharacters[0];
         battleStatus = BattleStatus.PLAYER_TURN;
         BeginPlayerTurn();
     }
-
-
 
     public void ChangePlayer(GameObject newCharacter)
     {
@@ -98,6 +96,21 @@ public class Mind : MonoBehaviour
             Destroy(highlightTiles[i]);
         }
     }
+    
+    public void TrimCharAILists()
+    {//this makes sure that there are only as many player characters or AI characters in lists as there should be.
+        for(var i = playerCharacters.Count - 1; i > -1; i--)
+        {
+            if (playerCharacters[i] == null)
+                playerCharacters.RemoveAt(i);
+        }
+        
+        for(var i = aiCharacters.Count - 1; i > -1; i--)
+        {
+            if (aiCharacters[i] == null)
+                aiCharacters.RemoveAt(i);
+        }
+    }
 
     public void IsPlayerTurnOver()
     {
@@ -109,7 +122,6 @@ public class Mind : MonoBehaviour
             }
         }
         EndPlayerTurn();
-        //BeginAITurn();
     }
     
     public async void BeginPlayerTurn()
@@ -118,7 +130,7 @@ public class Mind : MonoBehaviour
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         currentPlayer = playerCharacters[0];
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < playerCharacters.Count; i++) 
         {
             playerCharacters[i].GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
             //roll the dice of each character & store that in that chartacter's movement var
@@ -128,12 +140,11 @@ public class Mind : MonoBehaviour
             int attackRoll = await rollAttackDice;
             playerCharacters[i].GetComponent<PlayerCharMvmt>().movementRange = movementRoll;
             playerCharacters[i].GetComponent<PlayerCharMvmt>().attackRange = attackRoll;
+            playerCharacters[i].GetComponent<PlayerCharMvmt>().resetColor();
         }
     }
-
     
-
-
+    
 
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
@@ -148,10 +159,16 @@ public class Mind : MonoBehaviour
             character.GetComponent<PlayerCharMvmt>().setStatusDone(); //ensures they're all set to done if called from something else
             
         }
+        
+        TrimCharAILists();
 
-        if (playerCharacters.Count > 0)
+        if ((aiCharacters.Count) > 0 && (playerCharacters.Count > 0))
         {
             AITurn();
+        }
+        else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
+        {
+            EndGame();
         }
         else
         {
@@ -175,6 +192,9 @@ public class Mind : MonoBehaviour
             {
                 character.GetComponent<AICharacter>().resetStatus();
             }
+            else
+            {
+            }
             
         }
         //randomize list of AI characters
@@ -187,10 +207,17 @@ public class Mind : MonoBehaviour
                 character.GetComponent<AICharacter>().Turn();
             }
         }
+        
+        TrimCharAILists();
+        Debug.Log($"aicharacter count: {aiCharacters.Count}");
 
-        if (aiCharacters.Count > 0)
+        if ((aiCharacters.Count > 0) && (playerCharacters.Count > 0))
         {
             BeginPlayerTurn();
+        }
+        else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
+        {
+            EndGame();
         }
         else
         {
@@ -203,26 +230,10 @@ public class Mind : MonoBehaviour
     private void EndGame()
     {
         Debug.Log("EndGame()");
-        //give a graphic showing the game is over
-        //do a reset button
-        throw new NotImplementedException();
+        
+        GameOver?.Invoke();//observer pattern using unity event system
     }
-
-
-    //IDK if we need this
-    /*public bool IsAITurnOver()
-    {
-        foreach (var character in aiCharacters)
-        {
-            if (character.GetComponent<AICharacter>().getActionStatus()!= characterStatus.DONE)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }*/
-
+    
     
     IEnumerator player_turn_splash()
     {
