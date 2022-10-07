@@ -129,7 +129,16 @@ public class Mind : MonoBehaviour
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         currentPlayer = playerCharacters[0];
-        for (int i = 0; i < playerCharacters.Count; i++) 
+
+        foreach (var character in playerCharacters)
+        {
+            character.GetComponent<PlayerCharMvmt>().resetStatus();
+            character.GetComponent<PlayerCharMvmt>().rollDice();
+            character.GetComponent<PlayerCharMvmt>().resetColor();
+        }
+        
+        //prev working version
+        /*for (int i = 0; i < 3; i++) //this is currently hardcoded, TODO fix
         {
             playerCharacters[i].GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
             //roll the dice of each character & store that in that chartacter's movement var
@@ -137,12 +146,12 @@ public class Mind : MonoBehaviour
             //Task<int> rollAttackDice = attackDice[i].GetComponent<AttackDice>().RollDice();
             //int movementRoll = await rollMovementDice;
             //int attackRoll = await rollAttackDice;
-            int movementRoll = movementDice[i].GetComponent<MovementDice>().RollDice();
+            int movementRoll = movementDice[i].GetComponent<MovementDice>().RollDice(); //todo fix this, it will break once we start having characters die
             int attackRoll = attackDice[i].GetComponent<AttackDice>().RollDice();
             playerCharacters[i].GetComponent<PlayerCharMvmt>().movementRange = movementRoll;
             playerCharacters[i].GetComponent<PlayerCharMvmt>().attackRange = attackRoll;
             playerCharacters[i].GetComponent<PlayerCharMvmt>().resetColor();
-        }
+        }*/
     }
     
     

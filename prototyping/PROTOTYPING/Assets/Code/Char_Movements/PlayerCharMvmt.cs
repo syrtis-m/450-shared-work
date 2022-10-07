@@ -11,6 +11,8 @@ public class PlayerCharMvmt : MonoBehaviour
     public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
     public int attackRange;
+    public MovementDice movementDice;
+    public AttackDice attackDice;
 
     //internal use
     private Camera _camera;
@@ -32,7 +34,6 @@ public class PlayerCharMvmt : MonoBehaviour
         _character = GetComponent<SpriteRenderer>();
         _multiChar = new MultiChar();
         _multiChar.Main.MousePos.performed += OnMousePos;
-        
     }
 
     private void OnMousePos(InputAction.CallbackContext context)
@@ -132,7 +133,13 @@ public class PlayerCharMvmt : MonoBehaviour
         enabled = false;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
         _currentColor = _character.color;
-
+        
+    }
+    
+    public void rollDice()
+    {
+        movementRange = movementDice.RollDice();
+        attackRange = attackDice.RollDice();
     }
     
 
@@ -230,4 +237,6 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         _character.color = _currentColor;
     }
+
+    
 }
