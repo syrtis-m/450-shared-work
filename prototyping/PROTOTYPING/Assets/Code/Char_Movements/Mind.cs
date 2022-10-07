@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -124,7 +123,7 @@ public class Mind : MonoBehaviour
         EndPlayerTurn();
     }
     
-    public async void BeginPlayerTurn()
+    public void BeginPlayerTurn()
     {
         StartCoroutine(player_turn_splash());
         Debug.Log("BeginPlayerTurn()");
@@ -134,10 +133,12 @@ public class Mind : MonoBehaviour
         {
             playerCharacters[i].GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
             //roll the dice of each character & store that in that chartacter's movement var
-            Task<int> rollMovementDice = movementDice[i].GetComponent<MovementDice>().RollDice();
-            Task<int> rollAttackDice = attackDice[i].GetComponent<AttackDice>().RollDice();
-            int movementRoll = await rollMovementDice;
-            int attackRoll = await rollAttackDice;
+            //Task<int> rollMovementDice = movementDice[i].GetComponent<MovementDice>().RollDice();
+            //Task<int> rollAttackDice = attackDice[i].GetComponent<AttackDice>().RollDice();
+            //int movementRoll = await rollMovementDice;
+            //int attackRoll = await rollAttackDice;
+            int movementRoll = movementDice[i].GetComponent<MovementDice>().RollDice();
+            int attackRoll = attackDice[i].GetComponent<AttackDice>().RollDice();
             playerCharacters[i].GetComponent<PlayerCharMvmt>().movementRange = movementRoll;
             playerCharacters[i].GetComponent<PlayerCharMvmt>().attackRange = attackRoll;
             playerCharacters[i].GetComponent<PlayerCharMvmt>().resetColor();
@@ -239,7 +240,7 @@ public class Mind : MonoBehaviour
     {
         var obj = Instantiate(player_turn_start);
             
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(4f);
 
         battleStatus = BattleStatus.PLAYER_TURN;
         Destroy(obj);
@@ -256,6 +257,4 @@ public class Mind : MonoBehaviour
         Destroy(obj);
     }
 
-    
-    
 }

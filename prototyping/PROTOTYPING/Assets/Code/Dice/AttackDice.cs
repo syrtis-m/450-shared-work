@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class AttackDice : MonoBehaviour
@@ -17,16 +16,31 @@ public class AttackDice : MonoBehaviour
         rend.sprite = diceSides[currentDiceSide];
     }
 
-    public async Task<int> RollDice()
+    public int RollDice()
     {
+        // Start up animation
+        StartCoroutine(RollDiceAnimation());
+        // Generate random number
+        int randomDiceSide = Random.Range(1, 6);
+        // Save it as current number
+        currentDiceSide = randomDiceSide;
+        // Send number over to mind
+        return randomDiceSide;
+    }
+
+    private IEnumerator RollDiceAnimation()
+    {
+        // Animation will finish whenever but on proper side
+        int currentSideCopy = currentDiceSide;
         for (int i = 0; i < 25; i++)
         {
             int randomDiceSide = Random.Range(1, 6);
-            currentDiceSide = (randomDiceSide + currentDiceSide) % 6;
-            rend.sprite = diceSides[currentDiceSide];
-            await Task.Delay(i * 10);
+            currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
+            rend.sprite = diceSides[currentSideCopy];
+            yield return new WaitForSeconds(i * 0.01f);
         }
-        return currentDiceSide + 1;
+        // Roll was already sent over to mind
+        rend.sprite = diceSides[currentDiceSide - 1];
     }
 
 }
