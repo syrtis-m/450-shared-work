@@ -12,6 +12,10 @@ public class Mind : MonoBehaviour
     //the mind class manages all player characters and AI characters in a scene.
     //it initializes characters using the Awake() function and then handles turn-management
     
+    //outlets
+    public static Mind instance; //singleton pattern. access mind in other files by Mind.instance
+    
+    //config
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
     public List<GameObject> movementDice;
@@ -24,8 +28,8 @@ public class Mind : MonoBehaviour
     public GameObject enemy_turn_start;
     public GameObject player_turn_start;
     
+    //state tracking
     public GameObject currentPlayer;
-
     public BattleStatus battleStatus;
 
     public enum BattleStatus
@@ -46,6 +50,8 @@ public class Mind : MonoBehaviour
 
     private void Awake()
     {//set up the mind & characters managed by it
+        instance = this; //singleton pattern. access mind in other files by Mind.instance
+        
         foreach (var character in playerCharacters)
         {//set the ground and collision tilemaps for all player characters
             character.GetComponent<PlayerCharMvmt>().setTilemaps(groundTilemap, collisionTilemap);

@@ -8,7 +8,6 @@ public class PlayerCharMvmt : MonoBehaviour
 {
     //outlets
     
-    public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
     public int attackRange;
     public MovementDice movementDice;
@@ -25,7 +24,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private GameObject _movementTile;
     private GameObject _attackTile;
     private SpriteRenderer _character; //this is the spriterenderer that handles color
-    private Color _currentColor; //this is the color of the character sprite. we flip to color.yellow to show they are selected
+    private Color _currentColor; //this is the color of the character sprite. 
     private int numberOfMovements;
 
     //set up the input action receiving info
@@ -96,7 +95,7 @@ public class PlayerCharMvmt : MonoBehaviour
         }
         
         GetComponent<PlayerCharMvmt>().enabled = true;
-        mind.ChangePlayer(this.gameObject);
+        Mind.instance.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
         _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
         _pathFinding.drawAttackTiles(transform.position, attackRange);
@@ -215,7 +214,7 @@ public class PlayerCharMvmt : MonoBehaviour
             _status = Mind.characterStatus.DONE;//temp update because attacks aren't in yet.
         }
         
-        mind.IsPlayerTurnOver(); //this should be the very last thing in Click()
+        Mind.instance.IsPlayerTurnOver(); //this should be the very last thing in Click()
     }
 
     public void Attack()
@@ -227,8 +226,8 @@ public class PlayerCharMvmt : MonoBehaviour
     {//TODO fix this so it works.
         //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
         //this func should be called when the character dies
-        mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
-        mind.currentPlayer = mind.playerCharacters[0];
+        Mind.instance.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
         Destroy(gameObject);
     }
 

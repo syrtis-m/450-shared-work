@@ -4,7 +4,6 @@ using UnityEngine.Tilemaps;
 public class AICharacter : MonoBehaviour
 {
     //outlets
-    public Mind mind; //used for managing n characters in a scene
     public int movementRange; //how many tiles the player can traverse in one turn
     
     //internal use
@@ -75,9 +74,9 @@ public class AICharacter : MonoBehaviour
         //TODO test
         //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
         //this func should be called when the character dies
-        mind.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
+        Mind.instance.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
         
-        mind.currentPlayer = mind.playerCharacters[0];
+        Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
         Destroy(gameObject);
     }
 }

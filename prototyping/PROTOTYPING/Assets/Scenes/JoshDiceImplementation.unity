@@ -180,7 +180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd09c495dca16d4f8b7a4f3bdf73187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mind: {fileID: 1314107954}
   movementRange: 2
   attackRange: 6
   movementDice: {fileID: 1121560082}
@@ -407,7 +406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd09c495dca16d4f8b7a4f3bdf73187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mind: {fileID: 1314107954}
   movementRange: 2
   attackRange: 3
   movementDice: {fileID: 524901653}
@@ -614,7 +612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4727d2deb84094bb9015b03e5fc58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mind: {fileID: 1314107954}
   movementRange: 3
 --- !u!4 &216516729
 Transform:
@@ -1820,7 +1817,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd09c495dca16d4f8b7a4f3bdf73187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mind: {fileID: 1314107954}
   movementRange: 1
   attackRange: 4
   movementDice: {fileID: 600540953}
@@ -2058,7 +2054,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1016359883
 Transform:
@@ -2547,7 +2543,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!156049354 &1142181518
 Grid:
@@ -2670,7 +2666,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1298649065
 Transform:
@@ -4149,7 +4145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4727d2deb84094bb9015b03e5fc58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mind: {fileID: 1314107954}
   movementRange: 3
 --- !u!61 &1867294469
 BoxCollider2D:
@@ -4353,7 +4348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4727d2deb84094bb9015b03e5fc58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mind: {fileID: 1314107954}
   movementRange: 3
 --- !u!4 &2015929510
 Transform:
