@@ -30,7 +30,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_RefResolutionX
-    value: 160
+    value: 240
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_RefResolutionY
@@ -38,7 +38,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_UpscaleRT
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_PixelSnapping
