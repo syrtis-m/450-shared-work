@@ -120,7 +120,7 @@ public class PathFinding
         }
     }
 
-    
+    //todo rewrite so it can take into account fixed attack ranges  
     private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
     {//scans the grid to see where you can move to
         var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
@@ -141,6 +141,8 @@ public class PathFinding
             {
                 var target_cell = _groundTilemap.WorldToCell(new Vector3(i, j, 0));
                 //Debug.Log($"target_cell: {target_cell.x}, {target_cell.y}, {target_cell.z}");
+                
+                //todo check for an object with tag highlight at that point
                 if (CanMove(target_cell))
                 {
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
@@ -187,6 +189,7 @@ public class PathFinding
 
                     var dist = FindPathDist(target_world, world_origin);
                     //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+                    
                     if ((dist <= range) && (dist != -1))
                     {
                         var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);

@@ -5,6 +5,8 @@ public class AICharacter : MonoBehaviour
 {
     //outlets
     public int movementRange; //how many tiles the player can traverse in one turn
+    public int health; //ai health
+    public int atkDamage; //ai attack
     
     //internal use
     private Camera _camera;

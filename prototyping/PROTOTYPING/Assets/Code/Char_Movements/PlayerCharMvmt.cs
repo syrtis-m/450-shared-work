@@ -12,6 +12,8 @@ public class PlayerCharMvmt : MonoBehaviour
     public int attackRange;
     public MovementDice movementDice;
     public AttackDice attackDice;
+    public int health; //player health
+    public int atkDamage; //player attack
 
     //internal use
     private Camera _camera;

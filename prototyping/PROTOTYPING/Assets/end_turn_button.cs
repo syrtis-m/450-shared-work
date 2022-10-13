@@ -5,18 +5,30 @@ using UnityEngine;
 
 public class end_turn_button : MonoBehaviour
 {
-    private Mind _mind;
+    private SpriteRenderer _spriteRenderer;
+    public Color defaultColor = Color.white;
+    public Color mouseOverColor = new Color(190, 190, 190);
     
     void Start()
     {
-        _mind = this.GetComponentInParent<Mind>();
+        _spriteRenderer = this.GetComponent<SpriteRenderer>();
+    }
+
+    private void OnMouseEnter()
+    {
+        _spriteRenderer.color = mouseOverColor;
+    }
+
+    private void OnMouseExit()
+    {
+        _spriteRenderer.color = defaultColor;
     }
 
     private void OnMouseDown()
     {
-        if (_mind.battleStatus == Mind.BattleStatus.PLAYER_TURN)
+        if (Mind.instance.battleStatus == Mind.BattleStatus.PLAYER_TURN)
         {
-            _mind.EndPlayerTurn();
+            Mind.instance.EndPlayerTurn();
         }
     }
 }

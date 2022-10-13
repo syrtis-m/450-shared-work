@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - highlight
+  - splash
   layers:
   - Default
   - TransparentFX
@@ -46,4 +48,7 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 1374636803
+    locked: 0
+  - name: UI
+    uniqueID: 419652789
     locked: 0
