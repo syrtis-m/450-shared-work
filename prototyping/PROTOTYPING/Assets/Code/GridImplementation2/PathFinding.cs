@@ -57,7 +57,7 @@ public class PathFinding
         //if a collider at the destination exists, don't go there
         if (colliderAtDest)
         {
-            if (colliderAtDest.gameObject.GetComponent<AICharacter>())
+            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>())
             {
                 return true;
             }
@@ -99,12 +99,12 @@ public class PathFinding
         //create a tilePrefab at each xy coordinate of every griditem in targets
         var cellOrigin = _groundTilemap.WorldToCell(worldPos);
         var grid = scanGrid(cellOrigin, movementRange);
-        
-        for (int i = 0; i < grid.Count; i++)
+        var gridSize = grid.Count;
+        for (int i = 0; i < gridSize; i++)
         {
             var worldLoc = grid.Dequeue();
             //Debug.Log($"x:{worldLoc.x}, y: {worldLoc.y}, z:{worldLoc.z}");
-            //Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
+            Object.Instantiate(_movementTile,worldLoc,quaternion.identity);
             
         }
     }
@@ -113,15 +113,15 @@ public class PathFinding
     {
         var cellOrigin = _groundTilemap.WorldToCell(worldPos);
         var grid = scanAttackGrid(cellOrigin, attackRange);
-
-        for (int i = 0; i < grid.Count; i++)
+        var gridSize = grid.Count;
+        for (int i = 0; i < gridSize; i++)
         {
             var worldLoc = grid.Dequeue();
         }
     }
 
     //todo rewrite so it can take into account fixed attack ranges  
-    private Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
+    public Queue<Vector3> scanGrid(Vector3Int cell_origin, int range)
     {//scans the grid to see where you can move to
         var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
         //Debug.Log($"world_origin: {world_origin}");
@@ -151,8 +151,8 @@ public class PathFinding
                     //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
                     if ((dist <= range) && (dist != -1))
                     {
-                        var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
-                        //grid.Enqueue(target_world);
+                        //var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
+                        grid.Enqueue(target_world);
                     }
 
                     
@@ -163,7 +163,7 @@ public class PathFinding
         return grid;
     }
 
-    private Queue<Vector3> scanAttackGrid(Vector3Int cell_origin, int range)
+    public Queue<Vector3> scanAttackGrid(Vector3Int cell_origin, int range)
     {//scans the grid to see where you can move to
         var world_origin = _groundTilemap.CellToWorld((cell_origin)) + new Vector3(0.5f, 0.5f, 0);//used with finddist
                                                                                                   //Debug.Log($"world_origin: {world_origin}");
@@ -193,7 +193,7 @@ public class PathFinding
                     if ((dist <= range) && (dist != -1))
                     {
                         var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);
-                        //grid.Enqueue(target_world);
+                        grid.Enqueue(target_world);
                     }
 
 

@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System;
+using System.Collections.Generic;
+
 
 public class AICharacter : MonoBehaviour
 {
@@ -64,6 +67,45 @@ public class AICharacter : MonoBehaviour
         //identify nearest (dist) character
         //move towards nearest character or attack character
         //set _status to DONE
+        var shortestDist = 10000;
+        var closestPlayerLocation = new Vector3();
+        var AIOrigin = _groundTilemap.WorldToCell(transform.position);
+        var AI_location = _groundTilemap.CellToWorld(AIOrigin) + new Vector3(0.5f, 0.5f, 0);
+        for (int i = 0; i < Mind.instance.playerCharacters.Count; i++) //Find closest player
+        {
+            var playerOrigin = _groundTilemap.WorldToCell(Mind.instance.playerCharacters[i].transform.position);
+            var player_location = _groundTilemap.CellToWorld((playerOrigin)) + new Vector3(0.5f, 0.5f, 0);
+            var dist = _pathFinding.FindPathDist(player_location, AI_location);
+            if (dist <= shortestDist)
+            {
+                shortestDist = dist;
+                closestPlayerLocation = player_location;
+            }   
+        }
+        
+        Queue<Vector3> grid = _pathFinding.scanGrid(AIOrigin, movementRange);
+        Debug.Log(grid.Count);
+        var shortestMovementDist = 10000;
+        var movementCell = new Vector3();
+        var gridSize = grid.Count;
+        for (int j = 0; j < gridSize; j++) //Scan the grid to find the block to move to and get closer to the player
+        {
+            var worldLoc = grid.Dequeue();
+            var move_dist = _pathFinding.FindPathDist(closestPlayerLocation, worldLoc);
+            //Debug.Log(worldLoc);
+            //Debug.Log(grid.Count);
+            if (move_dist <= shortestMovementDist && move_dist >= 1)
+            {
+                shortestMovementDist = move_dist;
+                movementCell = worldLoc;
+                
+
+            }
+        }
+        //Debug.Log(shortestMovementDist);
+        var deltaPos = movementCell - transform.position;
+        transform.position += deltaPos;
+        _status = Mind.characterStatus.DONE;
     }
     
     public void Attack()
