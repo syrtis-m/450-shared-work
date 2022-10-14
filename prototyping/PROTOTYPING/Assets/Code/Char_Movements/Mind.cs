@@ -27,6 +27,8 @@ public class Mind : MonoBehaviour
     public GameObject attackTilePrefab;
     public GameObject enemy_turn_start;
     public GameObject player_turn_start;
+    public float playerSplashScreenTime = 3f;
+    public float enemySplashScreenTime = 3f;
     
     //state tracking
     public GameObject currentPlayer;
@@ -128,10 +130,16 @@ public class Mind : MonoBehaviour
         }
         EndPlayerTurn();
     }
-    
-    public void BeginPlayerTurn()
+
+    private void BeginPlayerTurn()
     {
         StartCoroutine(player_turn_splash());
+        
+        foreach (var character in aiCharacters)
+        {//un-greys-out ai characters
+            character.GetComponent<AICharacter>().resetColor();
+        }
+        
         Debug.Log("BeginPlayerTurn()");
         //show animation showing it's a player turn
         currentPlayer = playerCharacters[0];
@@ -142,26 +150,8 @@ public class Mind : MonoBehaviour
             character.GetComponent<PlayerCharMvmt>().rollDice();
             character.GetComponent<PlayerCharMvmt>().resetColor();
         }
-        
-        //prev working version
-        /*for (int i = 0; i < 3; i++) //this is currently hardcoded, TODO fix
-        {
-            playerCharacters[i].GetComponent<PlayerCharMvmt>().resetStatus(); //reset movement status
-            //roll the dice of each character & store that in that chartacter's movement var
-            //Task<int> rollMovementDice = movementDice[i].GetComponent<MovementDice>().RollDice();
-            //Task<int> rollAttackDice = attackDice[i].GetComponent<AttackDice>().RollDice();
-            //int movementRoll = await rollMovementDice;
-            //int attackRoll = await rollAttackDice;
-            int movementRoll = movementDice[i].GetComponent<MovementDice>().RollDice(); //todo fix this, it will break once we start having characters die
-            int attackRoll = attackDice[i].GetComponent<AttackDice>().RollDice();
-            playerCharacters[i].GetComponent<PlayerCharMvmt>().movementRange = movementRoll;
-            playerCharacters[i].GetComponent<PlayerCharMvmt>().attackRange = attackRoll;
-            playerCharacters[i].GetComponent<PlayerCharMvmt>().resetColor();
-        }*/
     }
     
-    
-
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
@@ -180,7 +170,7 @@ public class Mind : MonoBehaviour
 
         if ((aiCharacters.Count) > 0 && (playerCharacters.Count > 0))
         {
-            AITurn();
+            StartCoroutine(enemy_turn_splash());
         }
         else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
         {
@@ -192,40 +182,42 @@ public class Mind : MonoBehaviour
         }
         
     }
-    
 
-    public void AITurn()
+
+    private void AITurn()
     {
-        StartCoroutine(enemy_turn_splash());
-        
+
         Debug.Log("AITurn()");
-        //do a animation showing its an AI turn
-        
-        //go through order of characters.
+
         foreach (var character in aiCharacters)
         {
-            if (character!=null)
-            {
-                character.GetComponent<AICharacter>().resetStatus();
-            }
-            else
-            {
-            }
-            
+            character.GetComponent<AICharacter>().resetStatus();
         }
-        //randomize list of AI characters
-        //iterate through list of AI characters
         
+        
+        IsAITurnOver();
+    }
+
+    public void IsAITurnOver()
+    {//called by each
+
         foreach (var character in aiCharacters)
         {
-            if (character!=null)
+            if ((character != null) && (character.GetComponent<AICharacter>().getActionStatus() != characterStatus.DONE))
             {
                 character.GetComponent<AICharacter>().Turn();
+                return;
             }
         }
-        
+        EndAITurn();
+    }
+    
+    private void EndAITurn()
+    {
         TrimCharAILists();
+        
         Debug.Log($"aicharacter count: {aiCharacters.Count}");
+        
 
         if ((aiCharacters.Count > 0) && (playerCharacters.Count > 0))
         {
@@ -239,9 +231,8 @@ public class Mind : MonoBehaviour
         {
             EndGame();
         }
-        
-        
     }
+
 
     private void EndGame()
     {
@@ -255,7 +246,7 @@ public class Mind : MonoBehaviour
     {
         var obj = Instantiate(player_turn_start);
             
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(playerSplashScreenTime);
 
         battleStatus = BattleStatus.PLAYER_TURN;
         Destroy(obj);
@@ -267,7 +258,9 @@ public class Mind : MonoBehaviour
     {
         var obj = Instantiate(enemy_turn_start);
             
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(enemySplashScreenTime);
+        
+        AITurn();
         
         Destroy(obj);
     }

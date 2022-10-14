@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 
@@ -10,6 +11,7 @@ public class AICharacter : MonoBehaviour
     public int movementRange; //how many tiles the player can traverse in one turn
     public int health; //ai health
     public int atkDamage; //ai attack
+    public float aiTurnPauseFor = 2f; //the amount of time the TurnCoroutine pauses for during execution.
     
     //internal use
     private Camera _camera;
@@ -19,9 +21,9 @@ public class AICharacter : MonoBehaviour
     private Mind.characterStatus _status;
     private GameObject _movementTile;
     private GameObject _attackTile;
-
-
-
+    private SpriteRenderer _spriteRenderer;
+    private Color _defaultColor;
+    
     public void setTilemaps(Tilemap ground, Tilemap collision)
     {//config tilemapsand pathfinding objects
         _groundTilemap = ground;
@@ -29,9 +31,11 @@ public class AICharacter : MonoBehaviour
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
     }
 
-    private void Start()
+    private void Awake()
     {
         _status = Mind.characterStatus.DONE;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultColor = _spriteRenderer.color;
     }
 
     public void resetStatus()
@@ -61,12 +65,15 @@ public class AICharacter : MonoBehaviour
 
     public void Turn()
     {
+        StartCoroutine(TurnCoroutine());
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    IEnumerator TurnCoroutine()
+    {
+        yield return new WaitForSeconds(aiTurnPauseFor/2);
+        
         //todo implement this
-        //this is the turn for an AI character
-        //scan board
-        //identify nearest (dist) character
-        //move towards nearest character or attack character
-        //set _status to DONE
         var shortestDist = 10000;
         var closestPlayerLocation = new Vector3();
         var AIOrigin = _groundTilemap.WorldToCell(transform.position);
@@ -106,8 +113,21 @@ public class AICharacter : MonoBehaviour
         var deltaPos = movementCell - transform.position;
         transform.position += deltaPos;
         _status = Mind.characterStatus.DONE;
+
+        yield return new WaitForSeconds(aiTurnPauseFor/2);
+        
+        _spriteRenderer.color = Color.grey; //show it isn't active anymore
+        
+
+        Mind.instance.IsAITurnOver();
+
     }
-    
+
+    public void resetColor()
+    {//un-greys-out character
+        _spriteRenderer.color = _defaultColor;
+    }
+
     public void Attack()
     {
         //todo implement this
@@ -123,4 +143,5 @@ public class AICharacter : MonoBehaviour
         Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
         Destroy(gameObject);
     }
+
 }

@@ -621,6 +621,7 @@ MonoBehaviour:
   movementRange: 1
   health: 5
   atkDamage: 0
+  aiTurnPauseFor: 3
 --- !u!4 &216516729
 Transform:
   m_ObjectHideFlags: 0
@@ -4460,6 +4461,8 @@ MonoBehaviour:
   attackTilePrefab: {fileID: 8331918794481543261, guid: 2477cd9fd3113654abe1c5627629e28a, type: 3}
   enemy_turn_start: {fileID: 7428871389547194048, guid: 2970fff81b684dd45861ffecda296ca1, type: 3}
   player_turn_start: {fileID: 4710234737883419848, guid: 6b3d39364a74e384f87b1fbfbc724f96, type: 3}
+  playerSplashScreenTime: 3
+  enemySplashScreenTime: 2
   currentPlayer: {fileID: 0}
   battleStatus: 0
 --- !u!4 &1314107955
@@ -4763,6 +4766,7 @@ MonoBehaviour:
   movementRange: 1
   health: 5
   atkDamage: 0
+  aiTurnPauseFor: 3
 --- !u!61 &1867294469
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5089,6 +5093,7 @@ MonoBehaviour:
   movementRange: 1
   health: 5
   atkDamage: 0
+  aiTurnPauseFor: 3
 --- !u!4 &2015929510
 Transform:
   m_ObjectHideFlags: 0
