@@ -146,16 +146,17 @@ public class PathFinding
                 if (CanMove(target_cell))
                 {
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
-                    
-                    var dist = FindPathDist(target_world, world_origin);
-                    //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
-                    if ((dist <= range) && (dist != -1))
+                    Collider2D colliderAtDest = Physics2D.OverlapPoint(target_world);
+                    if (!colliderAtDest)
                     {
-                        //var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
-                        grid.Enqueue(target_world);
+                        var dist = FindPathDist(target_world, world_origin);
+                        //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+                        if ((dist <= range) && (dist != -1))
+                        {
+                            //var obj = Object.Instantiate(_movementTile,target_world,quaternion.identity);
+                            grid.Enqueue(target_world);
+                        }
                     }
-
-                    
                 }
             }
         }
@@ -186,17 +187,18 @@ public class PathFinding
                 if (CanMove(target_cell))
                 {
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f, 0.5f, 0);
-
-                    var dist = FindPathDist(target_world, world_origin);
-                    //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
-                    
-                    if ((dist <= range) && (dist != -1))
+                    Collider2D colliderAtDest = Physics2D.OverlapPoint(target_world);
+                    if (!colliderAtDest || !colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>())
                     {
-                        var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);
-                        grid.Enqueue(target_world);
+                        var dist = FindPathDist(target_world, world_origin);
+                        //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
+
+                        if ((dist <= range) && (dist != -1))
+                        {
+                            var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);
+                            grid.Enqueue(target_world);
+                        }
                     }
-
-
                 }
             }
         }
