@@ -9,7 +9,8 @@ public class AICharacter : MonoBehaviour
 {
     //outlets
     public int movementRange; //how many tiles the player can traverse in one turn
-    public int health; //ai health
+    public int maxHealth; //max health -- we store this separately in case of healing
+    public int currentHealth; //ai health
     public int atkDamage; //ai attack
     public float aiTurnPauseFor = 2f; //the amount of time the TurnCoroutine pauses for during execution.
     
@@ -23,6 +24,7 @@ public class AICharacter : MonoBehaviour
     private GameObject _attackTile;
     private SpriteRenderer _spriteRenderer;
     private Color _defaultColor;
+    private HealthBar _healthBar;
     
     public void setTilemaps(Tilemap ground, Tilemap collision)
     {//config tilemapsand pathfinding objects
@@ -36,6 +38,8 @@ public class AICharacter : MonoBehaviour
         _status = Mind.characterStatus.DONE;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _defaultColor = _spriteRenderer.color;
+        currentHealth = maxHealth;
+        _healthBar = GetComponentInChildren<HealthBar>();
     }
 
     public void resetStatus()
@@ -130,7 +134,18 @@ public class AICharacter : MonoBehaviour
 
     public void Attack()
     {
-        //todo implement this
+        //todo implement this like PlayerCharMvmt.Attack()
+    }
+    
+    public void takeDamage(int atkAmnt)
+    {// damage the character for a certain amount of health
+        currentHealth -= atkAmnt;
+        _healthBar.SetHealth(currentHealth);
+        //if dead then call destroy
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Die()
@@ -143,5 +158,6 @@ public class AICharacter : MonoBehaviour
         Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
         Destroy(gameObject);
     }
+    
 
 }

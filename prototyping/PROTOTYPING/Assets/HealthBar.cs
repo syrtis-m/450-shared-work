@@ -18,13 +18,13 @@ public class HealthBar : MonoBehaviour
 
         if (player != null)
         {//case where this is attached to player character
-            healthBar.maxValue = player.health;
-            healthBar.value = player.health;
+            healthBar.maxValue = player.currentHealth;
+            healthBar.value = player.currentHealth;
         }
         else if (aiCharacter != null)
         {//case where this is attached to ai character
-            healthBar.maxValue = aiCharacter.health;
-            healthBar.value = aiCharacter.health;
+            healthBar.maxValue = aiCharacter.currentHealth;
+            healthBar.value = aiCharacter.currentHealth;
         }
     }
 

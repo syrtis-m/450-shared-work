@@ -12,7 +12,8 @@ public class PlayerCharMvmt : MonoBehaviour
     public int attackRange;
     public MovementDice movementDice;
     public AttackDice attackDice;
-    public int health; //player health
+    public int maxHealth; //max health. store this info for healing
+    public int currentHealth; //player health
     public int atkDamage; //player attack
 
     //internal use
@@ -27,6 +28,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private GameObject _attackTile;
     private SpriteRenderer _character; //this is the spriterenderer that handles color
     private Color _currentColor; //this is the color of the character sprite. 
+    private HealthBar _healthBar;
     private int numberOfMovements;
 
     //set up the input action receiving info
@@ -35,6 +37,8 @@ public class PlayerCharMvmt : MonoBehaviour
         _character = GetComponent<SpriteRenderer>();
         _multiChar = new MultiChar();
         _multiChar.Main.MousePos.performed += OnMousePos;
+        currentHealth = maxHealth;
+        _healthBar = GetComponentInChildren<HealthBar>();
     }
 
     private void OnMousePos(InputAction.CallbackContext context)
@@ -203,8 +207,19 @@ public class PlayerCharMvmt : MonoBehaviour
 
     public void Attack(GameObject enemy)
     {
-        Destroy(enemy);
+        enemy.GetComponent<AICharacter>().takeDamage(atkDamage);
         _status = Mind.characterStatus.ATTACKED;
+    }
+    
+    public void takeDamage(int atkAmnt)
+    {// damage the character for a certain amount of health
+        currentHealth -= atkAmnt;
+        _healthBar.SetHealth(currentHealth);
+        //if dead then call destroy
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
     
     public void Die()
