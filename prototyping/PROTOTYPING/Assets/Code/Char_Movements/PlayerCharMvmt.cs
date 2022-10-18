@@ -99,8 +99,14 @@ public class PlayerCharMvmt : MonoBehaviour
         GetComponent<PlayerCharMvmt>().enabled = true;
         Mind.instance.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
-        _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
-        _pathFinding.drawAttackTiles(transform.position, attackRange);
+        if (_status == Mind.characterStatus.TURN_STARTED)
+        {
+            _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
+        }
+        else if (_status == Mind.characterStatus.MOVED)
+        {
+            _pathFinding.drawAttackTiles(transform.position, attackRange);
+        }
 
         
         if (GetComponent<PlayerCharMvmt>().enabled)
@@ -140,7 +146,8 @@ public class PlayerCharMvmt : MonoBehaviour
     public void rollDice()
     {
         movementRange = movementDice.RollDice();
-        attackRange = attackDice.RollDice();
+        //attackRange = movementRange + 1;
+        atkDamage = attackDice.RollDice();
     }
     
 
@@ -157,71 +164,47 @@ public class PlayerCharMvmt : MonoBehaviour
 
         var deltaPos = worldPos2 - transform.position;
         Collider2D colliderAtDest = Physics2D.OverlapPoint(worldPos2);
-        if (!colliderAtDest)
+        if (_pathFinding.CanMove(gridPos))
         {
-            if (_pathFinding.CanMove(gridPos))
-            {
-                var dist = _pathFinding.FindPathDist(worldPos, transform.position);
+            var dist = _pathFinding.FindPathDist(worldPos, currentPosition);
 
+            if (_status == Mind.characterStatus.TURN_STARTED)
+            {
                 if (dist <= movementRange)
                 {
                     transform.position += deltaPos;
-                    Mind.destroyHighlightTiles();//clears the highlight tiles on movement
                     _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
                     enabled = false;
-                    _character.color = _currentColor; //deactivate color after movement
                 }
-                else
+
+            }
+            else if (_status == Mind.characterStatus.MOVED)
+            {
+                if (dist <= attackRange && colliderAtDest)
                 {
-                    //deselect character
-                    _character.color = _currentColor;
-                    Mind.destroyHighlightTiles();
+                    if (colliderAtDest.gameObject.GetComponent<AICharacter>())
+                    {
+                        Attack(colliderAtDest.gameObject);
+                    }
                 }
             }
-        }
-        
-        if (colliderAtDest)
-        {//RUDIMENTARY CHARACTER ATTACKS
-            _character = GetComponent<SpriteRenderer>();
             _character.color = _currentColor;
             Mind.destroyHighlightTiles();
+        }
 
-            if (colliderAtDest.gameObject.GetComponent<AICharacter>())
-            {
-
-                var enemyDistance = _pathFinding.FindPathDist(worldPos, currentPosition);
-                Debug.Log(enemyDistance);
-                if (enemyDistance <= attackRange)
-                {
-                    Destroy(colliderAtDest.gameObject);
-                    _status = Mind.characterStatus.ATTACKED;
-                }
-            }
-        }
-        
-        /*
-        else if (AI at that point)
+        // Temporary: How is attacked different then done?
+        if (_status == Mind.characterStatus.ATTACKED)
         {
-            //attack
-        }
-        else
-        {
-            //deselect character
-        }
-        */
-        
-        if ((_status == Mind.characterStatus.MOVED) || (_status == Mind.characterStatus.ATTACKED))
-        {//TODO remove once we have attacks implemented
             _character.color = Color.grey;
-            _status = Mind.characterStatus.DONE;//temp update because attacks aren't in yet.
+            _status = Mind.characterStatus.DONE;
         }
-        
         Mind.instance.IsPlayerTurnOver(); //this should be the very last thing in Click()
     }
 
-    public void Attack()
+    public void Attack(GameObject enemy)
     {
-        //todo implement this
+        Destroy(enemy);
+        _status = Mind.characterStatus.ATTACKED;
     }
     
     public void Die()

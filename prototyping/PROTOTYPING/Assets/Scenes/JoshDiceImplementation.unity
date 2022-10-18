@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementRange: 2
-  attackRange: 6
+  attackRange: 1
   movementDice: {fileID: 1121560082}
   attackDice: {fileID: 116379934}
   health: 10
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementRange: 2
-  attackRange: 3
+  attackRange: 1
   movementDice: {fileID: 524901653}
   attackDice: {fileID: 255942758}
   health: 10
@@ -2190,7 +2190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementRange: 1
-  attackRange: 4
+  attackRange: 1
   movementDice: {fileID: 600540953}
   attackDice: {fileID: 988140908}
   health: 10
