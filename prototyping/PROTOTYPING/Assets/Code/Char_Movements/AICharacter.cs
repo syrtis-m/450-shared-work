@@ -12,6 +12,7 @@ public class AICharacter : MonoBehaviour
     public int maxHealth; //max health -- we store this separately in case of healing
     public int currentHealth; //ai health
     public int atkDamage; //ai attack
+    public int attackRange;
     public float aiTurnPauseFor = 2f; //the amount of time the TurnCoroutine pauses for during execution.
     
     //internal use
@@ -109,17 +110,28 @@ public class AICharacter : MonoBehaviour
             {
                 shortestMovementDist = move_dist;
                 movementCell = worldLoc;
-                
-
             }
         }
         //Debug.Log(shortestMovementDist);
         var deltaPos = movementCell - transform.position;
         transform.position += deltaPos;
+        _status = Mind.characterStatus.MOVED;
+        var currentAIPosition = _groundTilemap.WorldToCell(transform.position);
+        var currentAILocation = _groundTilemap.CellToWorld(currentAIPosition) + new Vector3(0.5f, 0.5f, 0);
+        for (int i = 0; i < Mind.instance.playerCharacters.Count; i++) //Find closest player to attack
+        {
+            var playerOrigin = _groundTilemap.WorldToCell(Mind.instance.playerCharacters[i].transform.position);
+            var player_location = _groundTilemap.CellToWorld((playerOrigin)) + new Vector3(0.5f, 0.5f, 0);
+            var dist = _pathFinding.FindPathDist(player_location, currentAILocation);
+            if (dist <= attackRange)
+            {
+                yield return new WaitForSeconds(aiTurnPauseFor / 2);
+                Attack(Mind.instance.playerCharacters[i]);
+                break;
+            }
+        }
         _status = Mind.characterStatus.DONE;
-
         yield return new WaitForSeconds(aiTurnPauseFor/2);
-        
         _spriteRenderer.color = Color.grey; //show it isn't active anymore
         
 
@@ -132,9 +144,10 @@ public class AICharacter : MonoBehaviour
         _spriteRenderer.color = _defaultColor;
     }
 
-    public void Attack()
+    public void Attack(GameObject player)
     {
-        //todo implement this like PlayerCharMvmt.Attack()
+        player.GetComponent<PlayerCharMvmt>().takeDamage(atkDamage);
+        _status = Mind.characterStatus.ATTACKED;
     }
     
     public void takeDamage(int atkAmnt)

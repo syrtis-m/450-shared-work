@@ -117,6 +117,7 @@ public class PathFinding
         for (int i = 0; i < gridSize; i++)
         {
             var worldLoc = grid.Dequeue();
+            Object.Instantiate(_attackTile, worldLoc, quaternion.identity);
         }
     }
 
@@ -195,7 +196,7 @@ public class PathFinding
 
                         if ((dist <= range) && (dist != -1))
                         {
-                            var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);
+                            //var obj = Object.Instantiate(_attackTile, target_world, quaternion.identity);
                             grid.Enqueue(target_world);
                         }
                     }
