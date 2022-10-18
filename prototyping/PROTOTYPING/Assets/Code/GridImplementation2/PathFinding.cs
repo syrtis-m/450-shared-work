@@ -60,7 +60,7 @@ public class PathFinding
             if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>())
             {
                 return true;
-            }
+            }//need this block for AI movement pathing to work.
             return false; 
             //This is changed so that the distance between a player and an enemy can be calculated
         }
