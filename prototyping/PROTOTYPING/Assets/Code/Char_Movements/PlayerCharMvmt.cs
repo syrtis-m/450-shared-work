@@ -97,10 +97,14 @@ public class PlayerCharMvmt : MonoBehaviour
 
         if (_status == Mind.characterStatus.DONE)
         {
+            enabled = false;
             return;
         }
+
+        
         
         GetComponent<PlayerCharMvmt>().enabled = true;
+        Mind.destroyHighlightTiles();
         Mind.instance.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
         if (_status == Mind.characterStatus.TURN_STARTED)
@@ -174,13 +178,25 @@ public class PlayerCharMvmt : MonoBehaviour
 
             if (_status == Mind.characterStatus.TURN_STARTED)
             {
-                if (dist <= movementRange)
+                if (dist <= movementRange && colliderAtDest)
+                {
+                    if (worldPos2 == transform.position)
+                    {
+                        _status = Mind.characterStatus.MOVED;
+                    }
+                    
+                    if (!(colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>()))
+                    {
+                        transform.position += deltaPos;
+                        _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
+                    }
+                }
+                else if (dist <= movementRange)
                 {
                     transform.position += deltaPos;
                     _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
-                    enabled = false;
                 }
-
+                
             }
             else if (_status == Mind.characterStatus.MOVED)
             {
@@ -194,6 +210,7 @@ public class PlayerCharMvmt : MonoBehaviour
             }
             _character.color = _currentColor;
             Mind.destroyHighlightTiles();
+            enabled = false;
         }
 
         // Temporary: How is attacked different then done?
