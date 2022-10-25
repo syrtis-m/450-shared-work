@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public GameObject gameOverMenu;
+    public String mainMenu = "mainMenu";
 
     private void OnEnable()
     {
@@ -27,5 +28,18 @@ public class UIManager : MonoBehaviour
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GOTOMainMenu()
+    {
+        SceneManager.LoadScene(mainMenu);
+    }
+
+    public void EndTurnButton()
+    {
+        if (Mind.instance.battleStatus == Mind.BattleStatus.PLAYER_TURN)
+        {
+            Mind.instance.EndPlayerTurn();
+        }
     }
 }
