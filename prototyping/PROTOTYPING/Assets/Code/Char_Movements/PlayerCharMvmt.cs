@@ -235,17 +235,18 @@ public class PlayerCharMvmt : MonoBehaviour
         //if dead then call destroy
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
     
     public void Die()
-    {//TODO fix this so it works.
-        //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
-        //this func should be called when the character dies
-        Mind.instance.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
-        Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
+    {
+        Mind.instance.playerCharacters.Remove(gameObject);
         Destroy(gameObject);
+        if (Mind.instance.playerCharacters.Count > 0)
+        {
+            Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
+        }
     }
 
 

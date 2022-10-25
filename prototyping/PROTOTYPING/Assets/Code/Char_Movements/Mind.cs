@@ -1,11 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 
 public class Mind : MonoBehaviour
 {
@@ -252,8 +249,6 @@ public class Mind : MonoBehaviour
         Destroy(obj);
     }
     
-    
-//IMPORTANT: it doesn't seem to show enemy splash - this is just because it shows enemy and player splash at the same time.
     IEnumerator enemy_turn_splash()
     {
         var obj = Instantiate(enemy_turn_start);
