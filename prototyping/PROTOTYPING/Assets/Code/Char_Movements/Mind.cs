@@ -24,6 +24,7 @@ public class Mind : MonoBehaviour
     public GameObject attackTilePrefab;
     public GameObject enemy_turn_start;
     public GameObject player_turn_start;
+    public Shader lineShader;
     public float playerSplashScreenTime = 3f;
     public float enemySplashScreenTime = 3f;
     
@@ -53,18 +54,20 @@ public class Mind : MonoBehaviour
         
         foreach (var character in playerCharacters)
         {//set the ground and collision tilemaps for all player characters
-            character.GetComponent<PlayerCharMvmt>().setTilemaps(groundTilemap, collisionTilemap);
+            
             character.GetComponent<PlayerCharMvmt>().setCamera(camera);
             character.GetComponent<PlayerCharMvmt>().setTilePrefab(movementTilePrefab);
             character.GetComponent<PlayerCharMvmt>().setAttackTilePrefab(attackTilePrefab);
+            character.GetComponent<PlayerCharMvmt>().setTilemaps(groundTilemap, collisionTilemap);
         }
 
         foreach (var character in aiCharacters)
         {
-            character.GetComponent<AICharacter>().setTilemaps(groundTilemap, collisionTilemap);
+            
             character.GetComponent<AICharacter>().setCamera(camera);
             character.GetComponent<AICharacter>().setTilePrefab(movementTilePrefab);
             character.GetComponent<AICharacter>().setAttackTilePrefab(attackTilePrefab);
+            character.GetComponent<AICharacter>().setTilemaps(groundTilemap, collisionTilemap);
         }
     }
 

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class AICharacter : MonoBehaviour
 {
     //outlets
+    public int noticeRange; //how many tiles away the AICharacter can notice playerCharacters. if a char is noticed, then attack + movement are allowed
     public int movementRange; //how many tiles the player can traverse in one turn
     public int maxHealth; //max health -- we store this separately in case of healing
     public int currentHealth; //ai health
@@ -73,12 +74,8 @@ public class AICharacter : MonoBehaviour
         StartCoroutine(TurnCoroutine());
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     IEnumerator TurnCoroutine()
     {
-        yield return new WaitForSeconds(aiTurnPauseFor/2);
-        
-        //todo implement this
         var shortestDist = 10000;
         var closestPlayerLocation = new Vector3();
         var AIOrigin = _groundTilemap.WorldToCell(transform.position);
@@ -94,42 +91,52 @@ public class AICharacter : MonoBehaviour
                 closestPlayerLocation = player_location;
             }   
         }
+
+        if (shortestDist <= noticeRange)
+        {//case: within range to "notice" the player
+            _pathFinding.drawLine(transform.position,closestPlayerLocation,Color.blue,duration:(aiTurnPauseFor/2));
+            yield return new WaitForSeconds(aiTurnPauseFor/2);//we have this inside the notice case so that when it doesn't notice a character, it's turn goes faster
+            
+            Queue<Vector3> grid = _pathFinding.scanGrid(AIOrigin, movementRange);
+            Debug.Log(grid.Count);
+            var shortestMovementDist = 10000;
+            var movementCell = new Vector3();
+            var gridSize = grid.Count;
+            for (int j = 0; j < gridSize; j++) //Scan the grid to find the block to move to and get closer to the player
+            {
+                var worldLoc = grid.Dequeue();
+                var move_dist = _pathFinding.FindPathDist(closestPlayerLocation, worldLoc);
+                //Debug.Log(worldLoc);
+                //Debug.Log(grid.Count);
+                if (move_dist <= shortestMovementDist && move_dist >= 1)
+                {
+                    shortestMovementDist = move_dist;
+                    movementCell = worldLoc;
+                }
+            }
+            //Debug.Log(shortestMovementDist);
+            var deltaPos = movementCell - transform.position;
+            transform.position += deltaPos;
+            _status = Mind.characterStatus.MOVED;
+            var currentAIPosition = _groundTilemap.WorldToCell(transform.position);
+            var currentAILocation = _groundTilemap.CellToWorld(currentAIPosition) + new Vector3(0.5f, 0.5f, 0);
+            for (int i = 0; i < Mind.instance.playerCharacters.Count; i++) //Find first player < atkrange
+            {
+                var playerOrigin = _groundTilemap.WorldToCell(Mind.instance.playerCharacters[i].transform.position);
+                var player_location = _groundTilemap.CellToWorld((playerOrigin)) + new Vector3(0.5f, 0.5f, 0);
+                var dist = _pathFinding.FindPathDist(player_location, currentAILocation);
+                if (dist <= attackRange)
+                {
+                    yield return new WaitForSeconds(aiTurnPauseFor / 4);
+                    _pathFinding.drawLine(transform.position,closestPlayerLocation,Color.red,duration:(aiTurnPauseFor/4));
+                    yield return new WaitForSeconds(aiTurnPauseFor / 4);
+                    Attack(Mind.instance.playerCharacters[i]);
+                    break;
+                }
+            }
+        }
         
-        Queue<Vector3> grid = _pathFinding.scanGrid(AIOrigin, movementRange);
-        Debug.Log(grid.Count);
-        var shortestMovementDist = 10000;
-        var movementCell = new Vector3();
-        var gridSize = grid.Count;
-        for (int j = 0; j < gridSize; j++) //Scan the grid to find the block to move to and get closer to the player
-        {
-            var worldLoc = grid.Dequeue();
-            var move_dist = _pathFinding.FindPathDist(closestPlayerLocation, worldLoc);
-            //Debug.Log(worldLoc);
-            //Debug.Log(grid.Count);
-            if (move_dist <= shortestMovementDist && move_dist >= 1)
-            {
-                shortestMovementDist = move_dist;
-                movementCell = worldLoc;
-            }
-        }
-        //Debug.Log(shortestMovementDist);
-        var deltaPos = movementCell - transform.position;
-        transform.position += deltaPos;
-        _status = Mind.characterStatus.MOVED;
-        var currentAIPosition = _groundTilemap.WorldToCell(transform.position);
-        var currentAILocation = _groundTilemap.CellToWorld(currentAIPosition) + new Vector3(0.5f, 0.5f, 0);
-        for (int i = 0; i < Mind.instance.playerCharacters.Count; i++) //Find closest player to attack
-        {
-            var playerOrigin = _groundTilemap.WorldToCell(Mind.instance.playerCharacters[i].transform.position);
-            var player_location = _groundTilemap.CellToWorld((playerOrigin)) + new Vector3(0.5f, 0.5f, 0);
-            var dist = _pathFinding.FindPathDist(player_location, currentAILocation);
-            if (dist <= attackRange)
-            {
-                yield return new WaitForSeconds(aiTurnPauseFor / 2);
-                Attack(Mind.instance.playerCharacters[i]);
-                break;
-            }
-        }
+        
         _status = Mind.characterStatus.DONE;
         yield return new WaitForSeconds(aiTurnPauseFor/2);
         _spriteRenderer.color = Color.grey; //show it isn't active anymore
@@ -146,6 +153,7 @@ public class AICharacter : MonoBehaviour
 
     public void Attack(GameObject player)
     {
+        
         player.GetComponent<PlayerCharMvmt>().takeDamage(atkDamage);
         _status = Mind.characterStatus.ATTACKED;
     }

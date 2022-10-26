@@ -144,7 +144,7 @@ public class PlayerCharMvmt : MonoBehaviour
     void Start()
     {
         //this is the function that takes the click and does something with it
-        _multiChar.Main.Select.performed += ctx => Click();
+        _multiChar.Main.Select.started += ctx => Click();
         enabled = false;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
         _currentColor = _character.color;
