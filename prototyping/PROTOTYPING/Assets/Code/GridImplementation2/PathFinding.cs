@@ -57,7 +57,7 @@ public class PathFinding
         //if a collider at the destination exists, don't go there
         if (colliderAtDest)
         {
-            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>())
+            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>() || colliderAtDest.gameObject.GetComponent<HealthPowerup>())
             {
                 return true;
             }//need this block for AI movement pathing to work.
@@ -148,7 +148,7 @@ public class PathFinding
                 {
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
                     Collider2D colliderAtDest = Physics2D.OverlapPoint(target_world);
-                    if (!colliderAtDest)
+                    if (!colliderAtDest || colliderAtDest.gameObject.GetComponent<HealthPowerup>())
                     {
                         var dist = FindPathDist(target_world, world_origin);
                         //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");
