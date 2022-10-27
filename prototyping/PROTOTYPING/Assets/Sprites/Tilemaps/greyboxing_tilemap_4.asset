@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: greyboxing_tilemap_4
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -1192309571, guid: 229d387545df02d46bb0d33d7c6521a7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Transform:
     e00: 1
     e01: 0
