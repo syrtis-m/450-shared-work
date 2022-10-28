@@ -19,7 +19,7 @@ public class Mind : MonoBehaviour
     public List<GameObject> movementDice;
     public List<GameObject> attackDice;
     public List<GameObject> playerCharacters;
-    public List<GameObject> aiCharacters;//when a character dies, they should be deleted from the scene. no longer in a character array
+    public List<GameObject> aiCharacters = new List<GameObject>(0);//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
     public GameObject attackTilePrefab;
@@ -52,18 +52,17 @@ public class Mind : MonoBehaviour
     private void Awake()
     {//set up the mind & characters managed by it
         instance = this; //singleton pattern. access mind in other files by Mind.instance
-
-        var objList = GameObject.FindGameObjectsWithTag("ai");
-
-        foreach (var obj in objList)
-        {
-            print(obj);
-            aiCharacters.Add(obj);
-        }
     }
 
     void Start()
     {
+        var objList = GameObject.FindGameObjectsWithTag("ai");
+
+        foreach (var obj in objList)
+        {
+            aiCharacters.Add(obj);
+        }
+        
         currentPlayer = playerCharacters[0];
         battleStatus = BattleStatus.PLAYER_TURN;
         BeginPlayerTurn();
