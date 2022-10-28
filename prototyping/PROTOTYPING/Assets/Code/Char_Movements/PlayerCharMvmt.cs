@@ -172,6 +172,17 @@ public class PlayerCharMvmt : MonoBehaviour
                     
                     if (!(colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>()))
                     {
+                        if (colliderAtDest.gameObject.GetComponent<HealthPowerup>())
+                        {
+                            currentHealth = maxHealth;
+                            _healthBar.SetHealth(currentHealth);
+                            Destroy(colliderAtDest.gameObject);
+                        }
+                        if (colliderAtDest.gameObject.GetComponent<AttackPowerup>())
+                        {
+                            atkDamage = atkDamage + 2;
+                            Destroy(colliderAtDest.gameObject);
+                        }
                         transform.position += deltaPos;
                         _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
                     }
