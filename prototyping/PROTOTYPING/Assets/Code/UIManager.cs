@@ -6,23 +6,33 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject gameOverMenu;
+    public GameObject gameOverMenuLose;
+    public GameObject gameOverMenuWin;
     public String mainMenu = "mainMenu";
+    public String nextLevel;
 
     private void OnEnable()
     {
-        Mind.GameOver += EnableGameOverMenu; //subscribing to the event that gets called on game over.
+        Mind.Lose += EnableGameOverMenuLose; //subscribing to the event that gets called on game over.
         //this line means that when we call the Mind.GameOver event, EnableGameOverMenu gets called
+        Mind.Win += EnableGameOverMenuWin;
     }
 
     private void OnDisable()
     {
-        Mind.GameOver -= EnableGameOverMenu;
+        Mind.Lose -= EnableGameOverMenuLose;
+        Mind.Win -= EnableGameOverMenuWin;
+
     }
 
-    public void EnableGameOverMenu()
+    public void EnableGameOverMenuLose()
     {
-        gameOverMenu.SetActive(true);
+        gameOverMenuLose.SetActive(true);
+    }
+
+    public void EnableGameOverMenuWin()
+    {
+        gameOverMenuWin.SetActive(true);
     }
 
     public void RestartScene()
@@ -42,4 +52,10 @@ public class UIManager : MonoBehaviour
             Mind.instance.EndPlayerTurn();
         }
     }
+
+    public void NextLevel()
+    {
+        SceneManager.LoadScene((nextLevel));
+    }
+    
 }

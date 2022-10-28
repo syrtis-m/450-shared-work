@@ -52,7 +52,9 @@ public class AICharacter : MonoBehaviour
     }
 
     private void OnDrawGizmos()
-    {//draws notice ranges of characters
+    {
+        //draws notice ranges of characters
+        //because it uses ScanGrid, it doesn't draw on top of player characters even if they're in range
         Gizmos.color = _defaultColor;
 
         var cellOrigin = _groundTilemap.WorldToCell(transform.position);

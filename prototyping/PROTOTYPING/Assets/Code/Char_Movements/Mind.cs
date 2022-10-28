@@ -47,7 +47,9 @@ public class Mind : MonoBehaviour
         DONE,
     }//when a character dies, they should be deleted from the scene. no longer in a character array
 
-    public static event Action GameOver; //this is our game over system using the unity event system https://youtu.be/ZfRbuOCAeE8
+    public static event Action Lose; //this is our game over system using the unity event system https://youtu.be/ZfRbuOCAeE8
+
+    public static event Action Win;
 
     private void Awake()
     {//set up the mind & characters managed by it
@@ -162,13 +164,17 @@ public class Mind : MonoBehaviour
         {
             StartCoroutine(enemy_turn_splash());
         }
-        else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
+        else if ((aiCharacters.Count) == 0 && (playerCharacters.Count > 0))
         {
-            EndGame();
+            EndGameWin();
+        }
+        else if ((aiCharacters.Count) > 0 && (playerCharacters.Count == 0))
+        {
+            EndGameLose();
         }
         else
         {
-            EndGame();
+            Debug.Log("error in end player turn");
         }
         
     }
@@ -213,22 +219,32 @@ public class Mind : MonoBehaviour
         {
             BeginPlayerTurn();
         }
-        else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
+        else if ((aiCharacters.Count) == 0 && (playerCharacters.Count > 0))
         {
-            EndGame();
+            EndGameWin();
+        }
+        else if ((aiCharacters.Count) > 0 && (playerCharacters.Count == 0))
+        {
+            EndGameLose();
         }
         else
         {
-            EndGame();
+            Debug.Log("error in end AI turn");
         }
     }
 
 
-    private void EndGame()
+    private void EndGameLose()
     {
-        Debug.Log("EndGame()");
+        Debug.Log("EndGameLose()");
         
-        GameOver?.Invoke();//observer pattern using unity event system
+        Lose?.Invoke();//observer pattern using unity event system
+    }
+
+    private void EndGameWin()
+    {
+        Debug.Log("EndGameWin()");
+        Win?.Invoke();
     }
     
     
