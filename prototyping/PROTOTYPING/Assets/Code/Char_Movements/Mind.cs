@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 
 public class Mind : MonoBehaviour
 {
@@ -21,12 +19,13 @@ public class Mind : MonoBehaviour
     public List<GameObject> movementDice;
     public List<GameObject> attackDice;
     public List<GameObject> playerCharacters;
-    public List<GameObject> aiCharacters;//when a character dies, they should be deleted from the scene. no longer in a character array
+    public List<GameObject> aiCharacters = new List<GameObject>(0);//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
     public GameObject attackTilePrefab;
     public GameObject enemy_turn_start;
     public GameObject player_turn_start;
+    public Shader lineShader;
     public float playerSplashScreenTime = 3f;
     public float enemySplashScreenTime = 3f;
     
@@ -48,31 +47,24 @@ public class Mind : MonoBehaviour
         DONE,
     }//when a character dies, they should be deleted from the scene. no longer in a character array
 
-    public static event Action GameOver; //this is our game over system using the unity event system https://youtu.be/ZfRbuOCAeE8
+    public static event Action Lose; //this is our game over system using the unity event system https://youtu.be/ZfRbuOCAeE8
+
+    public static event Action Win;
 
     private void Awake()
     {//set up the mind & characters managed by it
         instance = this; //singleton pattern. access mind in other files by Mind.instance
-        
-        foreach (var character in playerCharacters)
-        {//set the ground and collision tilemaps for all player characters
-            character.GetComponent<PlayerCharMvmt>().setTilemaps(groundTilemap, collisionTilemap);
-            character.GetComponent<PlayerCharMvmt>().setCamera(camera);
-            character.GetComponent<PlayerCharMvmt>().setTilePrefab(movementTilePrefab);
-            character.GetComponent<PlayerCharMvmt>().setAttackTilePrefab(attackTilePrefab);
-        }
-
-        foreach (var character in aiCharacters)
-        {
-            character.GetComponent<AICharacter>().setTilemaps(groundTilemap, collisionTilemap);
-            character.GetComponent<AICharacter>().setCamera(camera);
-            character.GetComponent<AICharacter>().setTilePrefab(movementTilePrefab);
-            character.GetComponent<AICharacter>().setAttackTilePrefab(attackTilePrefab);
-        }
     }
 
     void Start()
     {
+        var objList = GameObject.FindGameObjectsWithTag("ai");
+
+        foreach (var obj in objList)
+        {
+            aiCharacters.Add(obj);
+        }
+        
         currentPlayer = playerCharacters[0];
         battleStatus = BattleStatus.PLAYER_TURN;
         BeginPlayerTurn();
@@ -172,13 +164,17 @@ public class Mind : MonoBehaviour
         {
             StartCoroutine(enemy_turn_splash());
         }
-        else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
+        else if ((aiCharacters.Count) == 0 && (playerCharacters.Count > 0))
         {
-            EndGame();
+            EndGameWin();
+        }
+        else if ((aiCharacters.Count) > 0 && (playerCharacters.Count == 0))
+        {
+            EndGameLose();
         }
         else
         {
-            EndGame();
+            Debug.Log("error in end player turn");
         }
         
     }
@@ -223,22 +219,32 @@ public class Mind : MonoBehaviour
         {
             BeginPlayerTurn();
         }
-        else if ((aiCharacters.Count) == 0 || (playerCharacters.Count == 0))
+        else if ((aiCharacters.Count) == 0 && (playerCharacters.Count > 0))
         {
-            EndGame();
+            EndGameWin();
+        }
+        else if ((aiCharacters.Count) > 0 && (playerCharacters.Count == 0))
+        {
+            EndGameLose();
         }
         else
         {
-            EndGame();
+            Debug.Log("error in end AI turn");
         }
     }
 
 
-    private void EndGame()
+    private void EndGameLose()
     {
-        Debug.Log("EndGame()");
+        Debug.Log("EndGameLose()");
         
-        GameOver?.Invoke();//observer pattern using unity event system
+        Lose?.Invoke();//observer pattern using unity event system
+    }
+
+    private void EndGameWin()
+    {
+        Debug.Log("EndGameWin()");
+        Win?.Invoke();
     }
     
     
@@ -252,8 +258,6 @@ public class Mind : MonoBehaviour
         Destroy(obj);
     }
     
-    
-//IMPORTANT: it doesn't seem to show enemy splash - this is just because it shows enemy and player splash at the same time.
     IEnumerator enemy_turn_splash()
     {
         var obj = Instantiate(enemy_turn_start);

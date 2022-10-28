@@ -14,10 +14,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/OLD/MAIN.unity
     guid: 2a736cc530d744d4fbd55938cf678605
+  - enabled: 1
+    path: Assets/Scenes/mainMenu.unity
+    guid: 59430392fe939ea48b14ea7d93f46495
   - enabled: 0
     path: Assets/Scenes/JoshDiceImplementation.unity
     guid: 585a62e5a80044b2bbecf2aa308c66f8
   - enabled: 1
     path: Assets/Scenes/betaworkingscene.unity
     guid: 45640597dea0ce54d9172c5e8ac54b30
+  - enabled: 1
+    path: Assets/Scenes/level2.unity
+    guid: a39fd84d191256448907eb155b16eff4
   m_configObjects: {}

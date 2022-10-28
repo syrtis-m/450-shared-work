@@ -55,12 +55,6 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         _multiChar.Disable();
     }
-    
-    public void setTilemaps(Tilemap ground, Tilemap collision)
-    {
-        _groundTilemap = ground;
-        _collisionTilemap = collision;
-    }
 
     public void resetStatus()
     {
@@ -76,21 +70,7 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         return _status;
     }
-
-    public void setCamera(Camera camera)
-    {
-        _camera = camera;
-    }
-
-    public void setTilePrefab(GameObject movementTile)
-    {
-        _movementTile = movementTile;
-    }
-
-    public void setAttackTilePrefab(GameObject attackTile)
-    {
-        _attackTile = attackTile;
-    }
+    
 
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
@@ -144,8 +124,13 @@ public class PlayerCharMvmt : MonoBehaviour
     void Start()
     {
         //this is the function that takes the click and does something with it
-        _multiChar.Main.Select.performed += ctx => Click();
+        _multiChar.Main.Select.started += ctx => Click();
         enabled = false;
+        _camera = Mind.instance.camera;
+        _groundTilemap = Mind.instance.groundTilemap;
+        _collisionTilemap = Mind.instance.collisionTilemap;
+        _movementTile = Mind.instance.movementTilePrefab;
+        _attackTile = Mind.instance.attackTilePrefab;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
         _currentColor = _character.color;
         
@@ -246,17 +231,18 @@ public class PlayerCharMvmt : MonoBehaviour
         //if dead then call destroy
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
     
     public void Die()
-    {//TODO fix this so it works.
-        //also you can't modify a list while looping through it. so no testing of Die() while looping through characters
-        //this func should be called when the character dies
-        Mind.instance.playerCharacters.Remove(gameObject);//this should remove the dead AI character from mind
-        Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
+    {
+        Mind.instance.playerCharacters.Remove(gameObject);
         Destroy(gameObject);
+        if (Mind.instance.playerCharacters.Count > 0)
+        {
+            Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
+        }
     }
 
 

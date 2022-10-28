@@ -6,16 +6,22 @@ using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
 
 
+
 public class GridItem {
-    public int x;
-    public int y;
-    public int d;
+    public readonly int x;
+    public readonly int y;
+    public readonly int d;
 
     public GridItem(int x, int y, int d)
     {
         this.x = x; //x position
         this.y = y; //y position
         this.d = d; //distance
+    }
+
+    public Vector3 worldPos()
+    {//todo fix
+        return Mind.instance.groundTilemap.LocalToWorld(new Vector3Int(this.x, this.y)) + new Vector3(0.5f,0.5f);
     }
 }
 public class PathFinding
@@ -25,6 +31,8 @@ public class PathFinding
     private readonly Tilemap _collisionTilemap;
     private readonly GameObject _movementTile;
     private readonly GameObject _attackTile;
+    private Shader _lineShader;
+
 
 
     public PathFinding(Tilemap ground, Tilemap collision, GameObject movementTile, GameObject attackTile)
@@ -33,6 +41,7 @@ public class PathFinding
         _collisionTilemap = collision;
         _movementTile = movementTile;
         _attackTile = attackTile;
+        _lineShader = Mind.instance.lineShader;
     }
 
 
@@ -278,4 +287,20 @@ public class PathFinding
         }
         return -1;
     }//we know this function works.
+    
+    public void drawLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
+    {
+        GameObject myLine = new GameObject();
+        myLine.transform.position = start;
+        myLine.AddComponent<LineRenderer>();
+        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        lr.material = new Material(_lineShader);
+        lr.startColor = color;
+        lr.endColor = color;
+        lr.startWidth = 0.05f;
+        lr.endWidth = 0.05f;
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
+        GameObject.Destroy(myLine, duration);
+    }
 }
