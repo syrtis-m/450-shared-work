@@ -193,6 +193,11 @@ public class PlayerCharMvmt : MonoBehaviour
                             _healthBar.SetHealth(currentHealth);
                             Destroy(colliderAtDest.gameObject);
                         }
+                        if (colliderAtDest.gameObject.GetComponent<AttackPowerup>())
+                        {
+                            atkDamage = atkDamage + 2;
+                            Destroy(colliderAtDest.gameObject);
+                        }
                         transform.position += deltaPos;
                         _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
                     }
