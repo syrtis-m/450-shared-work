@@ -8,20 +8,24 @@ using System.Collections.Generic;
 public class AICharacter : MonoBehaviour
 {
     //outlets
-    public int noticeRange = 5; //how many tiles away the AICharacter can notice playerCharacters. if a char is noticed, then attack + movement are allowed. default is 5
-    public int movementRange = 2; //how many tiles the player can traverse in one turn
+    public int noticeRange; //how many tiles away the AICharacter can notice playerCharacters. if a char is noticed, then attack + movement are allowed. default is 5
+    public int movementRange = 3; //how many tiles the player can traverse in one turn
     public int maxHealth = 6; //max health -- we store this separately in case of healing. default is 6 as that's the max possible damage
-    public int currentHealth; //ai health
     public int atkDamage = 3; //ai attack. default is 3
     public int attackRange = 2; //default is 2
     public float aiTurnPauseFor = 2f; //the amount of time the TurnCoroutine pauses for during execution.
     
-    //internal use
+    //state tracking
+    public Mind.characterStatus status;
+    public int currentHealth; //ai health
+    public Boolean noticedEnemy;
+
+    
+    //internal use - config
     private Camera _camera;
     private PathFinding _pathFinding; //PathFinding.cs
     private Tilemap _groundTilemap; //set by mind.start()
     private Tilemap _collisionTilemap; //set by mind.start()
-    private Mind.characterStatus _status;
     private GameObject _movementTile;
     private GameObject _attackTile;
     private SpriteRenderer _spriteRenderer;
@@ -30,7 +34,7 @@ public class AICharacter : MonoBehaviour
 
     private void Awake()
     {
-        _status = Mind.characterStatus.DONE;
+        status = Mind.characterStatus.DONE;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _defaultColor = _spriteRenderer.color;
         currentHealth = maxHealth;
@@ -40,19 +44,35 @@ public class AICharacter : MonoBehaviour
     private void Start()
     {
         _camera = Mind.instance.camera;
+        _groundTilemap = Mind.instance.groundTilemap;
+        _collisionTilemap = Mind.instance.collisionTilemap;
         _movementTile = Mind.instance.movementTilePrefab;
         _attackTile = Mind.instance.attackTilePrefab;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
     }
 
+    private void OnDrawGizmos()
+    {//draws notice ranges of characters
+        Gizmos.color = _defaultColor;
+
+        var cellOrigin = _groundTilemap.WorldToCell(transform.position);
+        var grid = _pathFinding.scanAttackGrid(cellOrigin, noticeRange);
+        var gridSize = grid.Count;
+        for (int i = 0; i < gridSize; i++)
+        {
+            var worldLoc = grid.Dequeue();
+            Gizmos.DrawLine(transform.position, worldLoc);
+        }
+    }
+
     public void resetStatus()
     {
-        _status = Mind.characterStatus.TURN_STARTED;
+        status = Mind.characterStatus.TURN_STARTED;
     }
 
     public Mind.characterStatus getActionStatus()
     {
-        return _status;
+        return status;
     }
 
     public void Turn()
@@ -103,7 +123,7 @@ public class AICharacter : MonoBehaviour
             //Debug.Log(shortestMovementDist);
             var deltaPos = movementCell - transform.position;
             transform.position += deltaPos;
-            _status = Mind.characterStatus.MOVED;
+            status = Mind.characterStatus.MOVED;
             var currentAIPosition = _groundTilemap.WorldToCell(transform.position);
             var currentAILocation = _groundTilemap.CellToWorld(currentAIPosition) + new Vector3(0.5f, 0.5f, 0);
             for (int i = 0; i < Mind.instance.playerCharacters.Count; i++) //Find first player < atkrange
@@ -123,7 +143,7 @@ public class AICharacter : MonoBehaviour
         }
         
         
-        _status = Mind.characterStatus.DONE;
+        status = Mind.characterStatus.DONE;
         yield return new WaitForSeconds(aiTurnPauseFor/2);
         _spriteRenderer.color = Color.grey; //show it isn't active anymore
         
@@ -141,7 +161,7 @@ public class AICharacter : MonoBehaviour
     {
         
         player.GetComponent<PlayerCharMvmt>().takeDamage(atkDamage);
-        _status = Mind.characterStatus.ATTACKED;
+        status = Mind.characterStatus.ATTACKED;
     }
     
     public void takeDamage(int atkAmnt)
