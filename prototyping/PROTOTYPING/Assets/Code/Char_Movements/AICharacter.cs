@@ -8,12 +8,12 @@ using System.Collections.Generic;
 public class AICharacter : MonoBehaviour
 {
     //outlets
-    public int noticeRange; //how many tiles away the AICharacter can notice playerCharacters. if a char is noticed, then attack + movement are allowed
-    public int movementRange; //how many tiles the player can traverse in one turn
-    public int maxHealth; //max health -- we store this separately in case of healing
+    public int noticeRange = 5; //how many tiles away the AICharacter can notice playerCharacters. if a char is noticed, then attack + movement are allowed. default is 5
+    public int movementRange = 2; //how many tiles the player can traverse in one turn
+    public int maxHealth = 6; //max health -- we store this separately in case of healing. default is 6 as that's the max possible damage
     public int currentHealth; //ai health
-    public int atkDamage; //ai attack
-    public int attackRange;
+    public int atkDamage = 3; //ai attack. default is 3
+    public int attackRange = 2; //default is 2
     public float aiTurnPauseFor = 2f; //the amount of time the TurnCoroutine pauses for during execution.
     
     //internal use
@@ -27,13 +27,6 @@ public class AICharacter : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Color _defaultColor;
     private HealthBar _healthBar;
-    
-    public void setTilemaps(Tilemap ground, Tilemap collision)
-    {//config tilemapsand pathfinding objects
-        _groundTilemap = ground;
-        _collisionTilemap = collision;
-        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
-    }
 
     private void Awake()
     {
@@ -44,6 +37,14 @@ public class AICharacter : MonoBehaviour
         _healthBar = GetComponentInChildren<HealthBar>();
     }
 
+    private void Start()
+    {
+        _camera = Mind.instance.camera;
+        _movementTile = Mind.instance.movementTilePrefab;
+        _attackTile = Mind.instance.attackTilePrefab;
+        _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
+    }
+
     public void resetStatus()
     {
         _status = Mind.characterStatus.TURN_STARTED;
@@ -52,21 +53,6 @@ public class AICharacter : MonoBehaviour
     public Mind.characterStatus getActionStatus()
     {
         return _status;
-    }
-
-    public void setCamera(Camera camera)
-    {
-        _camera = camera;
-    }
-    
-    public void setTilePrefab(GameObject movementTile)
-    {
-        _movementTile = movementTile;
-    }
-
-    public void setAttackTilePrefab(GameObject attackTile)
-    {
-        _attackTile = attackTile;
     }
 
     public void Turn()

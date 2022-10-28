@@ -55,12 +55,6 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         _multiChar.Disable();
     }
-    
-    public void setTilemaps(Tilemap ground, Tilemap collision)
-    {
-        _groundTilemap = ground;
-        _collisionTilemap = collision;
-    }
 
     public void resetStatus()
     {
@@ -76,21 +70,7 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         return _status;
     }
-
-    public void setCamera(Camera camera)
-    {
-        _camera = camera;
-    }
-
-    public void setTilePrefab(GameObject movementTile)
-    {
-        _movementTile = movementTile;
-    }
-
-    public void setAttackTilePrefab(GameObject attackTile)
-    {
-        _attackTile = attackTile;
-    }
+    
 
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
@@ -146,6 +126,11 @@ public class PlayerCharMvmt : MonoBehaviour
         //this is the function that takes the click and does something with it
         _multiChar.Main.Select.started += ctx => Click();
         enabled = false;
+        _camera = Mind.instance.camera;
+        _groundTilemap = Mind.instance.groundTilemap;
+        _collisionTilemap = Mind.instance.collisionTilemap;
+        _movementTile = Mind.instance.movementTilePrefab;
+        _attackTile = Mind.instance.attackTilePrefab;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
         _currentColor = _character.color;
         

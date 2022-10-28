@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -51,23 +52,13 @@ public class Mind : MonoBehaviour
     private void Awake()
     {//set up the mind & characters managed by it
         instance = this; //singleton pattern. access mind in other files by Mind.instance
-        
-        foreach (var character in playerCharacters)
-        {//set the ground and collision tilemaps for all player characters
-            
-            character.GetComponent<PlayerCharMvmt>().setCamera(camera);
-            character.GetComponent<PlayerCharMvmt>().setTilePrefab(movementTilePrefab);
-            character.GetComponent<PlayerCharMvmt>().setAttackTilePrefab(attackTilePrefab);
-            character.GetComponent<PlayerCharMvmt>().setTilemaps(groundTilemap, collisionTilemap);
-        }
 
-        foreach (var character in aiCharacters)
+        var objList = GameObject.FindGameObjectsWithTag("ai");
+
+        foreach (var obj in objList)
         {
-            
-            character.GetComponent<AICharacter>().setCamera(camera);
-            character.GetComponent<AICharacter>().setTilePrefab(movementTilePrefab);
-            character.GetComponent<AICharacter>().setAttackTilePrefab(attackTilePrefab);
-            character.GetComponent<AICharacter>().setTilemaps(groundTilemap, collisionTilemap);
+            print(obj);
+            aiCharacters.Add(obj);
         }
     }
 
