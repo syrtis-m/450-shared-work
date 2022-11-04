@@ -6,7 +6,7 @@ public class MovementDice : MonoBehaviour
 {
     private Sprite[] _diceSides;
     private SpriteRenderer _rend;
-    private int _currentDiceSide;
+    public int _currentDiceSide;
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class MovementDice : MonoBehaviour
         _rend.sprite = _diceSides[_currentDiceSide];
     }
 
-    public int RollDice()
+    public void RollDice()
     {
         // Generate random number
         var randomDiceSide = Random.Range(1, 6);
@@ -24,8 +24,7 @@ public class MovementDice : MonoBehaviour
         _currentDiceSide = randomDiceSide;
         // Start up animation
         StartCoroutine(RollDiceAnimation());
-        // Send number over to mind
-        return randomDiceSide;
+        //yield return new WaitForSeconds(GetComponent<Mind>().playerSplashScreenTime);
     }
 
     private IEnumerator RollDiceAnimation()

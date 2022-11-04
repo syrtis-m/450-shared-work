@@ -10,8 +10,6 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public int movementRange; //how many tiles the player can traverse in one turn
     public int attackRange;
-    public MovementDice movementDice;
-    public AttackDice attackDice;
     public int maxHealth; //max health. store this info for healing
     public int currentHealth; //player health
     public int atkDamage; //player attack
@@ -135,14 +133,12 @@ public class PlayerCharMvmt : MonoBehaviour
         _currentColor = _character.color;
         
     }
-    
-    public void rollDice()
+   
+    public void AssignDiceValues(int movementDice, int attackDice)
     {
-        movementRange = movementDice.RollDice();
-        //attackRange = movementRange + 1;
-        atkDamage = attackDice.RollDice();
+        movementRange = movementDice;
+        atkDamage = attackDice;
     }
-    
 
     private void Click() //"teleport to destination" movement
     {

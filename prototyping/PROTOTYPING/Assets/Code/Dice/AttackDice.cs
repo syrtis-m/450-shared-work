@@ -6,7 +6,7 @@ public class AttackDice : MonoBehaviour
 {
     private Sprite[] diceSides;
     private SpriteRenderer rend;
-    private int currentDiceSide;
+    public int currentDiceSide;
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class AttackDice : MonoBehaviour
         rend.sprite = diceSides[currentDiceSide];
     }
 
-    public int RollDice()
+    public void RollDice()
     {
         // Start up animation
         StartCoroutine(RollDiceAnimation());
@@ -25,7 +25,6 @@ public class AttackDice : MonoBehaviour
         // Save it as current number
         currentDiceSide = randomDiceSide;
         // Send number over to mind
-        return randomDiceSide;
     }
 
     private IEnumerator RollDiceAnimation()

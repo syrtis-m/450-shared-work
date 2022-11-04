@@ -133,13 +133,20 @@ public class Mind : MonoBehaviour
         }
         
         Debug.Log("BeginPlayerTurn()");
+        foreach (var dice in movementDice)
+        {
+            dice.GetComponent<MovementDice>().RollDice();
+        }
+        foreach (var dice in attackDice)
+        {
+            dice.GetComponent<AttackDice>().RollDice();
+        }
         //show animation showing it's a player turn
         currentPlayer = playerCharacters[0];
 
         foreach (var character in playerCharacters)
         {
             character.GetComponent<PlayerCharMvmt>().resetStatus();
-            character.GetComponent<PlayerCharMvmt>().rollDice();
             character.GetComponent<PlayerCharMvmt>().resetColor();
         }
     }
