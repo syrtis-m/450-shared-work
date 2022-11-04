@@ -28,9 +28,13 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-
     public void SetHealth(int hp)
     {//sets the value of the health bar
         healthBar.value = hp;
+    }
+    public void SetMaxHealth(int maxHealth, int currentHealth)
+    {
+        healthBar.maxValue = maxHealth;
+        healthBar.value = currentHealth;
     }
 }

@@ -179,6 +179,18 @@ public class PlayerCharMvmt : MonoBehaviour
                             atkDamage = atkDamage + 2;
                             Destroy(colliderAtDest.gameObject);
                         }
+                        if (colliderAtDest.gameObject.GetComponent<RangePowerup>())
+                        {
+                            attackRange = attackRange + 1;
+                            Destroy(colliderAtDest.gameObject);
+                        }
+                        if (colliderAtDest.gameObject.GetComponent<ArmorPowerup>())
+                        {
+                            maxHealth = maxHealth + 3;
+                            currentHealth = currentHealth + 3;
+                            _healthBar.SetMaxHealth(maxHealth, currentHealth);
+                            Destroy(colliderAtDest.gameObject);
+                        }
                         transform.position += deltaPos;
                         _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
                     }

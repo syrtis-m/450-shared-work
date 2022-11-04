@@ -125,7 +125,7 @@ public class AICharacter : MonoBehaviour
             //Debug.Log(shortestMovementDist);
             var deltaPos = movementCell - transform.position;
             Collider2D colliderAtDest = Physics2D.OverlapPoint(movementCell);
-            if (colliderAtDest && (colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>()))
+            if (colliderAtDest && (colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>()))
             {
                 Destroy(colliderAtDest.gameObject);
             }
