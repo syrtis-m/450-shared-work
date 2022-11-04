@@ -124,6 +124,11 @@ public class AICharacter : MonoBehaviour
             }
             //Debug.Log(shortestMovementDist);
             var deltaPos = movementCell - transform.position;
+            Collider2D colliderAtDest = Physics2D.OverlapPoint(movementCell);
+            if (colliderAtDest && (colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>()))
+            {
+                Destroy(colliderAtDest.gameObject);
+            }
             transform.position += deltaPos;
             status = Mind.characterStatus.MOVED;
             var currentAIPosition = _groundTilemap.WorldToCell(transform.position);
@@ -136,7 +141,7 @@ public class AICharacter : MonoBehaviour
                 if (dist <= attackRange)
                 {
                     yield return new WaitForSeconds(aiTurnPauseFor / 4);
-                    _pathFinding.drawLine(transform.position,closestPlayerLocation,Color.red,duration:(aiTurnPauseFor/4));
+                    _pathFinding.drawLine(transform.position, player_location, Color.red,duration:(aiTurnPauseFor/4));
                     yield return new WaitForSeconds(aiTurnPauseFor / 4);
                     Attack(Mind.instance.playerCharacters[i]);
                     break;
