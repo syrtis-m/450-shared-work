@@ -478,11 +478,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4727d2deb84094bb9015b03e5fc58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noticeRange: 3
-  movementRange: 4
+  noticeRange: 4
+  movementRange: 2
   maxHealth: 10
   atkDamage: 3
-  attackRange: 3
+  attackRange: 2
   aiTurnPauseFor: 3
   status: 0
   currentHealth: 0
@@ -2319,10 +2319,6 @@ PrefabInstance:
     - target: {fileID: 3946106212403554251, guid: dd2eabe434047d24fb853a7cc708dadf, type: 3}
       propertyPath: m_Name
       value: AI (prefab)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3946106212403554252, guid: dd2eabe434047d24fb853a7cc708dadf, type: 3}
-      propertyPath: movementRange
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3946106212403554255, guid: dd2eabe434047d24fb853a7cc708dadf, type: 3}
       propertyPath: m_RootOrder

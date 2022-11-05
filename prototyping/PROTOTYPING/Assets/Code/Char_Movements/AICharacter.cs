@@ -3,6 +3,9 @@ using UnityEngine.Tilemaps;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using UnityEditor.PackageManager;
+using Object = UnityEngine.Object;
 
 
 public class AICharacter : MonoBehaviour
@@ -38,6 +41,10 @@ public class AICharacter : MonoBehaviour
         _defaultColor = _spriteRenderer.color;
         currentHealth = maxHealth;
         _healthBar = GetComponentInChildren<HealthBar>();
+        if (noticeRange < attackRange+movementRange)
+        {
+            throw new Exception("noticeRange < attackRange+movementRange. please fix <3");
+        }
     }
 
     private void Start()
@@ -195,6 +202,32 @@ public class AICharacter : MonoBehaviour
         Mind.instance.aiCharacters.Remove(gameObject);
         Destroy(gameObject);
     }
-    
 
+    public void OnMouseDown()
+    {
+        //draw movement + attack range
+        if (_pathFinding != null)
+        {
+            
+            Gizmos.color = _defaultColor;
+            if (_defaultColor == Color.white)
+            {
+                Gizmos.color = Color.red;
+            }
+
+            var cellOrigin = _groundTilemap.WorldToCell(transform.position);
+            var grid = _pathFinding.scanAttackGrid(cellOrigin, attackRange+movementRange);
+            var gridSize = grid.Count;
+            for (int i = 0; i < gridSize; i++)
+            {
+                var worldLoc = grid.Dequeue();
+                Object.Instantiate(_attackTile,worldLoc,quaternion.identity);
+            }
+        }
+    }
+
+    public void OnMouseUp()
+    {
+        Mind.destroyHighlightTiles();
+    }
 }
