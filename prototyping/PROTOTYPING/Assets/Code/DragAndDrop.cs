@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,14 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     public GameObject characterObject;
 
 
-    private RectTransform rectTransform;
+    private RectTransform rectTransform; //current location
+    private Vector3 originPos; //original location
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        originPos = rectTransform.anchoredPosition;
         canvasGroup = GetComponent<CanvasGroup>();
     }
-
-
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -44,5 +45,20 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     {
         Debug.Log("OnPointerDown");
     }
+    
+    private void reset_pos()
+    {//move thing back to original location
+        rectTransform.anchoredPosition = originPos;
+    }
 
+    private void OnEnable()
+    {
+        Mind.PlayerTurnStartEvent += reset_pos;
+    }
+
+    private void OnDisable()
+    {
+        Mind.PlayerTurnStartEvent -= reset_pos;
+
+    }
 }

@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 91958925725074693}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3946106212403554252
 MonoBehaviour:
@@ -48,12 +48,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noticeRange: 8
-  movementRange: 1
+  movementRange: 3
   maxHealth: 5
-  currentHealth: 0
   atkDamage: 2
   attackRange: 2
   aiTurnPauseFor: 3
+  status: 0
+  currentHealth: 0
 --- !u!212 &3946106212403554254
 SpriteRenderer:
   m_ObjectHideFlags: 0

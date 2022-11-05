@@ -53,9 +53,13 @@ public class PlayerCharMvmt : MonoBehaviour
         _multiChar.Disable();
     }
 
-    public void resetStatus()
+    public void resetChar()
     {
         _status = Mind.characterStatus.TURN_STARTED;
+        _character.color = _currentColor;
+        //movement and attack range reset now bc we have drag and drop dicerolling
+        movementRange = 0;
+        atkDamage = 0;
     }
 
     public void setStatusDone()
@@ -78,8 +82,6 @@ public class PlayerCharMvmt : MonoBehaviour
             return;
         }
 
-        
-        
         GetComponent<PlayerCharMvmt>().enabled = true;
         Mind.destroyHighlightTiles();
         Mind.instance.ChangePlayer(this.gameObject);
@@ -251,12 +253,4 @@ public class PlayerCharMvmt : MonoBehaviour
             Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];
         }
     }
-
-
-    public void resetColor()
-    {
-        _character.color = _currentColor;
-    }
-
-    
 }

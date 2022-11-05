@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,6 @@ public class HealthBar : MonoBehaviour
     public Slider healthBar;
     public PlayerCharMvmt player;
     public AICharacter aiCharacter;
-
     private void Start()
     {
         player = GetComponentInParent<PlayerCharMvmt>();

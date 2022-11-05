@@ -51,6 +51,8 @@ public class Mind : MonoBehaviour
 
     public static event Action Win;
 
+    public static event Action PlayerTurnStartEvent; //use this to communicate with DragAndDrop
+
     private void Awake()
     {//set up the mind & characters managed by it
         instance = this; //singleton pattern. access mind in other files by Mind.instance
@@ -126,6 +128,7 @@ public class Mind : MonoBehaviour
     private void BeginPlayerTurn()
     {
         StartCoroutine(player_turn_splash());
+        PlayerTurnStartEvent?.Invoke(); //communicate with DragAndDrop
         
         foreach (var character in aiCharacters)
         {//un-greys-out ai characters
@@ -146,8 +149,7 @@ public class Mind : MonoBehaviour
 
         foreach (var character in playerCharacters)
         {
-            character.GetComponent<PlayerCharMvmt>().resetStatus();
-            character.GetComponent<PlayerCharMvmt>().resetColor();
+            character.GetComponent<PlayerCharMvmt>().resetChar();
         }
     }
     
