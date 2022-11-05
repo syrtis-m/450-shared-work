@@ -18,11 +18,6 @@ public class GridItem {
         this.y = y; //y position
         this.d = d; //distance
     }
-
-    public Vector3 worldPos()
-    {//todo fix
-        return Mind.instance.groundTilemap.LocalToWorld(new Vector3Int(this.x, this.y)) + new Vector3(0.5f,0.5f);
-    }
 }
 public class PathFinding
 {//PathFinding class for when you need to do pathfinding. each character & AI instaniates a copy

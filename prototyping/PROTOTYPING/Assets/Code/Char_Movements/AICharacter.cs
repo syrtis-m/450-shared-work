@@ -18,7 +18,6 @@ public class AICharacter : MonoBehaviour
     //state tracking
     public Mind.characterStatus status;
     public int currentHealth; //ai health
-    public Boolean noticedEnemy;
 
     
     //internal use - config
@@ -55,15 +54,24 @@ public class AICharacter : MonoBehaviour
     {
         //draws notice ranges of characters
         //because it uses ScanGrid, it doesn't draw on top of player characters even if they're in range
-        Gizmos.color = _defaultColor;
 
-        var cellOrigin = _groundTilemap.WorldToCell(transform.position);
-        var grid = _pathFinding.scanAttackGrid(cellOrigin, noticeRange);
-        var gridSize = grid.Count;
-        for (int i = 0; i < gridSize; i++)
+        if (_pathFinding != null)
         {
-            var worldLoc = grid.Dequeue();
-            Gizmos.DrawLine(transform.position, worldLoc);
+            
+            Gizmos.color = _defaultColor;
+            if (_defaultColor == Color.white)
+            {
+                Gizmos.color = Color.red;
+            }
+
+            var cellOrigin = _groundTilemap.WorldToCell(transform.position);
+            var grid = _pathFinding.scanAttackGrid(cellOrigin, noticeRange);
+            var gridSize = grid.Count;
+            for (int i = 0; i < gridSize; i++)
+            {
+                var worldLoc = grid.Dequeue();
+                Gizmos.DrawLine(transform.position, worldLoc);
+            }
         }
     }
 

@@ -182,7 +182,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementRange: 2
   attackRange: 3
-  characterImage: {fileID: 1146564888}
   maxHealth: 5
   currentHealth: 5
   atkDamage: 0
@@ -378,6 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29470157c7ae046ea959fd3f34cc9abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDiceSide: 0
 --- !u!1 &177713326
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +411,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementRange: 2
   attackRange: 1
-  characterImage: {fileID: 1962030383}
   maxHealth: 5
   currentHealth: 5
   atkDamage: 0
@@ -523,7 +522,7 @@ GameObject:
   - component: {fileID: 216516726}
   m_Layer: 0
   m_Name: AI 3
-  m_TagString: Untagged
+  m_TagString: ai
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -626,7 +625,6 @@ MonoBehaviour:
   aiTurnPauseFor: 3
   status: 0
   currentHealth: 0
-  noticedEnemy: 0
 --- !u!4 &216516729
 Transform:
   m_ObjectHideFlags: 0
@@ -902,6 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29470157c7ae046ea959fd3f34cc9abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDiceSide: 0
 --- !u!1001 &270386417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1177,7 +1176,7 @@ MonoBehaviour:
   gameOverMenuLose: {fileID: 0}
   gameOverMenuWin: {fileID: 0}
   mainMenu: mainMenu
-  nextLevel: 
+  nextLevel: level2
 --- !u!114 &379461689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,6 +1543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5d2a50e0eab4607a8b6f712419fcfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentDiceSide: 0
 --- !u!61 &524901654
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1746,6 +1746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5d2a50e0eab4607a8b6f712419fcfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentDiceSide: 0
 --- !u!1001 &612903369
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2033,7 +2034,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementRange: 1
   attackRange: 2
-  characterImage: {fileID: 1955329794}
   maxHealth: 5
   currentHealth: 5
   atkDamage: 0
@@ -2375,6 +2375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29470157c7ae046ea959fd3f34cc9abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDiceSide: 0
 --- !u!1 &1016359882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2830,7 +2831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4f7d7c60e534164b14168cc199e461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotID: 1
   movementDice: {fileID: 600540953}
   attackDice: {fileID: 988140908}
 --- !u!1 &1121560080
@@ -2879,6 +2879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5d2a50e0eab4607a8b6f712419fcfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentDiceSide: 0
 --- !u!61 &1121560083
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3094,7 +3095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 379461691}
-  characterID: 0
+  characterObject: {fileID: 50717048}
 --- !u!225 &1146564893
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4783,7 +4784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4f7d7c60e534164b14168cc199e461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotID: 3
   movementDice: {fileID: 524901653}
   attackDice: {fileID: 255942758}
 --- !u!1 &1696043277
@@ -4877,7 +4877,7 @@ GameObject:
   - component: {fileID: 1867294469}
   m_Layer: 0
   m_Name: AI 1
-  m_TagString: Untagged
+  m_TagString: ai
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4902,7 +4902,6 @@ MonoBehaviour:
   aiTurnPauseFor: 3
   status: 0
   currentHealth: 0
-  noticedEnemy: 0
 --- !u!61 &1867294469
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5086,7 +5085,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4f7d7c60e534164b14168cc199e461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotID: 3
   movementDice: {fileID: 1121560082}
   attackDice: {fileID: 116379934}
 --- !u!1 &1955329794
@@ -5180,7 +5178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 379461691}
-  characterID: 0
+  characterObject: {fileID: 962617954}
 --- !u!225 &1955329799
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5284,7 +5282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 379461691}
-  characterID: 0
+  characterObject: {fileID: 177713326}
 --- !u!225 &1962030388
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5431,7 +5429,7 @@ GameObject:
   - component: {fileID: 2015929507}
   m_Layer: 0
   m_Name: AI 2
-  m_TagString: Untagged
+  m_TagString: ai
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5534,7 +5532,6 @@ MonoBehaviour:
   aiTurnPauseFor: 3
   status: 0
   currentHealth: 0
-  noticedEnemy: 0
 --- !u!4 &2015929510
 Transform:
   m_ObjectHideFlags: 0

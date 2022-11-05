@@ -27,7 +27,6 @@ public class PlayerCharMvmt : MonoBehaviour
     private SpriteRenderer _character; //this is the spriterenderer that handles color
     private Color _currentColor; //this is the color of the character sprite. 
     private HealthBar _healthBar;
-    private int numberOfMovements;
 
     //set up the input action receiving info
     private void Awake()
