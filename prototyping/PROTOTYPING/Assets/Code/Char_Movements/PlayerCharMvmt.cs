@@ -27,6 +27,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private SpriteRenderer _character; //this is the spriterenderer that handles color
     private Color _currentColor; //this is the color of the character sprite. 
     private HealthBar _healthBar;
+    public DragAndDrop selector;
 
     //set up the input action receiving info
     private void Awake()
@@ -250,6 +251,7 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         Mind.instance.playerCharacters.Remove(gameObject);
         Destroy(gameObject);
+        selector.Die();
         if (Mind.instance.playerCharacters.Count > 0)
         {
             Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];

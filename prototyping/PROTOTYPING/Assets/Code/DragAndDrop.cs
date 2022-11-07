@@ -18,6 +18,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         rectTransform = GetComponent<RectTransform>();
         originPos = rectTransform.anchoredPosition;
         canvasGroup = GetComponent<CanvasGroup>();
+        characterObject.GetComponent<PlayerCharMvmt>().selector = this;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -49,10 +50,6 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private void reset_pos()
     {//move thing back to original location. called on BeginPlayerTurn
         rectTransform.anchoredPosition = originPos;
-        if (characterObject == null)
-        {//this is called every game update.
-            Destroy(gameObject);
-        }
     }
 
     private void OnEnable()
@@ -64,5 +61,10 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     {
         Mind.BeginPlayerTurnEvent -= reset_pos;
 
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }
