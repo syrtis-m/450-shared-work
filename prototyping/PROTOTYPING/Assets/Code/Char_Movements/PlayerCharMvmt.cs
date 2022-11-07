@@ -34,6 +34,7 @@ public class PlayerCharMvmt : MonoBehaviour
         _character = GetComponent<SpriteRenderer>();
         _multiChar = new MultiChar();
         _multiChar.Main.MousePos.performed += OnMousePos;
+        Mind.BeginPlayerTurnEvent += resetChar;
         currentHealth = maxHealth;
         _healthBar = GetComponentInChildren<HealthBar>();
     }
@@ -46,13 +47,12 @@ public class PlayerCharMvmt : MonoBehaviour
     private void OnEnable()
     {
         _multiChar.Enable();
-        Mind.BeginPlayerTurnEvent += resetChar;
+        
     }
 
     private void OnDisable()
     {
         _multiChar.Disable();
-        Mind.BeginPlayerTurnEvent -= resetChar;
     }
 
     public void resetChar()
