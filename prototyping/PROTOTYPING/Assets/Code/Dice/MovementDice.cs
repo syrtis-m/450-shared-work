@@ -18,12 +18,12 @@ public class MovementDice : MonoBehaviour
     
     private void OnEnable()
     {
-        Mind.RollDice += RollDice;
+        Mind.BeginPlayerTurnEvent += RollDice;
     }
 
     private void OnDisable()
     {
-        Mind.RollDice -= RollDice;
+        Mind.BeginPlayerTurnEvent -= RollDice;
     }
     
     public IEnumerator RollDiceAnimation()

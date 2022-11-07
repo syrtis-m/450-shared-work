@@ -46,11 +46,13 @@ public class PlayerCharMvmt : MonoBehaviour
     private void OnEnable()
     {
         _multiChar.Enable();
+        Mind.BeginPlayerTurnEvent += resetChar;
     }
 
     private void OnDisable()
     {
         _multiChar.Disable();
+        Mind.BeginPlayerTurnEvent -= resetChar;
     }
 
     public void resetChar()

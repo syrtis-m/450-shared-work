@@ -47,18 +47,22 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     }
     
     private void reset_pos()
-    {//move thing back to original location
+    {//move thing back to original location. called on BeginPlayerTurn
         rectTransform.anchoredPosition = originPos;
+        if (characterObject == null)
+        {//this is called every game update.
+            Destroy(gameObject);
+        }
     }
 
     private void OnEnable()
     {
-        Mind.PlayerTurnStartEvent += reset_pos;
+        Mind.BeginPlayerTurnEvent += reset_pos;
     }
 
     private void OnDisable()
     {
-        Mind.PlayerTurnStartEvent -= reset_pos;
+        Mind.BeginPlayerTurnEvent -= reset_pos;
 
     }
 }
