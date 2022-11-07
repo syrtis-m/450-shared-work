@@ -6,31 +6,33 @@ public class MovementDice : MonoBehaviour
 {
     private Sprite[] _diceSides;
     private SpriteRenderer _rend;
-    public int _currentDiceSide;
+    public int currentDiceSide;
+    private IEnumerator _enumerator;
 
-    void Start()
+    void Awake()
     {
+        _enumerator = RollDiceAnimation();
         _rend = GetComponent<SpriteRenderer>();
         _diceSides = Resources.LoadAll<Sprite>("blueDice/");
-        _currentDiceSide = 0;
-        _rend.sprite = _diceSides[_currentDiceSide];
+        currentDiceSide = 1;
+        _rend.sprite = _diceSides[currentDiceSide];
+    }
+    
+    private void OnEnable()
+    {
+        Mind.RollDice += RollDice;
     }
 
-    public void RollDice()
+    private void OnDisable()
     {
-        // Generate random number
-        var randomDiceSide = Random.Range(1, 6);
-        // Save it as current number
-        _currentDiceSide = randomDiceSide;
-        // Start up animation
-        StartCoroutine(RollDiceAnimation());
-        //yield return new WaitForSeconds(GetComponent<Mind>().playerSplashScreenTime);
+        Mind.RollDice -= RollDice;
     }
-
-    private IEnumerator RollDiceAnimation()
+    
+    public IEnumerator RollDiceAnimation()
     {
+        Debug.Log("mvmt_cortn");
         // Animation will finish whenever but on proper side
-        var currentSideCopy = _currentDiceSide;
+        var currentSideCopy = currentDiceSide;
         for (var i = 0; i < 25; i++)
         {
             var randomDiceSide = Random.Range(1, 6);
@@ -38,8 +40,19 @@ public class MovementDice : MonoBehaviour
             _rend.sprite = _diceSides[currentSideCopy];
             yield return new WaitForSeconds(i * 0.01f);
         }
-        // Roll was already sent over to mind
-        _rend.sprite = _diceSides[_currentDiceSide - 1];
+        _rend.sprite = _diceSides[currentDiceSide - 1];
     }
+
+    private void RollDice()
+    {//RollDice is triggered through Mind.RollDice event
+        Debug.Log("RollMVMT");
+        // Generate random number
+        // Save it as current number
+        currentDiceSide = Random.Range(1, 6);
+        // Start up animation
+        StartCoroutine(_enumerator);
+    }
+
+    
 
 }

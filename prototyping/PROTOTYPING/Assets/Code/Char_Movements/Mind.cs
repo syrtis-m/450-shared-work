@@ -53,6 +53,8 @@ public class Mind : MonoBehaviour
 
     public static event Action PlayerTurnStartEvent; //use this to communicate with DragAndDrop
 
+    public static event Action RollDice;
+
     private void Awake()
     {//set up the mind & characters managed by it
         instance = this; //singleton pattern. access mind in other files by Mind.instance
@@ -68,7 +70,6 @@ public class Mind : MonoBehaviour
         }
         
         currentPlayer = playerCharacters[0];
-        battleStatus = BattleStatus.PLAYER_TURN;
         BeginPlayerTurn();
     }
 
@@ -127,6 +128,7 @@ public class Mind : MonoBehaviour
 
     private void BeginPlayerTurn()
     {
+        battleStatus = BattleStatus.PLAYER_TURN;
         StartCoroutine(player_turn_splash());
         PlayerTurnStartEvent?.Invoke(); //communicate with DragAndDrop
         
@@ -136,14 +138,9 @@ public class Mind : MonoBehaviour
         }
         
         Debug.Log("BeginPlayerTurn()");
-        foreach (var dice in movementDice)
-        {
-            dice.GetComponent<MovementDice>().RollDice();
-        }
-        foreach (var dice in attackDice)
-        {
-            dice.GetComponent<AttackDice>().RollDice();
-        }
+        
+        RollDice?.Invoke(); //use event system to roll all the dice in the scene
+        
         //show animation showing it's a player turn
         currentPlayer = playerCharacters[0];
 
@@ -151,6 +148,7 @@ public class Mind : MonoBehaviour
         {
             character.GetComponent<PlayerCharMvmt>().resetChar();
         }
+        Debug.Log("BPT() end");
     }
     
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
@@ -277,5 +275,4 @@ public class Mind : MonoBehaviour
         
         Destroy(obj);
     }
-
 }

@@ -1,45 +1,60 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AttackDice : MonoBehaviour
 {
-    private Sprite[] diceSides;
-    private SpriteRenderer rend;
+    private Sprite[] _diceSides;
+    private SpriteRenderer _rend;
     public int currentDiceSide;
+    private IEnumerator _enumerator;
 
-    void Start()
+    void Awake()
     {
-        rend = GetComponent<SpriteRenderer>();
-        diceSides = Resources.LoadAll<Sprite>("redDice/");
-        currentDiceSide = 0;
-        rend.sprite = diceSides[currentDiceSide];
+        _enumerator = RollDiceAnimation();
+        _rend = GetComponent<SpriteRenderer>();
+        _diceSides = Resources.LoadAll<Sprite>("redDice/");
+        currentDiceSide = 1;
+        _rend.sprite = _diceSides[currentDiceSide];
     }
 
-    public void RollDice()
+    private void OnEnable()
     {
-        // Start up animation
-        StartCoroutine(RollDiceAnimation());
+        Mind.RollDice += RollDice;
+    }
+
+    private void OnDisable()
+    {
+        Mind.RollDice -= RollDice;
+    }
+    
+    
+
+    private void RollDice()
+    {
+        StartCoroutine(_enumerator);
+        Debug.Log("RollAtk");
         // Generate random number
-        int randomDiceSide = Random.Range(1, 6);
         // Save it as current number
-        currentDiceSide = randomDiceSide;
-        // Send number over to mind
+        currentDiceSide = Random.Range(1, 6);;
+        // Start up animation
     }
-
-    private IEnumerator RollDiceAnimation()
+    
+    public IEnumerator RollDiceAnimation()
     {
+        Debug.Log("atk_cortn");
         // Animation will finish whenever but on proper side
         int currentSideCopy = currentDiceSide;
         for (int i = 0; i < 25; i++)
         {
             int randomDiceSide = Random.Range(1, 6);
             currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
-            rend.sprite = diceSides[currentSideCopy];
+            _rend.sprite = _diceSides[currentSideCopy];
             yield return new WaitForSeconds(i * 0.01f);
         }
-        // Roll was already sent over to mind
-        rend.sprite = diceSides[currentDiceSide - 1];
+        _rend.sprite = _diceSides[currentDiceSide - 1];
     }
 
 }

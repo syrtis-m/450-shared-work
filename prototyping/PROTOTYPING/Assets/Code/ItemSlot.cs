@@ -14,7 +14,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         {
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
             GameObject character = eventData.pointerDrag.GetComponent<DragAndDrop>().characterObject;
-            character.GetComponent<PlayerCharMvmt>().AssignDiceValues(movementDice._currentDiceSide, attackDice.currentDiceSide);
+            character.GetComponent<PlayerCharMvmt>().AssignDiceValues(movementDice.currentDiceSide, attackDice.currentDiceSide);
         }
     }
 }
