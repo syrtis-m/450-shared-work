@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class MovementDice : MonoBehaviour
 {
-    private Sprite[] _diceSides;
+    public Sprite[] _diceSides;
     private SpriteRenderer _rend;
     public int currentDiceSide;
-    private IEnumerator _enumerator;
 
     void Awake()
     {
-        _enumerator = RollDiceAnimation();
         _rend = GetComponent<SpriteRenderer>();
         _diceSides = Resources.LoadAll<Sprite>("blueDice/");
         currentDiceSide = 1;
@@ -30,7 +28,6 @@ public class MovementDice : MonoBehaviour
     
     public IEnumerator RollDiceAnimation()
     {
-        Debug.Log("mvmt_cortn");
         // Animation will finish whenever but on proper side
         var currentSideCopy = currentDiceSide;
         for (var i = 0; i < 25; i++)
@@ -45,12 +42,12 @@ public class MovementDice : MonoBehaviour
 
     private void RollDice()
     {//RollDice is triggered through Mind.RollDice event
-        Debug.Log("RollMVMT");
         // Generate random number
         // Save it as current number
         currentDiceSide = Random.Range(1, 6);
+        Debug.Log("mvmt:" + currentDiceSide);
         // Start up animation
-        StartCoroutine(_enumerator);
+        StartCoroutine(RollDiceAnimation());
     }
 
     

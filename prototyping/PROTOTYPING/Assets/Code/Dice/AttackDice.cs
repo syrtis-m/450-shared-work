@@ -6,14 +6,12 @@ using Random = UnityEngine.Random;
 
 public class AttackDice : MonoBehaviour
 {
-    private Sprite[] _diceSides;
+    public Sprite[] _diceSides;
     private SpriteRenderer _rend;
     public int currentDiceSide;
-    private IEnumerator _enumerator;
 
     void Awake()
     {
-        _enumerator = RollDiceAnimation();
         _rend = GetComponent<SpriteRenderer>();
         _diceSides = Resources.LoadAll<Sprite>("redDice/");
         currentDiceSide = 1;
@@ -34,17 +32,16 @@ public class AttackDice : MonoBehaviour
 
     private void RollDice()
     {
-        StartCoroutine(_enumerator);
-        Debug.Log("RollAtk");
         // Generate random number
         // Save it as current number
         currentDiceSide = Random.Range(1, 6);;
+        Debug.Log("atk:" + currentDiceSide);
         // Start up animation
+        StartCoroutine(RollDiceAnimation());
     }
     
     public IEnumerator RollDiceAnimation()
     {
-        Debug.Log("atk_cortn");
         // Animation will finish whenever but on proper side
         int currentSideCopy = currentDiceSide;
         for (int i = 0; i < 25; i++)

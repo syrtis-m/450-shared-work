@@ -148,12 +148,12 @@ public class Mind : MonoBehaviour
         {
             character.GetComponent<PlayerCharMvmt>().resetChar();
         }
-        Debug.Log("BPT() end");
     }
     
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
+        //StopAllCoroutines();
         battleStatus = BattleStatus.AI_TURN;
         destroyHighlightTiles();
         Debug.Log("EndPlayerTurn()");
