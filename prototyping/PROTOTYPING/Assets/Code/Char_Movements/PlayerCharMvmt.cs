@@ -59,7 +59,10 @@ public class PlayerCharMvmt : MonoBehaviour
     public void resetChar()
     {
         _status = Mind.characterStatus.TURN_STARTED;
-        _character.color = _currentColor;
+        if (_character != null)
+        {//need a check against null for some reason to prevent an error after char death IDK
+            _character.color = _currentColor;
+        }
         //movement and attack range reset now bc we have drag and drop dicerolling
         movementRange = 0;
         atkDamage = 0;
