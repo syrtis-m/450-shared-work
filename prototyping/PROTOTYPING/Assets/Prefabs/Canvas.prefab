@@ -806,7 +806,7 @@ GameObject:
   - component: {fileID: 3494525933108253114}
   - component: {fileID: 7481277714632772961}
   m_Layer: 5
-  m_Name: Image - Char 3
+  m_Name: Image - Char_ARCHER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -960,7 +960,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -2, y: -2, z: -42, w: -2}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1040,7 +1040,7 @@ GameObject:
   - component: {fileID: 54735332385708544}
   - component: {fileID: 4770130644627188374}
   m_Layer: 5
-  m_Name: Image - Char 1
+  m_Name: Image - Char_SABER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1194,7 +1194,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -2, y: -2, z: -42, w: -2}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1237,7 +1237,7 @@ GameObject:
   - component: {fileID: 697512595240737434}
   - component: {fileID: 6256292376361450638}
   m_Layer: 5
-  m_Name: Image - Char 2
+  m_Name: Image - Char_MAGE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -2, y: -2, z: -42, w: -2}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

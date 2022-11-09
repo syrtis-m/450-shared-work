@@ -64,15 +64,32 @@ public class AICharacter : MonoBehaviour
         if (_pathFinding != null)
         {
             
-            Gizmos.color = _defaultColor;
-            if (_defaultColor == Color.white)
-            {
-                Gizmos.color = Color.red;
-            }
+            //Gizmos.color = _defaultColor;
+            Gizmos.color = Color.green;
 
             var cellOrigin = _groundTilemap.WorldToCell(transform.position);
             var grid = _pathFinding.scanAttackGrid(cellOrigin, noticeRange);
             var gridSize = grid.Count;
+            for (int i = 0; i < gridSize; i++)
+            {
+                var worldLoc = grid.Dequeue();
+                Gizmos.DrawLine(transform.position, worldLoc);
+            }
+            
+            Gizmos.color = Color.red;
+
+            grid = _pathFinding.scanAttackGrid(cellOrigin, attackRange+movementRange);
+            gridSize = grid.Count;
+            for (int i = 0; i < gridSize; i++)
+            {
+                var worldLoc = grid.Dequeue();
+                Gizmos.DrawLine(transform.position, worldLoc);
+            }
+            
+            Gizmos.color = Color.blue;
+
+            grid = _pathFinding.scanAttackGrid(cellOrigin, movementRange);
+            gridSize = grid.Count;
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
