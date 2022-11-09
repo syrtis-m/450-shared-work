@@ -53,7 +53,7 @@ public class AttackDice : MonoBehaviour
         int currentSideCopy = currentDiceSide;
         for (int i = 0; i < 25; i++)
         {
-            int randomDiceSide = Random.Range(1, 6);
+            int randomDiceSide = Random.Range(1, 7);
             currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
             _rend.sprite = diceSides[currentSideCopy];
             yield return new WaitForSeconds(i * 0.01f);

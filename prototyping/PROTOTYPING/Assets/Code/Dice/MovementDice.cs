@@ -42,7 +42,7 @@ public class MovementDice : MonoBehaviour
         var currentSideCopy = currentDiceSide;
         for (var i = 0; i < 25; i++)
         {
-            var randomDiceSide = Random.Range(1, 6);
+            var randomDiceSide = Random.Range(1, 7);
             currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
             _rend.sprite = diceSides[currentSideCopy];
             yield return new WaitForSeconds(i * 0.01f);
