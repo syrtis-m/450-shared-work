@@ -29,6 +29,8 @@ public class Mind : MonoBehaviour
     public float playerSplashScreenTime = 3f;
     public float enemySplashScreenTime = 3f;
     
+
+    
     //state tracking
     public GameObject currentPlayer;
     public BattleStatus battleStatus;
@@ -130,8 +132,6 @@ public class Mind : MonoBehaviour
 
     private void BeginPlayerTurn()
     {
-        battleStatus = BattleStatus.PLAYER_TURN;
-        
         StartCoroutine(player_turn_splash());
         
         BeginPlayerTurnEvent?.Invoke(); //broadcast event to shit that needs to know player turn has begun
@@ -150,8 +150,7 @@ public class Mind : MonoBehaviour
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
-        //StopAllCoroutines();
-        battleStatus = BattleStatus.AI_TURN;
+        
         destroyHighlightTiles();
         Debug.Log("EndPlayerTurn()");
         //disable all characters
@@ -163,24 +162,7 @@ public class Mind : MonoBehaviour
         }
         
         TrimCharAILists();
-
-        if ((aiCharacters.Count) > 0 && (playerCharacters.Count > 0))
-        {
-            StartCoroutine(enemy_turn_splash());
-        }
-        else if ((aiCharacters.Count) == 0 && (playerCharacters.Count > 0))
-        {
-            EndGameWin();
-        }
-        else if ((aiCharacters.Count) > 0 && (playerCharacters.Count == 0))
-        {
-            EndGameLose();
-        }
-        else
-        {
-            Debug.Log("error in end player turn");
-        }
-        
+        WinLossCheck();
     }
 
 
@@ -219,24 +201,58 @@ public class Mind : MonoBehaviour
         Debug.Log($"aicharacter count: {aiCharacters.Count}");
         
 
-        if ((aiCharacters.Count > 0) && (playerCharacters.Count > 0))
+        WinLossCheck();
+    }
+
+
+    public void WinLossCheck()
+    {//check the win/loss condition at the end of each turn.
+        if (battleStatus == BattleStatus.PLAYER_TURN)
         {
-            BeginPlayerTurn();
-        }
-        else if ((aiCharacters.Count) == 0 && (playerCharacters.Count > 0))
+            battleStatus = BattleStatus.AI_TURN;
+            if ((aiCharacters.Count > 0) && (playerCharacters.Count > 0))
+            {
+                StartCoroutine(enemy_turn_splash());
+            }
+            else if ((aiCharacters.Count == 0) && (playerCharacters.Count > 0))
+            {
+                EndGameWin();
+            }
+            else if ((aiCharacters.Count > 0) && (playerCharacters.Count == 0))
+            {
+                EndGameLose();
+            }
+            else
+            {
+                Debug.Log("error in WinLossCheck() end player turn");
+            }
+        } 
+        else if (battleStatus == BattleStatus.AI_TURN)
         {
-            EndGameWin();
-        }
-        else if ((aiCharacters.Count) > 0 && (playerCharacters.Count == 0))
-        {
-            EndGameLose();
+            battleStatus = BattleStatus.PLAYER_TURN;
+            if ((aiCharacters.Count > 0) && (playerCharacters.Count > 0))
+            {
+                BeginPlayerTurn();
+            }
+            else if ((aiCharacters.Count == 0) && (playerCharacters.Count > 0))
+            {
+                EndGameWin();
+            }
+            else if ((aiCharacters.Count > 0) && (playerCharacters.Count == 0))
+            {
+                EndGameLose();
+            }
+            else
+            {
+                Debug.Log("error in WinLossCheck() end AI turn");
+            }
         }
         else
         {
-            Debug.Log("error in end AI turn");
+            //TODO add an else if for reaching an objective location
+            Debug.Log("error in WinLossCheck()");
         }
     }
-
 
     private void EndGameLose()
     {
@@ -258,7 +274,6 @@ public class Mind : MonoBehaviour
             
         yield return new WaitForSeconds(playerSplashScreenTime);
 
-        battleStatus = BattleStatus.PLAYER_TURN;
         Destroy(obj);
     }
     

@@ -6,16 +6,23 @@ using Random = UnityEngine.Random;
 
 public class AttackDice : MonoBehaviour
 {
-    public Sprite[] _diceSides;
+    public Sprite[] diceSides = new Sprite[6];
     private SpriteRenderer _rend;
+    private UIManager _uiManager;
     public int currentDiceSide;
 
     void Awake()
     {
         _rend = GetComponent<SpriteRenderer>();
-        _diceSides = Resources.LoadAll<Sprite>("redDice/");
+        _uiManager = GetComponentInParent<UIManager>();
+        //diceSides = Resources.LoadAll<Sprite>("redDice/");
         currentDiceSide = 1;
-        _rend.sprite = _diceSides[currentDiceSide];
+    }
+
+    private void Start()
+    {
+        diceSides = _uiManager.attackDiceSides;
+        _rend.sprite = diceSides[currentDiceSide];
     }
 
     private void OnEnable()
@@ -34,13 +41,13 @@ public class AttackDice : MonoBehaviour
     {
         // Generate random number
         // Save it as current number
-        currentDiceSide = Random.Range(1, 6);;
+        currentDiceSide = Random.Range(1, 7);;
         Debug.Log("atk:" + currentDiceSide);
         // Start up animation
         StartCoroutine(RollDiceAnimation());
     }
-    
-    public IEnumerator RollDiceAnimation()
+
+    private IEnumerator RollDiceAnimation()
     {
         // Animation will finish whenever but on proper side
         int currentSideCopy = currentDiceSide;
@@ -48,10 +55,10 @@ public class AttackDice : MonoBehaviour
         {
             int randomDiceSide = Random.Range(1, 6);
             currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
-            _rend.sprite = _diceSides[currentSideCopy];
+            _rend.sprite = diceSides[currentSideCopy];
             yield return new WaitForSeconds(i * 0.01f);
         }
-        _rend.sprite = _diceSides[currentDiceSide - 1];
+        _rend.sprite = diceSides[currentDiceSide - 1];
     }
 
 }

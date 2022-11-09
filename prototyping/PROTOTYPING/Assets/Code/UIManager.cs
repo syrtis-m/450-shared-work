@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverMenuWin;
     public String mainMenu = "mainMenu";
     public String nextLevel;
+    public Sprite[] movementDiceSides = new Sprite[6];
+    public Sprite[] attackDiceSides = new Sprite[6];
 
     private void OnEnable()
     {
