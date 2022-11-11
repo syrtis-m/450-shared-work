@@ -122,10 +122,10 @@ TextureImporter:
       name: start screen_2
       rect:
         serializedVersion: 2
-        x: 91
-        y: 15
-        width: 103
-        height: 50
+        x: 64
+        y: 42
+        width: 118
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,10 +143,10 @@ TextureImporter:
       name: start screen_1
       rect:
         serializedVersion: 2
-        x: 55
-        y: 66
-        width: 177
-        height: 63
+        x: 66
+        y: 73
+        width: 93
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,34 +161,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start screen_3
-      rect:
-        serializedVersion: 2
-        x: 226
-        y: 0
-        width: 62
-        height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ea57d93eab6f22c4695bab6bd5e62b8f
-      internalID: -1185205569
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: start screen_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 139
-        width: 62
-        height: 53
+        x: 55
+        y: 112
+        width: 177
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,7 +194,6 @@ TextureImporter:
     nameFileIdTable:
       start screen_1: -1601740858
       start screen_2: 1752857220
-      start screen_3: -1185205569
       start screen_0: 745886481
   spritePackingTag: 
   pSDRemoveMatte: 0

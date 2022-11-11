@@ -266,10 +266,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.050000004
-    y: 0.05
-    width: 0.90000004
-    height: 0.90000004
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -4102,38 +4102,6 @@ PrefabInstance:
       propertyPath: characterObject
       value: 
       objectReference: {fileID: 962617954}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 575623925789102910, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 697512595240737434, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: characterObject
       value: 
@@ -4142,86 +4110,6 @@ PrefabInstance:
       propertyPath: characterObject
       value: 
       objectReference: {fileID: 50717048}
-    - target: {fileID: 3974892707742233723, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_PixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974892707742233723, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_OverrideSorting
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974892707742233723, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_OverridePixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207501508712587403, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_PixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207501508712587403, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_OverridePixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816541147142055203, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816541147142055203, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816541147142055203, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4816541147142055203, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6264025058717962823, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_PixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6264025058717962823, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_OverridePixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6264025058717962823, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8339549746673730382, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8996276358089987376, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_Camera
       value: 
