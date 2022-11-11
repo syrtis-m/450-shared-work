@@ -236,6 +236,7 @@ public class PlayerCharMvmt : MonoBehaviour
     public void Attack(GameObject enemy)
     {
         enemy.GetComponent<AICharacter>().takeDamage(atkDamage);
+        SoundManager.instance.PlaySoundHurt();
         _status = Mind.characterStatus.ATTACKED;
     }
     

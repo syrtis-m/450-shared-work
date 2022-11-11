@@ -219,8 +219,8 @@ public class AICharacter : MonoBehaviour
 
     public void Attack(GameObject player)
     {
-        
         player.GetComponent<PlayerCharMvmt>().takeDamage(atkDamage);
+        SoundManager.instance.PlaySoundHurt();
         status = Mind.characterStatus.ATTACKED;
     }
     
