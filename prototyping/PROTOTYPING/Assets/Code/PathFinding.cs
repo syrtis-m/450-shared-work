@@ -296,6 +296,11 @@ public class PathFinding
         lr.endWidth = 0.05f;
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
-        GameObject.Destroy(myLine, duration);
+        
+        if (duration != 0)
+        {//so if duration is 0 it doesn't destroy
+            GameObject.Destroy(myLine, duration);
+        }
+
     }
 }

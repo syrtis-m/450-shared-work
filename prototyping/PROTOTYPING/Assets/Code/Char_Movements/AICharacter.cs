@@ -58,42 +58,64 @@ public class AICharacter : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //draws notice ranges of characters
+        //draws notice, attack, movement ranges of characters
         //because it uses ScanGrid, it doesn't draw on top of player characters even if they're in range
+
+        //var mode = "CUBES"; //use CUBES for single characters. better indication of movement + attack range vs notice range
+        var mode = "LINES"; //use LINES for multiple characters. better indication of which char can go where
 
         if (_pathFinding != null)
         {
-            
-            //Gizmos.color = _defaultColor;
+            //NOTICE RANGE
             Gizmos.color = Color.green;
-
             var cellOrigin = _groundTilemap.WorldToCell(transform.position);
             var grid = _pathFinding.scanAttackGrid(cellOrigin, noticeRange);
             var gridSize = grid.Count;
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
-                Gizmos.DrawLine(transform.position, worldLoc);
+                if (mode == "CUBES")
+                {
+                    Gizmos.DrawCube(worldLoc,new Vector3(0.8f,0.8f));
+                }
+                else if (mode == "LINES")
+                {
+                    Gizmos.DrawLine(transform.position, worldLoc);
+                }
             }
             
+            //ATTACK + MOVEMENT RANGE
             Gizmos.color = Color.red;
-
             grid = _pathFinding.scanAttackGrid(cellOrigin, attackRange+movementRange);
             gridSize = grid.Count;
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
-                Gizmos.DrawLine(transform.position, worldLoc);
+                if (mode == "CUBES")
+                {
+                    Gizmos.DrawCube(worldLoc,new Vector3(0.5f,0.5f));
+                }
+                else if (mode == "LINES")
+                {
+                    Gizmos.DrawLine(transform.position, worldLoc);
+                }
             }
-            
-            Gizmos.color = Color.blue;
 
+            //MOVEMENT RANGE
+            Gizmos.color = Color.blue;
             grid = _pathFinding.scanAttackGrid(cellOrigin, movementRange);
             gridSize = grid.Count;
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
-                Gizmos.DrawLine(transform.position, worldLoc);
+                if (mode == "CUBES")
+                {
+                    Gizmos.DrawCube(worldLoc,new Vector3(0.5f,0.5f));
+                }
+                else if (mode == "LINES")
+                {
+                    Gizmos.DrawLine(transform.position, worldLoc);
+                }
             }
         }
     }
