@@ -190,7 +190,7 @@ TextureImporter:
         width: 20
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -198,6 +198,69 @@ TextureImporter:
       bones: []
       spriteID: 9ff943ce7a065f54abcbd41b3461d8c2
       internalID: -1991185949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 9
+        width: 22
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df8319bfd39b05c43aa0dfa56603451d
+      internalID: 802229677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 22
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49404868b5172304a9b8c8fa37237723
+      internalID: -1428709050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 9
+        width: 22
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f6c895f0aa886449a2ac59cf273e70e
+      internalID: -1148245621
       vertices: []
       indices: 
       edges: []
@@ -213,9 +276,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      ui spritesheet_5: -1428709050
       ui spritesheet_1: -225903478
       ui spritesheet_3: -1991185949
+      ui spritesheet_6: -1148245621
       ui spritesheet_0: -1178498629
+      ui spritesheet_4: 802229677
       ui spritesheet_2: 1573042555
   spritePackingTag: 
   pSDRemoveMatte: 0

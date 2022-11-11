@@ -9,7 +9,9 @@ public class PlayerCharMvmt : MonoBehaviour
     //outlets
     
     public int movementRange; //how many tiles the player can traverse in one turn
-    public int attackRange;
+    public int attackRange; //default is 2, archer has 3
+    public int attackMod = 0; //attack modifier: +1atk means +1 to outgoing attacks
+    public int defenseMod = 0; //defense modifier: +1def means -1 to incoming attacks
     public int maxHealth; //max health. store this info for healing
     public int currentHealth; //player health
     public int atkDamage; //player attack
@@ -144,7 +146,7 @@ public class PlayerCharMvmt : MonoBehaviour
     public void AssignDiceValues(int movementDice, int attackDice)
     {
         movementRange = movementDice;
-        atkDamage = attackDice;
+        atkDamage = attackDice + attackMod;
     }
 
     private void Click() //"teleport to destination" movement
@@ -242,7 +244,7 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public void takeDamage(int atkAmnt)
     {// damage the character for a certain amount of health
-        currentHealth -= atkAmnt;
+        currentHealth -= (atkAmnt - defenseMod);
         _healthBar.SetHealth(currentHealth);
         //if dead then call destroy
         if (currentHealth <= 0)
