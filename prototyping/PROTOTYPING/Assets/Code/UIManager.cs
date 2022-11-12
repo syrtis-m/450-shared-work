@@ -3,15 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject gameOverMenuLose;
-    public GameObject gameOverMenuWin;
+    //config - change for each scene
     public String mainMenu = "mainMenu";
     public String nextLevel;
+    public String objective;
+    
+    //constant - stay same between prefab instances
     public Sprite[] movementDiceSides = new Sprite[6];
     public Sprite[] attackDiceSides = new Sprite[6];
+    public GameObject gameOverMenuLose;
+    public GameObject gameOverMenuWin;
+    public GameObject textScreen;
+    private TMP_Text _objectiveText;
+
+
+    private void Awake()
+    {
+        _objectiveText = textScreen.GetComponent<TMP_Text>();
+        _objectiveText.text = objective;
+    }
 
     private void OnEnable()
     {
