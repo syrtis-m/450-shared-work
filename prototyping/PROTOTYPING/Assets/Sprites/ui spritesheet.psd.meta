@@ -265,6 +265,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ui spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 39
+        width: 39
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8ccc9c578256fa4cb122db8e5c079df
+      internalID: 1417467766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 22
+        width: 39
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1403759e57021d4199d116b33d9685f
+      internalID: -593287855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -276,12 +318,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      ui spritesheet_8: -593287855
       ui spritesheet_5: -1428709050
       ui spritesheet_1: -225903478
       ui spritesheet_3: -1991185949
       ui spritesheet_6: -1148245621
       ui spritesheet_0: -1178498629
       ui spritesheet_4: 802229677
+      ui spritesheet_7: 1417467766
       ui spritesheet_2: 1573042555
   spritePackingTag: 
   pSDRemoveMatte: 0
