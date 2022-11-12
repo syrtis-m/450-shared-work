@@ -594,7 +594,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +1 DEF
+  m_text: +1 ATK
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6587e1b83c312e14e9e6636e3287c1f1, type: 2}
   m_sharedMaterial: {fileID: 7932370147631435535, guid: 6587e1b83c312e14e9e6636e3287c1f1, type: 2}
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +1 ATK
+  m_text: +1 DEF
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6587e1b83c312e14e9e6636e3287c1f1, type: 2}
   m_sharedMaterial: {fileID: 7932370147631435535, guid: 6587e1b83c312e14e9e6636e3287c1f1, type: 2}
@@ -4177,8 +4177,6 @@ RectTransform:
   - {fileID: 1483502025}
   - {fileID: 4722155737477729584}
   - {fileID: 8996276358270419501}
-  - {fileID: 8996276357038701703}
-  - {fileID: 8996276357799173584}
   - {fileID: 8499297360917073936}
   - {fileID: 7181324025565919145}
   - {fileID: 7383150024019188584}
@@ -4186,6 +4184,8 @@ RectTransform:
   - {fileID: 4511538188968250613}
   - {fileID: 4219431574565405364}
   - {fileID: 2468329766677576274}
+  - {fileID: 8996276357799173584}
+  - {fileID: 8996276357038701703}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4270,7 +4270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: mainMenu
   nextLevel: level2
-  objective: objective:<br>defeat all enemies
+  objective: objective:<br>reach green tile
   movementDiceSides:
   - {fileID: 21300000, guid: c82e0a75531a4124484b41cfbaad1684, type: 3}
   - {fileID: 21300000, guid: 02319652b16d7c647841ac72561851f4, type: 3}

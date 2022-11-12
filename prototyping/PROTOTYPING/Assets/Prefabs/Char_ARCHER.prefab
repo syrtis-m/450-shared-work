@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3682916872393862889}
   m_Layer: 0
   m_Name: Char_ARCHER
-  m_TagString: Untagged
+  m_TagString: playerchar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementRange: 0
   attackRange: 3
+  attackMod: 0
+  defenseMod: 0
   maxHealth: 5
   currentHealth: 5
   atkDamage: 0

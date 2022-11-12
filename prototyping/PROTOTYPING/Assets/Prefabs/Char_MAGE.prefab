@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1868082226856696402}
   m_Layer: 0
   m_Name: Char_MAGE
-  m_TagString: Untagged
+  m_TagString: playerchar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

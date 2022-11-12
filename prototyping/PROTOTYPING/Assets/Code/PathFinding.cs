@@ -60,9 +60,9 @@ public class PathFinding
         
         //if a collider at the destination exists, don't go there
         if (colliderAtDest)
-        {
-            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>() || colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>())
-            {
+        { //todo consider removing player and AI from this list so you can do chokepoint tactics
+            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>() || colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>() || colliderAtDest.gameObject.GetComponent<Objective>())
+            {//UPDATE THIS LIST WHENEVER YOU ADD SOMETHING WITH A COLLIDER THAT YOU WANT TO BE ABLE TO MOVE ON TOP OF
                 return true;
             }//need this block for AI movement pathing to work.
             return false; 

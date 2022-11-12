@@ -207,6 +207,15 @@ public class Mind : MonoBehaviour
 
     public void WinLossCheck()
     {//check the win/loss condition at the end of each turn.
+        if (Objective.instance != null)
+        {
+            if (Objective.instance.CheckObjectiveWin())
+            {
+                EndGameWin();
+                return;
+            }
+        }
+        
         if (battleStatus == BattleStatus.PLAYER_TURN)
         {
             battleStatus = BattleStatus.AI_TURN;
@@ -254,16 +263,17 @@ public class Mind : MonoBehaviour
         }
     }
 
-    private void EndGameLose()
+    public void EndGameLose()
     {
         Debug.Log("EndGameLose()");
-        
+        Time.timeScale = 0;
         Lose?.Invoke();//observer pattern using unity event system
     }
 
-    private void EndGameWin()
+    public void EndGameWin()
     {
         Debug.Log("EndGameWin()");
+        Time.timeScale = 0;
         Win?.Invoke();
     }
     

@@ -395,7 +395,7 @@ TextureImporter:
       name: greyboxing_tilemap_13
       rect:
         serializedVersion: 2
-        x: 48
+        x: 16
         y: 0
         width: 16
         height: 16
@@ -408,6 +408,27 @@ TextureImporter:
       bones: []
       spriteID: 3a183d63b07cfd24d9ccd2269f4f1205
       internalID: -104110668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greyboxing_tilemap_14
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f124cd6b594b4fe4f957a26dc2118e16
+      internalID: 1844636849
       vertices: []
       indices: 
       edges: []
@@ -436,6 +457,7 @@ TextureImporter:
       greyboxing_tilemap_9: -785691598
       greyboxing_tilemap_8: -662220817
       greyboxing_tilemap_11: -1867732745
+      greyboxing_tilemap_14: 1844636849
       greyboxing_tilemap_6: -534271416
   spritePackingTag: 
   pSDRemoveMatte: 1
