@@ -207,6 +207,7 @@ public class PlayerCharMvmt : MonoBehaviour
                 else if (dist <= movementRange)
                 {
                     transform.position += deltaPos;
+                    SoundManager.instance.PlayPlayerSoundMove();
                     _status = Mind.characterStatus.MOVED; //set status to moved after character moved.
                 }
                 
@@ -238,7 +239,6 @@ public class PlayerCharMvmt : MonoBehaviour
     public void Attack(GameObject enemy)
     {
         enemy.GetComponent<AICharacter>().takeDamage(atkDamage);
-        SoundManager.instance.PlaySoundHurt();
         _status = Mind.characterStatus.ATTACKED;
     }
     
@@ -246,9 +246,14 @@ public class PlayerCharMvmt : MonoBehaviour
     {// damage the character for a certain amount of health
         currentHealth -= (atkAmnt - defenseMod);
         _healthBar.SetHealth(currentHealth);
+        if (currentHealth > 0)
+        {
+            SoundManager.instance.PlayPlayerSoundHurt();
+        }
         //if dead then call destroy
         if (currentHealth <= 0)
         {
+            SoundManager.instance.PlayPlayerSoundDeath();
             Die();
         }
     }

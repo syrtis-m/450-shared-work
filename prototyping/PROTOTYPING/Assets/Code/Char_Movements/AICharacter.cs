@@ -183,6 +183,7 @@ public class AICharacter : MonoBehaviour
                 Destroy(colliderAtDest.gameObject);
             }
             transform.position += deltaPos;
+            SoundManager.instance.PlayEnemySoundMove();
             status = Mind.characterStatus.MOVED;
             var currentAIPosition = _groundTilemap.WorldToCell(transform.position);
             var currentAILocation = _groundTilemap.CellToWorld(currentAIPosition) + new Vector3(0.5f, 0.5f, 0);
@@ -220,7 +221,6 @@ public class AICharacter : MonoBehaviour
     public void Attack(GameObject player)
     {
         player.GetComponent<PlayerCharMvmt>().takeDamage(atkDamage);
-        SoundManager.instance.PlaySoundHurt();
         status = Mind.characterStatus.ATTACKED;
     }
     
@@ -228,9 +228,14 @@ public class AICharacter : MonoBehaviour
     {// damage the character for a certain amount of health
         currentHealth -= atkAmnt;
         _healthBar.SetHealth(currentHealth);
+        if (currentHealth > 0)
+        {
+            SoundManager.instance.PlayEnemySoundHurt();
+        }
         //if dead then call destroy
         if (currentHealth <= 0)
         {
+            SoundManager.instance.PlayEnemySoundDeath();
             Die();
         }
     }
