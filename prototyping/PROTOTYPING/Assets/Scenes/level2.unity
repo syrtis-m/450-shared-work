@@ -3748,6 +3748,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Char_MAGE
       objectReference: {fileID: 0}
+    - target: {fileID: 1868082226856696401, guid: f482916a525e3374da5a13b418d90f71, type: 3}
+      propertyPath: _currentColor.b
+      value: 0.21960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868082226856696401, guid: f482916a525e3374da5a13b418d90f71, type: 3}
+      propertyPath: _currentColor.g
+      value: 0.21960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 1868082226856696401, guid: f482916a525e3374da5a13b418d90f71, type: 3}
+      propertyPath: _currentColor.r
+      value: 0.21960786
+      objectReference: {fileID: 0}
     - target: {fileID: 1868082226856696403, guid: f482916a525e3374da5a13b418d90f71, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -4081,15 +4093,15 @@ PrefabInstance:
     - target: {fileID: 54735332385708544, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: characterObject
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1597064766}
     - target: {fileID: 697512595240737434, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: characterObject
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 981318495}
     - target: {fileID: 3494525933108253114, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: characterObject
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 807927760}
     - target: {fileID: 8996276358089987376, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_Camera
       value: 

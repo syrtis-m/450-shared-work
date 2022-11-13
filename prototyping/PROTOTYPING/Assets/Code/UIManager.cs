@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     //constant - stay same between prefab instances
     public Sprite[] movementDiceSides = new Sprite[6];
     public Sprite[] attackDiceSides = new Sprite[6];
+    public GameObject levelSelect;
     public GameObject gameOverMenuLose;
     public GameObject gameOverMenuWin;
     public GameObject textScreen;
@@ -24,7 +25,10 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _objectiveText = textScreen.GetComponent<TMP_Text>();
-        _objectiveText.text = objective;
+        if (_objectiveText != null)
+        {
+            _objectiveText.text = objective;
+        }
     }
 
     private void OnEnable()
@@ -39,6 +43,22 @@ public class UIManager : MonoBehaviour
         Mind.Lose -= EnableGameOverMenuLose;
         Mind.Win -= EnableGameOverMenuWin;
 
+    }
+
+    public void EnableLevelSelect()
+    {
+        levelSelect.SetActive(true);
+    }
+
+    public void DisableLevelSelect()
+    {
+        levelSelect.SetActive(false);
+    }
+
+    public void GOTOLevel(string level)
+    {
+        Debug.Log("level to load: " + level);
+        SceneManager.LoadScene(level);
     }
 
     public void EnableGameOverMenuLose()

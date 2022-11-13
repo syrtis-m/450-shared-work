@@ -27,7 +27,7 @@ public class PlayerCharMvmt : MonoBehaviour
     private GameObject _movementTile;
     private GameObject _attackTile;
     private SpriteRenderer _character; //this is the spriterenderer that handles color
-    private Color _currentColor; //this is the color of the character sprite. 
+    private Color _currentColor = Color.white; //this is the color of the character sprite. 
     private HealthBar _healthBar;
     public DragAndDrop selector;
 
@@ -139,8 +139,8 @@ public class PlayerCharMvmt : MonoBehaviour
         _movementTile = Mind.instance.movementTilePrefab;
         _attackTile = Mind.instance.attackTilePrefab;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
-        _currentColor = _character.color;
-        
+        _currentColor = Color.white;
+        _character.color = Color.white;
     }
    
     public void AssignDiceValues(int movementDice, int attackDice)

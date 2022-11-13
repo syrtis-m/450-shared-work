@@ -106,6 +106,7 @@ MonoBehaviour:
   maxHealth: 5
   currentHealth: 5
   atkDamage: 0
+  _currentColor: {r: 1, g: 1, b: 1, a: 1}
   selector: {fileID: 0}
 --- !u!61 &1468607337862698255
 BoxCollider2D:
