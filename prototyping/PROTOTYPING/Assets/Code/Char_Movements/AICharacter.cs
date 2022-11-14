@@ -15,7 +15,6 @@ public class AICharacter : MonoBehaviour
     public int maxHealth = 6; //max health -- we store this separately in case of healing. default is 6 as that's the max possible damage
     public int atkDamage = 3; //ai attack. default is 3
     public int attackRange = 2; //default is 2
-    public float aiTurnPauseFor = 2f; //the amount of time the TurnCoroutine pauses for during execution.
     
     //state tracking
     public Mind.characterStatus status;
@@ -32,6 +31,8 @@ public class AICharacter : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Color _defaultColor;
     private HealthBar _healthBar;
+    private float _aiTurnPauseFor; //the amount of time the TurnCoroutine pauses for during execution.
+
 
     private void Awake()
     {
@@ -54,6 +55,7 @@ public class AICharacter : MonoBehaviour
         _movementTile = Mind.instance.movementTilePrefab;
         _attackTile = Mind.instance.attackTilePrefab;
         _pathFinding = new PathFinding(_groundTilemap, _collisionTilemap, _movementTile, _attackTile);
+        _aiTurnPauseFor = Mind.instance.aiTurnPauseFor;
     }
 
     private void OnDrawGizmos()
@@ -155,8 +157,8 @@ public class AICharacter : MonoBehaviour
 
         if (shortestDist <= noticeRange)
         {//case: within range to "notice" the player
-            _pathFinding.drawLine(transform.position,closestPlayerLocation,Color.blue,duration:(aiTurnPauseFor/2));
-            yield return new WaitForSeconds(aiTurnPauseFor/2);//we have this inside the notice case so that when it doesn't notice a character, it's turn goes faster
+            _pathFinding.drawLine(transform.position,closestPlayerLocation,Color.blue,duration:(_aiTurnPauseFor/2));
+            yield return new WaitForSeconds(_aiTurnPauseFor/2);//we have this inside the notice case so that when it doesn't notice a character, it's turn goes faster
             
             Queue<Vector3> grid = _pathFinding.scanGrid(AIOrigin, movementRange);
             Debug.Log(grid.Count);
@@ -194,9 +196,9 @@ public class AICharacter : MonoBehaviour
                 var dist = _pathFinding.FindPathDist(player_location, currentAILocation);
                 if (dist <= attackRange)
                 {
-                    yield return new WaitForSeconds(aiTurnPauseFor / 4);
-                    _pathFinding.drawLine(transform.position, player_location, Color.red,duration:(aiTurnPauseFor/4));
-                    yield return new WaitForSeconds(aiTurnPauseFor / 4);
+                    yield return new WaitForSeconds(_aiTurnPauseFor / 4);
+                    _pathFinding.drawLine(transform.position, player_location, Color.red,duration:(_aiTurnPauseFor/4));
+                    yield return new WaitForSeconds(_aiTurnPauseFor / 4);
                     Attack(Mind.instance.playerCharacters[i]);
                     break;
                 }
@@ -205,7 +207,7 @@ public class AICharacter : MonoBehaviour
         
         
         status = Mind.characterStatus.DONE;
-        yield return new WaitForSeconds(aiTurnPauseFor/2);
+        yield return new WaitForSeconds(_aiTurnPauseFor/2);
         _spriteRenderer.color = Color.grey; //show it isn't active anymore
         
 

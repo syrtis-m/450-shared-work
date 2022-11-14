@@ -26,8 +26,9 @@ public class Mind : MonoBehaviour
     public GameObject enemy_turn_start;
     public GameObject player_turn_start;
     public Shader lineShader;
-    public float playerSplashScreenTime = 3f;
-    public float enemySplashScreenTime = 3f;
+    public float playerSplashScreenTime = 2f;
+    public float enemySplashScreenTime = 2f;
+    public float aiTurnPauseFor = 1.5f;
     
 
     

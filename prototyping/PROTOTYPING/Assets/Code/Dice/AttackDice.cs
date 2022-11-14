@@ -51,12 +51,12 @@ public class AttackDice : MonoBehaviour
     {
         // Animation will finish whenever but on proper side
         int currentSideCopy = currentDiceSide;
-        for (int i = 0; i < 25; i++)
+        for (int i = 15; i < 25; i++)
         {
             int randomDiceSide = Random.Range(1, 7);
             currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
             _rend.sprite = diceSides[currentSideCopy];
-            yield return new WaitForSeconds(i * 0.01f);
+            yield return new WaitForSeconds(i * 0.008f);
         }
         _rend.sprite = diceSides[currentDiceSide - 1];
     }

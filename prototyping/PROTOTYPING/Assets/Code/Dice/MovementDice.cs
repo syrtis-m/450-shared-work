@@ -40,12 +40,12 @@ public class MovementDice : MonoBehaviour
     {
         // Animation will finish whenever but on proper side
         var currentSideCopy = currentDiceSide;
-        for (var i = 0; i < 25; i++)
+        for (var i = 15; i < 25; i++)
         {
             var randomDiceSide = Random.Range(1, 7);
             currentSideCopy = (randomDiceSide + currentSideCopy) % 6;
             _rend.sprite = diceSides[currentSideCopy];
-            yield return new WaitForSeconds(i * 0.01f);
+            yield return new WaitForSeconds(i * 0.008f);
         }
         _rend.sprite = diceSides[currentDiceSide - 1];
     }
