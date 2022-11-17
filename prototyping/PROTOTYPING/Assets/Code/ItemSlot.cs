@@ -7,6 +7,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 {
     public MovementDice movementDice;
     public AttackDice attackDice;
+    public DragAndDrop slotCharacter = null;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -14,9 +15,13 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         {
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
             
-            GameObject character = eventData.pointerDrag.GetComponent<DragAndDrop>().characterObject;
-            
-            character.GetComponent<PlayerCharMvmt>().AssignDiceValues(movementDice.currentDiceSide, attackDice.currentDiceSide);
+            if (slotCharacter == null)
+            {
+                slotCharacter = eventData.pointerDrag.GetComponent<DragAndDrop>();
+                slotCharacter.GetComponent<DragAndDrop>().SetSlot(this);
+                slotCharacter.characterObject.GetComponent<PlayerCharMvmt>().AssignDiceValues(movementDice.currentDiceSide, attackDice.currentDiceSide);
+                print(Mind.instance.LockDiceEnabled());
+            }
         }
     }
 }

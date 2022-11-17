@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class Mind : MonoBehaviour
 {
@@ -16,9 +17,11 @@ public class Mind : MonoBehaviour
     //config
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
+    public Button lockDiceButton;
     public List<GameObject> movementDice;
     public List<GameObject> attackDice;
     public List<GameObject> playerCharacters;
+    public List<ItemSlot> itemSlots;
     public List<GameObject> aiCharacters = new List<GameObject>(0);//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
@@ -73,7 +76,6 @@ public class Mind : MonoBehaviour
         {
             aiCharacters.Add(obj);
         }
-        
         currentPlayer = playerCharacters[0];
         BeginPlayerTurn();
     }
@@ -92,6 +94,20 @@ public class Mind : MonoBehaviour
             currentPlayer = newCharacter;
         }
 
+    }
+
+    public bool LockDiceEnabled()
+    {
+        foreach (ItemSlot itemslot in itemSlots)
+        {
+            if (itemslot.GetComponent<ItemSlot>().slotCharacter == null)
+            {
+                lockDiceButton.interactable = false;
+                return false;
+            }
+        }
+        lockDiceButton.interactable = true;
+        return true;
     }
 
     public static void destroyHighlightTiles()
@@ -134,7 +150,8 @@ public class Mind : MonoBehaviour
     private void BeginPlayerTurn()
     {
         StartCoroutine(player_turn_splash());
-        
+        lockDiceButton.interactable = false;
+
         BeginPlayerTurnEvent?.Invoke(); //broadcast event to shit that needs to know player turn has begun
         
         foreach (var character in aiCharacters)

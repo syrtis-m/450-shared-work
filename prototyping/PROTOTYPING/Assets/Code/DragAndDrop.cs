@@ -9,6 +9,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     [SerializeField] private Canvas canvas;
     private CanvasGroup canvasGroup;
     public GameObject characterObject;
+    public ItemSlot slot = null;
 
 
     private RectTransform rectTransform; //current location
@@ -21,9 +22,19 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         characterObject.GetComponent<PlayerCharMvmt>().selector = this;
     }
 
+    public void SetSlot(ItemSlot itemSlot)
+    {
+        slot = itemSlot;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Debug.Log("OnBeginDrag");
+        if(slot != null)
+        {
+            slot.GetComponent<ItemSlot>().slotCharacter = null;
+        }
+        print(Mind.instance.LockDiceEnabled());
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
         characterObject.GetComponent<PlayerCharMvmt>().AssignDiceValues(0, 0);
