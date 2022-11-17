@@ -38,6 +38,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
             if (slot != null)
             {
                 slot.GetComponent<ItemSlot>().slotCharacter = null;
+                slot = null;
             }
             Mind.instance.LockDiceEnabled();
             canvasGroup.alpha = 0.6f;
