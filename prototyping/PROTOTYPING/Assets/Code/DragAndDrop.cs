@@ -10,6 +10,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private CanvasGroup canvasGroup;
     public GameObject characterObject;
     public ItemSlot slot = null;
+    public bool diceLocked = false;
 
 
     private RectTransform rectTransform; //current location
@@ -24,33 +25,43 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void SetSlot(ItemSlot itemSlot)
     {
-        slot = itemSlot;
+        if (!diceLocked)
+        {
+            slot = itemSlot;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnBeginDrag");
-        if(slot != null)
+        if(!diceLocked)
         {
-            slot.GetComponent<ItemSlot>().slotCharacter = null;
+            if (slot != null)
+            {
+                slot.GetComponent<ItemSlot>().slotCharacter = null;
+            }
+            Mind.instance.LockDiceEnabled();
+            canvasGroup.alpha = 0.6f;
+            canvasGroup.blocksRaycasts = false;
+            characterObject.GetComponent<PlayerCharMvmt>().AssignDiceValues(0, 0);
         }
-        print(Mind.instance.LockDiceEnabled());
-        canvasGroup.alpha = 0.6f;
-        canvasGroup.blocksRaycasts = false;
-        characterObject.GetComponent<PlayerCharMvmt>().AssignDiceValues(0, 0);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         //Debug.Log("OnDrag");
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (!diceLocked)
+        {
+            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnEndDrag");
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
+        if (!diceLocked)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)

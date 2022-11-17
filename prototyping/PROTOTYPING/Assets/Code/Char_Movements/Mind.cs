@@ -22,6 +22,7 @@ public class Mind : MonoBehaviour
     public List<GameObject> attackDice;
     public List<GameObject> playerCharacters;
     public List<ItemSlot> itemSlots;
+    public List<DragAndDrop> dragAndDropCharacters;
     public List<GameObject> aiCharacters = new List<GameObject>(0);//when a character dies, they should be deleted from the scene. no longer in a character array
     public Camera camera;//need the camera so that characters can pathfind
     public GameObject movementTilePrefab; //for movement tile rendering
@@ -110,6 +111,15 @@ public class Mind : MonoBehaviour
         return true;
     }
 
+    public void LockDicePressed()
+    {
+        foreach (DragAndDrop dragAndDropCharacter in dragAndDropCharacters)
+        {
+            dragAndDropCharacter.GetComponent<DragAndDrop>().diceLocked = true;
+        }
+        lockDiceButton.interactable = false;
+    }
+
     public static void destroyHighlightTiles()
     {//destroys all highlight tiles
         var highlightTiles = GameObject.FindGameObjectsWithTag ("highlight");
@@ -151,6 +161,10 @@ public class Mind : MonoBehaviour
     {
         StartCoroutine(player_turn_splash());
         lockDiceButton.interactable = false;
+        foreach(DragAndDrop dragAndDropCharacter in dragAndDropCharacters)
+        {
+            dragAndDropCharacter.GetComponent<DragAndDrop>().diceLocked = false;
+        }
 
         BeginPlayerTurnEvent?.Invoke(); //broadcast event to shit that needs to know player turn has begun
         
