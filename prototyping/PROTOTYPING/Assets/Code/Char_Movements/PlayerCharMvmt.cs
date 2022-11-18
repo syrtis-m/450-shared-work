@@ -15,6 +15,7 @@ public class PlayerCharMvmt : MonoBehaviour
     public int maxHealth; //max health. store this info for healing
     public int currentHealth; //player health
     public int atkDamage; //player attack
+    public int treasureCount;
 
     //internal use
     private Camera _camera;
@@ -40,6 +41,7 @@ public class PlayerCharMvmt : MonoBehaviour
         Mind.BeginPlayerTurnEvent += resetChar;
         currentHealth = maxHealth;
         _healthBar = GetComponentInChildren<HealthBar>();
+        treasureCount = 0;
     }
 
     private void OnMousePos(InputAction.CallbackContext context)
@@ -198,6 +200,12 @@ public class PlayerCharMvmt : MonoBehaviour
                             maxHealth = maxHealth + 3;
                             currentHealth = currentHealth + 3;
                             _healthBar.SetMaxHealth(maxHealth, currentHealth);
+                            Destroy(colliderAtDest.gameObject);
+                        }
+                        if (colliderAtDest.gameObject.GetComponent<Treasure>())
+                        {
+                            treasureCount = treasureCount + 1;
+                            UIManager.instance.UpdateTreasureCount(treasureCount);
                             Destroy(colliderAtDest.gameObject);
                         }
                         transform.position += deltaPos;

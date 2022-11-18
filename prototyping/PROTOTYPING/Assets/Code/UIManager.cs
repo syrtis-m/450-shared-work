@@ -7,6 +7,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
     //config - change for each scene
     public String mainMenu = "mainMenu";
     public String nextLevel;
@@ -20,10 +21,12 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverMenuWin;
     public GameObject textScreen;
     private TMP_Text _objectiveText;
+    public TMP_Text _treasureCount;
 
 
     private void Awake()
     {
+        instance = this;
         _objectiveText = textScreen.GetComponent<TMP_Text>();
         if (_objectiveText != null)
         {
@@ -92,6 +95,11 @@ public class UIManager : MonoBehaviour
     public void NextLevel()
     {
         SceneManager.LoadScene((nextLevel));
+    }
+
+    public void UpdateTreasureCount(int treasureCount)
+    {
+        _treasureCount.text = "treasure:" + treasureCount + "/4";
     }
     
 }

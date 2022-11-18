@@ -61,7 +61,7 @@ public class PathFinding
         //if a collider at the destination exists, don't go there
         if (colliderAtDest)
         { //todo consider removing player and AI from this list so you can do chokepoint tactics
-            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>() || colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>() || colliderAtDest.gameObject.GetComponent<Objective>())
+            if (colliderAtDest.gameObject.GetComponent<AICharacter>() || colliderAtDest.gameObject.GetComponent<PlayerCharMvmt>() || colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>() || colliderAtDest.gameObject.GetComponent<Objective>() || colliderAtDest.gameObject.GetComponent<Treasure>())
             {//UPDATE THIS LIST WHENEVER YOU ADD SOMETHING WITH A COLLIDER THAT YOU WANT TO BE ABLE TO MOVE ON TOP OF
                 return true;
             }//need this block for AI movement pathing to work.
@@ -152,7 +152,7 @@ public class PathFinding
                 {
                     var target_world = _groundTilemap.CellToWorld(target_cell) + new Vector3(0.5f,0.5f, 0);
                     Collider2D colliderAtDest = Physics2D.OverlapPoint(target_world);
-                    if (!colliderAtDest || colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>())
+                    if (!colliderAtDest || colliderAtDest.gameObject.GetComponent<HealthPowerup>() || colliderAtDest.gameObject.GetComponent<AttackPowerup>() || colliderAtDest.gameObject.GetComponent<RangePowerup>() || colliderAtDest.gameObject.GetComponent<ArmorPowerup>() || colliderAtDest.gameObject.GetComponent<Treasure>())
                     {
                         var dist = FindPathDist(target_world, world_origin);
                         //Debug.Log($"dist: {dist}, target_world: {target_world.x}, {target_world.y}, {target_world.z}");

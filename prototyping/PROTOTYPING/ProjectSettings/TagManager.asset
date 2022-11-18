@@ -6,6 +6,8 @@ TagManager:
   tags:
   - highlight
   - splash
+  - ai
+  - playerchar
   layers:
   - Default
   - TransparentFX

@@ -171,6 +171,11 @@ public class AICharacter : MonoBehaviour
                 var move_dist = _pathFinding.FindPathDist(closestPlayerLocation, worldLoc);
                 //Debug.Log(worldLoc);
                 //Debug.Log(grid.Count);
+                Collider2D collider = Physics2D.OverlapPoint(worldLoc);
+                if (collider.gameObject.GetComponent<Treasure>())
+                {
+                    continue;
+                }
                 if (move_dist <= shortestMovementDist && move_dist >= 1)
                 {
                     shortestMovementDist = move_dist;
