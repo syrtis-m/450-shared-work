@@ -172,7 +172,7 @@ public class AICharacter : MonoBehaviour
                 //Debug.Log(worldLoc);
                 //Debug.Log(grid.Count);
                 Collider2D collider = Physics2D.OverlapPoint(worldLoc);
-                if (collider.gameObject.GetComponent<Treasure>())
+                if (collider && collider.gameObject.GetComponent<Treasure>())
                 {
                     continue;
                 }

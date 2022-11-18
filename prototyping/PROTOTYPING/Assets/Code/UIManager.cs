@@ -21,13 +21,16 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverMenuWin;
     public GameObject textScreen;
     private TMP_Text _objectiveText;
+
     public TMP_Text _treasureCount;
+    public int treasureCount;
 
 
     private void Awake()
     {
         instance = this;
         _objectiveText = textScreen.GetComponent<TMP_Text>();
+        treasureCount = 0;
         if (_objectiveText != null)
         {
             _objectiveText.text = objective;
@@ -97,8 +100,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene((nextLevel));
     }
 
-    public void UpdateTreasureCount(int treasureCount)
+    public void UpdateTreasureCount()
     {
+        treasureCount = treasureCount + 1;
         _treasureCount.text = "treasure:" + treasureCount + "/4";
     }
     
