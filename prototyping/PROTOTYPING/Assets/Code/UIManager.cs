@@ -77,6 +77,11 @@ public class UIManager : MonoBehaviour
         gameOverMenuWin.SetActive(true);
     }
 
+    public void LockDice()
+    {
+        Mind.instance.LockDicePressed();
+    }
+
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

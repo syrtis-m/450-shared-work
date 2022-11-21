@@ -3640,7 +3640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundTilemap: {fileID: 1298649067}
   collisionTilemap: {fileID: 1016359885}
-  lockDiceButton: {fileID: 0}
+  lockDiceButton: {fileID: 1983969837}
   movementDice:
   - {fileID: 501742617}
   - {fileID: 1782239565}
@@ -4046,6 +4046,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: dd2eabe434047d24fb853a7cc708dadf, type: 3}
+--- !u!114 &1983969837 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8996276357895835669, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+  m_PrefabInstance: {fileID: 8996276357930218763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2131577399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3946106212403554255, guid: dd2eabe434047d24fb853a7cc708dadf, type: 3}

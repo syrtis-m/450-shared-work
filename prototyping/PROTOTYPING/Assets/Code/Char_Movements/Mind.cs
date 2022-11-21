@@ -49,6 +49,7 @@ public class Mind : MonoBehaviour
     public enum characterStatus
     {//use this to track where characters are in their movement stuff
         TURN_STARTED,
+        DICE_LOCKED,
         MOVED,
         ATTACKED,
         DONE,
