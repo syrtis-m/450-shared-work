@@ -11,6 +11,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     public GameObject characterObject;
     public ItemSlot slot = null;
     public bool diceLocked = false;
+    Vector2 mousePostion;
 
 
     private RectTransform rectTransform; //current location
@@ -19,6 +20,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     {
         rectTransform = GetComponent<RectTransform>();
         originPos = rectTransform.anchoredPosition;
+        mousePostion = rectTransform.anchoredPosition;
         canvasGroup = GetComponent<CanvasGroup>();
         characterObject.GetComponent<PlayerCharMvmt>().selector = this;
     }
@@ -49,10 +51,21 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnDrag");
         if (!diceLocked)
         {
-            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+
+            if( mousePostion.x + (eventData.delta.x / canvas.scaleFactor) < 120 &&
+                mousePostion.x + (eventData.delta.x / canvas.scaleFactor) > 40  &&
+                mousePostion.y + (eventData.delta.y / canvas.scaleFactor) < 80 &&
+                mousePostion.y + (eventData.delta.y / canvas.scaleFactor) > -80
+            ){
+                mousePostion += eventData.delta / canvas.scaleFactor;
+                rectTransform.anchoredPosition = mousePostion;
+            }
+            else
+            {
+                mousePostion += eventData.delta / canvas.scaleFactor;
+            }
         }
     }
 

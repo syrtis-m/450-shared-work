@@ -19,6 +19,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
                 slotCharacter = eventData.pointerDrag.GetComponent<DragAndDrop>();
                 slotCharacter.GetComponent<DragAndDrop>().SetSlot(this);
                 slotCharacter.characterObject.GetComponent<PlayerCharMvmt>().AssignDiceValues(movementDice.currentDiceSide, attackDice.currentDiceSide);
+                slotCharacter.characterObject.GetComponent<PlayerCharMvmt>().DrawTiles();
                 Mind.instance.LockDiceEnabled();
             }
         }

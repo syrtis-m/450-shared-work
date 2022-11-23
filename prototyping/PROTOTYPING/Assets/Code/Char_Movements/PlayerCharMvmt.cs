@@ -69,6 +69,10 @@ public class PlayerCharMvmt : MonoBehaviour
         movementRange = 0;
         atkDamage = 0;
     }
+    public void LockDice()
+    {
+        _status = Mind.characterStatus.DICE_LOCKED;
+    }
 
     public void setStatusDone()
     {
@@ -79,7 +83,14 @@ public class PlayerCharMvmt : MonoBehaviour
     {
         return _status;
     }
-    
+
+    public void DrawTiles()
+    {
+        Mind.destroyHighlightTiles();
+        _pathFinding.drawTiles(transform.position, movementRange);
+    }
+
+
 
     void OnMouseDown()
     {//triggers when you click the gameobject as long as it has a collider
@@ -94,7 +105,7 @@ public class PlayerCharMvmt : MonoBehaviour
         Mind.destroyHighlightTiles();
         Mind.instance.ChangePlayer(this.gameObject);
         //Debug.Log("origin: " + transform.position);
-        if (_status == Mind.characterStatus.TURN_STARTED)
+        if (_status == Mind.characterStatus.TURN_STARTED || _status == Mind.characterStatus.DICE_LOCKED)
         {
             _pathFinding.drawTiles(transform.position, movementRange); //draw tiles
         }
@@ -166,7 +177,7 @@ public class PlayerCharMvmt : MonoBehaviour
         {
             var dist = _pathFinding.FindPathDist(worldPos, currentPosition);
 
-            if (_status == Mind.characterStatus.TURN_STARTED)
+            if (_status == Mind.characterStatus.DICE_LOCKED)
             {
                 if (dist <= movementRange && colliderAtDest)
                 {

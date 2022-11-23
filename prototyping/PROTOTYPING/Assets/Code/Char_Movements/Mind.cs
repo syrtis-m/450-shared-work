@@ -18,6 +18,7 @@ public class Mind : MonoBehaviour
     public Tilemap groundTilemap;
     public Tilemap collisionTilemap;
     public Button lockDiceButton;
+    public Button endTurnButton;
     public List<GameObject> movementDice;
     public List<GameObject> attackDice;
     public List<GameObject> playerCharacters;
@@ -118,7 +119,12 @@ public class Mind : MonoBehaviour
         {
             dragAndDropCharacter.GetComponent<DragAndDrop>().diceLocked = true;
         }
+        foreach(GameObject playerCharacter in playerCharacters)
+        {
+            playerCharacter.GetComponent<PlayerCharMvmt>().LockDice();
+        }
         lockDiceButton.interactable = false;
+        destroyHighlightTiles();
     }
 
     public static void destroyHighlightTiles()
@@ -162,9 +168,19 @@ public class Mind : MonoBehaviour
     {
         StartCoroutine(player_turn_splash());
         lockDiceButton.interactable = false;
-        foreach(DragAndDrop dragAndDropCharacter in dragAndDropCharacters)
+        endTurnButton.interactable = true;
+        foreach (DragAndDrop dragAndDropCharacter in dragAndDropCharacters)
         {
             dragAndDropCharacter.GetComponent<DragAndDrop>().diceLocked = false;
+            dragAndDropCharacter.GetComponent<DragAndDrop>().slot = null;
+        }
+        foreach (ItemSlot itemSlot in itemSlots)
+        {
+            itemSlot.GetComponent<ItemSlot>().slotCharacter = null;
+        }
+        foreach (GameObject playerCharacter in playerCharacters)
+        {
+            playerCharacter.GetComponent<PlayerCharMvmt>().resetChar();
         }
 
         BeginPlayerTurnEvent?.Invoke(); //broadcast event to shit that needs to know player turn has begun
@@ -183,7 +199,7 @@ public class Mind : MonoBehaviour
     //EndPlayerTurn needs to be separate from BeginPlayerTurn because we don't know the order that player characters move in.
     public void EndPlayerTurn()
     {
-        
+        endTurnButton.interactable = false;
         destroyHighlightTiles();
         Debug.Log("EndPlayerTurn()");
         //disable all characters
