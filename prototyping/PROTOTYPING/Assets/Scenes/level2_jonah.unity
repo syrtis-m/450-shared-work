@@ -3417,6 +3417,7 @@ MonoBehaviour:
   groundTilemap: {fileID: 1298649067}
   collisionTilemap: {fileID: 1016359885}
   lockDiceButton: {fileID: 1984420743}
+  endTurnButton: {fileID: 1984420744}
   movementDice:
   - {fileID: 600540948}
   - {fileID: 524901651}
@@ -4128,6 +4129,17 @@ PrefabInstance:
 --- !u!114 &1984420743 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8996276357895835669, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+  m_PrefabInstance: {fileID: 1984420742}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1984420744 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5031812632811243501, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
   m_PrefabInstance: {fileID: 1984420742}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
