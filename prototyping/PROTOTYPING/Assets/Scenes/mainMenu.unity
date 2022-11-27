@@ -715,6 +715,8 @@ MonoBehaviour:
   gameOverMenuLose: {fileID: 0}
   gameOverMenuWin: {fileID: 0}
   textScreen: {fileID: 0}
+  _treasureCount: {fileID: 0}
+  treasureCount: 0
 --- !u!114 &379461689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2276,7 +2278,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level2
+          m_StringArgument: level2_jonah
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1666198140

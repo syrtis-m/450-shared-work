@@ -6,10 +6,17 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Object = UnityEngine.Object;
 
+public enum drawMode
+{
+    off,
+    lines,
+    cubes,
+}
 
 public class AICharacter : MonoBehaviour
 {
     //outlets
+    public drawMode rangeVizGizmo = drawMode.off;
     public int noticeRange; //how many tiles away the AICharacter can notice playerCharacters. if a char is noticed, then attack + movement are allowed. default is 5
     public int movementRange = 3; //how many tiles the player can traverse in one turn
     public int maxHealth = 6; //max health -- we store this separately in case of healing. default is 6 as that's the max possible damage
@@ -63,8 +70,8 @@ public class AICharacter : MonoBehaviour
         //draws notice, attack, movement ranges of characters
         //because it uses ScanGrid, it doesn't draw on top of player characters even if they're in range
 
-        //var mode = "CUBES"; //use CUBES for single characters. better indication of movement + attack range vs notice range
-        var mode = "LINES"; //use LINES for multiple characters. better indication of which char can go where
+        //use CUBES for single characters. better indication of movement + attack range vs notice range
+         //use LINES for multiple characters. better indication of which char can go where
 
         if (_pathFinding != null)
         {
@@ -76,11 +83,11 @@ public class AICharacter : MonoBehaviour
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
-                if (mode == "CUBES")
+                if (rangeVizGizmo == drawMode.cubes)
                 {
                     Gizmos.DrawCube(worldLoc,new Vector3(0.8f,0.8f));
                 }
-                else if (mode == "LINES")
+                else if (rangeVizGizmo == drawMode.lines)
                 {
                     Gizmos.DrawLine(transform.position, worldLoc);
                 }
@@ -93,11 +100,11 @@ public class AICharacter : MonoBehaviour
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
-                if (mode == "CUBES")
+                if (rangeVizGizmo == drawMode.cubes)
                 {
-                    Gizmos.DrawCube(worldLoc,new Vector3(0.5f,0.5f));
+                    Gizmos.DrawCube(worldLoc,new Vector3(0.8f,0.8f));
                 }
-                else if (mode == "LINES")
+                else if (rangeVizGizmo == drawMode.lines)
                 {
                     Gizmos.DrawLine(transform.position, worldLoc);
                 }
@@ -110,11 +117,11 @@ public class AICharacter : MonoBehaviour
             for (int i = 0; i < gridSize; i++)
             {
                 var worldLoc = grid.Dequeue();
-                if (mode == "CUBES")
+                if (rangeVizGizmo == drawMode.cubes)
                 {
-                    Gizmos.DrawCube(worldLoc,new Vector3(0.5f,0.5f));
+                    Gizmos.DrawCube(worldLoc,new Vector3(0.8f,0.8f));
                 }
-                else if (mode == "LINES")
+                else if (rangeVizGizmo == drawMode.lines)
                 {
                     Gizmos.DrawLine(transform.position, worldLoc);
                 }

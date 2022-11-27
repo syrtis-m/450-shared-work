@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/Scenes/betaworkingscene.unity
     guid: 45640597dea0ce54d9172c5e8ac54b30
   - enabled: 1
-    path: Assets/Scenes/level2.unity
+    path: Assets/Scenes/level2_jonah.unity
     guid: a39fd84d191256448907eb155b16eff4
   - enabled: 1
     path: Assets/Scenes/level3_jonah.unity
