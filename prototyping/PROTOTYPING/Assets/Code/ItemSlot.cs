@@ -15,6 +15,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         {
             if (!eventData.pointerDrag.GetComponent<DragAndDrop>().diceLocked)
             {
+                Mind.instance.resetCharColors();
                 if(slotCharacter != null)
                 {
                     slotCharacter.reset_pos();
@@ -34,6 +35,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
                     slotCharacter = eventData.pointerDrag.GetComponent<DragAndDrop>();
                     slotCharacter.GetComponent<DragAndDrop>().SetSlot(this);
                     slotCharacter.characterObject.GetComponent<PlayerCharMvmt>().AssignDiceValues(movementDice.currentDiceSide, attackDice.currentDiceSide);
+                    
+                    //assign color here
+                    slotCharacter.characterObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+                    
                     slotCharacter.characterObject.GetComponent<PlayerCharMvmt>().DrawTiles();
                     Mind.instance.LockDiceEnabled();
                 }

@@ -4189,9 +4189,13 @@ PrefabInstance:
       propertyPath: characterObject
       value: 
       objectReference: {fileID: 50717048}
+    - target: {fileID: 8996276357038701696, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8996276357799173585, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8996276358089987376, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_Camera

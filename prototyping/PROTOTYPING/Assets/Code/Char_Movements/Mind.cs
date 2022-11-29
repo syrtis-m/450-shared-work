@@ -115,6 +115,7 @@ public class Mind : MonoBehaviour
 
     public void LockDicePressed()
     {
+        resetCharColors();
         foreach (DragAndDrop dragAndDropCharacter in dragAndDropCharacters)
         {
             dragAndDropCharacter.GetComponent<DragAndDrop>().diceLocked = true;
@@ -134,6 +135,14 @@ public class Mind : MonoBehaviour
         for (int i = 0; i < highlightTiles.Length; i++)
         {
             Destroy(highlightTiles[i]);
+        }
+    }
+
+    public void resetCharColors()
+    {
+        foreach (var character in playerCharacters)
+        {
+            character.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
     
