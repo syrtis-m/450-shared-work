@@ -22,6 +22,7 @@ public class MovementDice : MonoBehaviour
 
     private void Start()
     {
+        currentDiceSide = 1;
         diceSides = _uiManager.movementDiceSides;
         _rend.sprite = diceSides[currentDiceSide];
     }

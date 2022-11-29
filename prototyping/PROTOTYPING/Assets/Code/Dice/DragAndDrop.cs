@@ -35,7 +35,8 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(!diceLocked)
+        mousePostion = rectTransform.anchoredPosition;
+        if (!diceLocked)
         {
             if (slot != null)
             {
@@ -76,6 +77,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
             canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
         }
+        
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -83,7 +85,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         //Debug.Log("OnPointerDown");
     }
     
-    private void reset_pos()
+    public void reset_pos()
     {//move thing back to original location. called on BeginPlayerTurn
         rectTransform.anchoredPosition = originPos;
     }

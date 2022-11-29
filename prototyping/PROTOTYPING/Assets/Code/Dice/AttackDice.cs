@@ -21,6 +21,7 @@ public class AttackDice : MonoBehaviour
 
     private void Start()
     {
+        currentDiceSide = 1;
         diceSides = _uiManager.attackDiceSides;
         _rend.sprite = diceSides[currentDiceSide];
     }

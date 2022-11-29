@@ -276,9 +276,10 @@ public class PlayerCharMvmt : MonoBehaviour
     
     public void Die()
     {
+        Mind.instance.dragAndDropCharacters.Remove(selector);
+        selector.Die();
         Mind.instance.playerCharacters.Remove(gameObject);
         Destroy(gameObject);
-        selector.Die();
         if (Mind.instance.playerCharacters.Count > 0)
         {
             Mind.instance.currentPlayer = Mind.instance.playerCharacters[0];

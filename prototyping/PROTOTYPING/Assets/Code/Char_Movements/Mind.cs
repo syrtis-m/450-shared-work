@@ -101,9 +101,9 @@ public class Mind : MonoBehaviour
 
     public bool LockDiceEnabled()
     {
-        foreach (ItemSlot itemslot in itemSlots)
+        foreach (DragAndDrop dragAndDropCharacter in dragAndDropCharacters)
         {
-            if (itemslot.GetComponent<ItemSlot>().slotCharacter == null)
+            if (dragAndDropCharacter.GetComponent<DragAndDrop>().slot == null)
             {
                 lockDiceButton.interactable = false;
                 return false;
