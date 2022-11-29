@@ -476,6 +476,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3946106212403554255, guid: dd2eabe434047d24fb853a7cc708dadf, type: 3}
   m_PrefabInstance: {fileID: 1679145608}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &639962349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5031812632811243501, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+  m_PrefabInstance: {fileID: 8996276357930218763}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &962617954 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1468607337862698251, guid: dfa612b0e482a624cba81d0fc02d1d86, type: 3}
@@ -3353,6 +3364,7 @@ MonoBehaviour:
   groundTilemap: {fileID: 1298649067}
   collisionTilemap: {fileID: 1016359885}
   lockDiceButton: {fileID: 8996276357930218764}
+  endTurnButton: {fileID: 639962349}
   movementDice:
   - {fileID: 501742617}
   - {fileID: 1782239565}
