@@ -256,6 +256,9 @@ public class Mind : MonoBehaviour
 
     public void WinLossCheck()
     {//check the win/loss condition at the end of each turn.
+        //TODO check treasure count vs treasure total here.
+        
+        
         if (Objective.instance != null)
         {
             if (Objective.instance.CheckObjectiveWin())
