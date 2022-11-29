@@ -4204,6 +4204,10 @@ PrefabInstance:
       propertyPath: nextLevel
       value: mainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 8996276358089987379, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: objective
+      value: objective:<br>reach green area
+      objectReference: {fileID: 0}
     - target: {fileID: 8996276358089987383, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
