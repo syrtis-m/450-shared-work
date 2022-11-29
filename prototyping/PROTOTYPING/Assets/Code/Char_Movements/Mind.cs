@@ -34,9 +34,10 @@ public class Mind : MonoBehaviour
     public float playerSplashScreenTime = 2f;
     public float enemySplashScreenTime = 2f;
     public float aiTurnPauseFor = 1.5f;
-    
+    public int totalTreasures;
 
-    
+
+
     //state tracking
     public GameObject currentPlayer;
     public BattleStatus battleStatus;
@@ -73,6 +74,9 @@ public class Mind : MonoBehaviour
 
     void Start()
     {
+        var treasureList = GameObject.FindGameObjectsWithTag("treasure");
+        totalTreasures = treasureList.Length;
+
         var objList = GameObject.FindGameObjectsWithTag("ai");
 
         foreach (var obj in objList)
@@ -276,7 +280,13 @@ public class Mind : MonoBehaviour
                 return;
             }
         }
-        
+
+        if (totalTreasures != 0 && totalTreasures == UIManager.instance.getTreasureCount())
+        {
+            EndGameWin();
+            return;
+        }
+
         if (battleStatus == BattleStatus.PLAYER_TURN)
         {
             battleStatus = BattleStatus.AI_TURN;

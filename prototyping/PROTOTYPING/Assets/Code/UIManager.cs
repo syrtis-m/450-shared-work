@@ -112,4 +112,8 @@ public class UIManager : MonoBehaviour
         _treasureCount.text = "treasure:" + treasureCount + "/4";
     }
     
+    public int getTreasureCount()
+    {
+        return treasureCount;
+    }
 }
