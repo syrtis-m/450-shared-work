@@ -8,6 +8,7 @@ TagManager:
   - splash
   - ai
   - playerchar
+  - treasure
   layers:
   - Default
   - TransparentFX
