@@ -68,8 +68,9 @@ public class Mind : MonoBehaviour
     //PlayerCharMvmt
     
     private void Awake()
-    {//set up the mind & characters managed by it
+    {
         instance = this; //singleton pattern. access mind in other files by Mind.instance
+        Time.timeScale = 1;
     }
 
     void Start()
@@ -338,6 +339,7 @@ public class Mind : MonoBehaviour
     {
         Debug.Log("EndGameLose()");
         Time.timeScale = 0;
+        StopAllCoroutines();
         Lose?.Invoke();//observer pattern using unity event system
     }
 
@@ -345,6 +347,7 @@ public class Mind : MonoBehaviour
     {
         Debug.Log("EndGameWin()");
         Time.timeScale = 0;
+        StopAllCoroutines();
         Win?.Invoke();
     }
     

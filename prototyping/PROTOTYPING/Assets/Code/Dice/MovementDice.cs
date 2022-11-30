@@ -16,13 +16,13 @@ public class MovementDice : MonoBehaviour
         _rend = GetComponent<SpriteRenderer>();
         _uiManager = GetComponentInParent<UIManager>();
         //diceSides = Resources.LoadAll<Sprite>("blueDice/");
-        currentDiceSide = 1;
+        currentDiceSide = Random.Range(1, 7);
         
     }
 
     private void Start()
     {
-        currentDiceSide = 1;
+        currentDiceSide = Random.Range(1, 7);
         diceSides = _uiManager.movementDiceSides;
         _rend.sprite = diceSides[currentDiceSide];
     }

@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
     public void GOTOLevel(string level)
     {
         Debug.Log("level to load: " + level);
-        SceneManager.LoadScene(level);
+        SceneManager.LoadScene(level, LoadSceneMode.Single);
     }
 
     //endgame
@@ -108,17 +108,17 @@ public class UIManager : MonoBehaviour
     //scene loading pt 2
     public void RestartScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
     public void GOTOMainMenu()
     {
-        SceneManager.LoadScene(mainMenu);
+        SceneManager.LoadScene(mainMenu, LoadSceneMode.Single);
     }
     
     public void NextLevel()
     {
-        SceneManager.LoadScene((nextLevel));
+        SceneManager.LoadScene(nextLevel,LoadSceneMode.Single);
     }
 
     
