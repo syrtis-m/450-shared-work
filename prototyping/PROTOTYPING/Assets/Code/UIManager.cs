@@ -21,15 +21,24 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverMenuLose;
     public GameObject gameOverMenuWin;
     public GameObject textScreen;
+    
     private TMP_Text _objectiveText;
+    
+    public GameObject helpPanel;
+    public List<GameObject> subPanels;
+    private GameObject _activeHelpSubPanel;
 
     public TMP_Text _treasureCount;
     public int treasureCount;
+
+    private bool _currentMuteState;
+    private float _volume;
 
 
     private void Awake()
     {
         instance = this;
+        _currentMuteState = false;
         _objectiveText = textScreen.GetComponent<TMP_Text>();
         treasureCount = 0;
         if (_objectiveText != null)
@@ -62,12 +71,14 @@ public class UIManager : MonoBehaviour
         levelSelect.SetActive(false);
     }
 
+    //scene loading pt 1
     public void GOTOLevel(string level)
     {
         Debug.Log("level to load: " + level);
         SceneManager.LoadScene(level);
     }
 
+    //endgame
     public void EnableGameOverMenuLose()
     {
         gameOverMenuLose.SetActive(true);
@@ -78,11 +89,23 @@ public class UIManager : MonoBehaviour
         gameOverMenuWin.SetActive(true);
     }
 
+    
+    //buttons
     public void LockDice()
     {
         Mind.instance.LockDicePressed();
     }
+    
+    public void EndTurnButton()
+    {
+        if (Mind.instance.battleStatus == Mind.BattleStatus.PLAYER_TURN)
+        {
+            Mind.instance.EndPlayerTurn();
+        }
+    }
 
+    
+    //scene loading pt 2
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -92,20 +115,54 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(mainMenu);
     }
-
-    public void EndTurnButton()
-    {
-        if (Mind.instance.battleStatus == Mind.BattleStatus.PLAYER_TURN)
-        {
-            Mind.instance.EndPlayerTurn();
-        }
-    }
-
+    
     public void NextLevel()
     {
         SceneManager.LoadScene((nextLevel));
     }
 
+    
+
+    //help panel stuff
+    public void toggleHelpPanel(bool state)
+    {
+        helpPanel.SetActive(state);
+    }
+
+    public void activeSubPanelOff()
+    {
+        helpPanel.SetActive(true);
+        _activeHelpSubPanel.SetActive(false);
+    }
+    
+    public void EnableSubPanel(int panel)
+    {
+        _activeHelpSubPanel = subPanels[panel];
+        _activeHelpSubPanel.SetActive(true);
+        helpPanel.SetActive(false);
+    }
+
+
+    public void toggleMute()
+    {
+        switch (_currentMuteState)
+        {
+            case false:
+                _volume = AudioListener.volume;
+                AudioListener.volume = 0;
+                _currentMuteState = true;
+                break;
+            case true:
+                AudioListener.volume = _volume;
+                _currentMuteState = false;
+                break;
+        }
+    }
+
+
+    
+
+    //treasure section
     public void UpdateTreasureCount()
     {
         treasureCount = treasureCount + 1;

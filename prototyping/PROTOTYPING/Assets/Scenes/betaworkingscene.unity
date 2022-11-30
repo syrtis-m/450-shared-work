@@ -327,7 +327,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4308,10 +4308,6 @@ PrefabInstance:
       propertyPath: characterObject
       value: 
       objectReference: {fileID: 50717048}
-    - target: {fileID: 8996276357038701696, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8996276357799173585, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4321,12 +4317,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 416626965}
     - target: {fileID: 8996276358089987379, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: nextLevel
-      value: level2_jonah
+      propertyPath: _volume
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8996276358089987379, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
-      propertyPath: objective
-      value: objective:<br>defeat all enemies
+      propertyPath: _currentMuteState
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8996276358089987383, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_Pivot.x
