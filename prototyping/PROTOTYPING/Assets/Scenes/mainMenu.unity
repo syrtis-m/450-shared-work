@@ -715,6 +715,8 @@ MonoBehaviour:
   gameOverMenuLose: {fileID: 0}
   gameOverMenuWin: {fileID: 0}
   textScreen: {fileID: 0}
+  helpPanel: {fileID: 0}
+  subPanels: []
   _treasureCount: {fileID: 0}
   treasureCount: 0
 --- !u!114 &379461689
