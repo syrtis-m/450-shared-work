@@ -4311,10 +4311,50 @@ PrefabInstance:
       propertyPath: characterObject
       value: 
       objectReference: {fileID: 177713326}
+    - target: {fileID: 3111551607816477455, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8.3333435
+      objectReference: {fileID: 0}
     - target: {fileID: 3494525933108253114, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: characterObject
       value: 
       objectReference: {fileID: 50717048}
+    - target: {fileID: 3731459107180081401, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_text
+      value: main menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3731459107180081401, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_fontSize
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3731459107180081401, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3731459107180081401, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948014645699943104, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -31.099998
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954822172713834538, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 31.099998
+      objectReference: {fileID: 0}
+    - target: {fileID: 4192470913969524183, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5776044709380165953, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_Name
+      value: main menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8620215658351680870, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8996276357799173585, guid: 04cfb1946ca604e41a173d6f6f08e98d, type: 3}
       propertyPath: m_IsActive
       value: 0

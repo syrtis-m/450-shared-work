@@ -39,10 +39,11 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
         _currentMuteState = false;
-        _objectiveText = textScreen.GetComponent<TMP_Text>();
+        
         treasureCount = 0;
-        if (_objectiveText != null)
+        if (textScreen != null)
         {
+            _objectiveText = textScreen.GetComponent<TMP_Text>();
             _objectiveText.text = objective;
         }
     }
